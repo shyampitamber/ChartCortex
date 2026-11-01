@@ -1,0 +1,63 @@
+# ChartCorex
+
+Chart image intelligence on the Meta Model API. Upload a chart screenshot and receive a complete trade structure: entry zone, stop loss, three take profits, confidence, market structure and reasoning.
+
+Decision support and education only. No execution, no client funds, no signal group.
+
+![ChartCorex workbench](public/demo-shot.png)
+
+## How it works
+
+1. `sam-3.1` segments the chart panel over `/v1/responses` with a concept prompt, returning boxes and masks in source pixels.
+2. `src/lib/vision/candles.ts` decodes the image with sharp and recovers every candle deterministically: hue classification for bullish and bearish bodies, vertical run filtering, then body and wick extents per column group.
+3. `src/lib/vision/geometry.ts` derives swing highs and lows, clusters support and resistance, fits the visible trend and normalises everything to image space.
+4. `muse-spark-1.3` reads the image together with that measured geometry and returns schema-constrained JSON, so the plan always matches the contract in `src/lib/schema/plan.ts`.
+
+Reasoning runs at `reasoning.effort: "low"` with an 8000 token output budget. A measured scan on a 1600x900 chart takes about 13 seconds: 2 to 3 seconds of segmentation, under a second of extraction, and 9 to 11 seconds of reasoning.
+
+The prompt layer in `src/lib/prompts/` is a port of the AI Smart Charts V16 rule set, rewritten for image-first analysis. Only visible evidence scores; every absent panel contributes zero.
+
+## What is measured and what is reasoned
+
+- Candle highs, lows, bodies, swing points and clustered levels are **measured** from pixels, not guessed by a model.
+- The chart panel region is **segmented** by SAM 3.1.
+- Trend interpretation, market structure, level significance and the trade plan are **reasoned** by Muse Spark, with the geometry as corroboration.
+
+SAM 3.1 does not recognise individual candlesticks as a concept (tested: it returns zero matches for "candlestick" and "candle"). It does segment the chart panel reliably. That is why the candle layer is deterministic pixel analysis rather than segmentation. Do not claim otherwise in any submission copy.
+
+## Run locally
+
+```powershell
+Copy-Item .env.local.example .env.local
+# add MODEL_API_KEY
+npm run dev
+```
+
+Open http://localhost:3000.
+
+Without `MODEL_API_KEY` the app runs in mock mode so the interface can be exercised. The UI shows a `mock data` badge whenever that happens.
+
+## API
+
+`POST /api/analyze`
+
+```json
+{
+  "imageBase64": "<base64 without data prefix>",
+  "mimeType": "image/jpeg",
+  "imageWidth": 1600,
+  "imageHeight": 900,
+  "instrument": "XAUUSD",
+  "timeframe": "H1"
+}
+```
+
+Returns the plan, the segmentation result, the derived geometry, per-stage timings and the model IDs used.
+
+## Limits
+
+- Works on candlestick charts with distinguishable bullish and bearish bodies. Line charts and exotic palettes may extract nothing, and the plan then falls back to the image alone.
+- Images are compressed client side to a 1700px longest edge before upload.
+- `maxDuration` is 60s, and a typical scan is well inside it.
+- Structured output is enforced by the schema in `src/lib/schema/plan.ts`, not by post-processing.
+- No em dashes in user-facing copy.
