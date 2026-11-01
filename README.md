@@ -58,7 +58,7 @@ Returns the plan, the segmentation result, the derived geometry, per-stage timin
 
 ## Deployment
 
-- GitHub: https://github.com/shyampitamber/chartcorex (public, shared with Meta for judging)
+- GitHub: https://github.com/shyampitamber/ChartCorex (public, shared with Meta for judging)
 - Production: https://chartcorex.vercel.app
 - Supabase: project ref `zdrkmddaytryrduqqxqm`, Central EU (Frankfurt), org Ascend Forex
 - Vercel environment: `MODEL_API_KEY` (sensitive), `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (sensitive)
