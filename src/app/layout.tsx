@@ -22,6 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${comfortaa.variable} bg-canvas text-ink antialiased`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('cc-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark')}}catch(e){}",
+          }}
+        />
         {children}
       </body>
     </html>

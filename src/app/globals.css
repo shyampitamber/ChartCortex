@@ -15,6 +15,20 @@
   --font-display: ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
+html[data-theme="dark"] {
+  --canvas: #121016;
+  --surface: #1a1720;
+  --surface-2: #221e2b;
+  --line: rgba(255, 255, 255, 0.09);
+  --text: #f2f0f5;
+  --muted: #a29cae;
+  --violet: #8a6bff;
+  --violet-soft: #b4a1ff;
+  --pink: #f355d0;
+  --up: #34d399;
+  --down: #fb7185;
+}
+
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
@@ -38,6 +52,23 @@ body {
   font-family: var(--font-comfortaa), system-ui, sans-serif;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+button,
+.btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
 ::selection {
   background: var(--pink);
   color: #ffffff;
@@ -45,7 +76,6 @@ body {
 
 input,
 select,
-button,
 textarea {
   font-family: inherit;
 }

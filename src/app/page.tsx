@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
 import Link from "next/link";
 import { LogoLockup } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const steps = [
   {
@@ -41,7 +41,7 @@ export default function Home() {
           <Link href="/" aria-label="ChartCorex home">
             <LogoLockup size={32} />
           </Link>
-          <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
+          <nav className="hidden items-center gap-6 font-display text-sm font-semibold text-muted md:flex">
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
             <a href="#output" className="transition-colors hover:text-ink">What you get</a>
             <a href="#meta" className="transition-colors hover:text-ink">Meta models</a>
@@ -54,12 +54,15 @@ export default function Home() {
               GitHub
             </a>
           </nav>
-          <Link
-            href="/scan"
-            className="rounded-md bg-violet px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
-          >
-            Open the app
-          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link
+              href="/scan"
+              className="rounded-md bg-violet px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
+            >
+              Open the app
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -104,12 +107,14 @@ export default function Home() {
 
             <div className="relative">
               <div className="absolute -inset-8 rounded-[36px] bg-[radial-gradient(circle_at_55%_45%,rgba(243,85,208,0.18),transparent_60%)] blur-2xl" />
-              <Image
-                src="/brand/hero.webp"
-                alt="A translucent brain split by a single line of light"
-                width={1600}
-                height={914}
-                priority
+              <video
+                src="/media/demo.mp4"
+                poster="/media/demo-poster.jpg"
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label="ChartCorex analysing an uploaded chart and returning a trade plan"
                 className="relative w-full rounded-2xl border border-line object-cover"
               />
               <div className="absolute -bottom-4 left-4 right-4 flex items-center justify-between rounded-lg border border-line bg-canvas/90 px-3 py-2 backdrop-blur sm:left-6 sm:right-auto sm:gap-6">

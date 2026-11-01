@@ -14,10 +14,12 @@ export function LogoLockup({
         width={size}
         height={size}
         alt=""
-        className="rounded-[7px]"
+        className="rounded-[9px]"
         style={{ width: size, height: size }}
       />
-      <span className={`text-[15px] font-semibold tracking-[-0.02em] ${labelClassName}`}>
+      <span
+        className={`font-display text-[16px] font-bold tracking-[-0.01em] ${labelClassName}`}
+      >
         Chart<span className="text-violet">Corex</span>
       </span>
     </span>

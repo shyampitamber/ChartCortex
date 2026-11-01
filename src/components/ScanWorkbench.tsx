@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { LogoLockup } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { AnalyzeResponse } from "@/lib/types";
 
 const MAX_EDGE = 1700;
@@ -251,6 +252,7 @@ export default function ScanWorkbench() {
             <span className="hidden rounded-full border border-violet/25 bg-violet/[0.06] px-3 py-1 font-mono text-[10px] text-violet sm:block">
               META MODELS
             </span>
+            <ThemeToggle />
             {(image || result) && (
               <button
                 type="button"
