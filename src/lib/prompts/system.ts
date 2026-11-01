@@ -9,7 +9,7 @@ export type PromptInput = {
 };
 
 const CONFIDENCE_ENGINE = `
-=== CONFIDENCE ENGINE (ported from AI Smart Charts V16) ===
+=== CONFIDENCE ENGINE ===
 Start at a base of 50. Add at most ONE tier per category, the highest that applies. Never sum tiers inside a category. Any category whose evidence is not visible in the image contributes 0 and must not be discussed as if it were real.
 
 A. TREND STRUCTURE (swing sequence and candle behaviour)
@@ -115,7 +115,7 @@ ${ENTRY_INTEGRITY}
 
 ${GATES}
 
-=== ANALYSIS DISCIPLINE (ported from AI Smart Charts V16) ===
+=== ANALYSIS DISCIPLINE ===
 1. Identify the dominant trend and the last break of structure before anything else.
 2. Name the level that matters most and say why it matters for this instrument.
 3. Cite a specific price in every narrative field. Vague analysis is a defect.

@@ -17,7 +17,7 @@ This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through 
 
 Reasoning runs at `reasoning.effort: "low"` with an 8000 token output budget. A measured scan on a 1600x900 chart takes about 13 seconds: 2 to 3 seconds of segmentation, under a second of extraction, and 9 to 11 seconds of reasoning.
 
-The prompt layer in `src/lib/prompts/` is a port of the AI Smart Charts V16 rule set, rewritten for image-first analysis. Only visible evidence scores; every absent panel contributes zero.
+The prompt layer in `src/lib/prompts/` is an institutional rule set written for image-first analysis. Only visible evidence scores; every absent panel contributes zero.
 
 ## What is measured and what is reasoned
 
@@ -60,7 +60,7 @@ Returns the plan, the segmentation result, the derived geometry, per-stage timin
 
 - GitHub: https://github.com/shyampitamber/ChartCorex (public, shared with Meta for judging)
 - Production: https://chartcorex.vercel.app
-- Supabase: project ref `zdrkmddaytryrduqqxqm`, Central EU (Frankfurt), org Ascend Forex
+- Supabase: project ref `zdrkmddaytryrduqqxqm`, Central EU (Frankfurt)
 - Vercel environment: `MODEL_API_KEY` (sensitive), `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (sensitive)
 - Pushes to `main` deploy automatically through the Vercel Git integration
 
