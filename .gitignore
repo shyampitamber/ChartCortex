@@ -44,3 +44,6 @@ next-env.d.ts
 
 # supabase cli local state
 supabase/.temp/
+
+# keep the env template for new clones
+!.env.local.example
