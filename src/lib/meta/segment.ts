@@ -1,4 +1,5 @@
-import { metaClient, SAM_MODEL } from "./client";
+import { SAM_MODEL, metaRequest, readOutputText } from "./client";
+import type { ResponseRequest } from "./client";
 import type { ChartBox, SegmentationResult } from "../types";
 
 const BOX_PATTERN =
@@ -38,9 +39,8 @@ export async function segmentChart(
   prompt = "candlestick chart"
 ): Promise<SegmentationResult> {
   const started = Date.now();
-  const client = metaClient();
 
-  const response = await client.responses.create({
+  const body: ResponseRequest = {
     model: SAM_MODEL,
     input: [
       {
@@ -53,9 +53,10 @@ export async function segmentChart(
     ],
     max_output_tokens: 8192,
     metadata: { mask_encoding: "one_bit", include_confidence: "true" },
-  });
+  };
 
-  const text = response.output_text ?? "";
+  const response = await metaRequest("/responses", body, 20_000);
+  const text = readOutputText(response);
   const boxes = parseBoxes(text);
   const region =
     boxes.length > 0

@@ -1,4 +1,5 @@
-import { metaClient, MUSE_MODEL } from "./client";
+import { MUSE_MODEL, metaRequest, readOutputText } from "./client";
+import type { ResponseRequest } from "./client";
 import { buildSystemPrompt } from "../prompts/system";
 import {
   PLAN_SCHEMA_NAME,
@@ -24,9 +25,8 @@ export async function reasonAboutChart({
   panelDetected,
 }: ReasonInput): Promise<{ plan: TradePlan; durationMs: number }> {
   const started = Date.now();
-  const client = metaClient();
 
-  const response = await client.responses.create({
+  const body: ResponseRequest = {
     model: MUSE_MODEL,
     reasoning: { effort: "low" },
     input: [
@@ -59,19 +59,21 @@ export async function reasonAboutChart({
       format: {
         type: "json_schema",
         name: PLAN_SCHEMA_NAME,
-        schema: tradePlanJsonSchema,
+        schema: tradePlanJsonSchema as Record<string, unknown>,
         strict: true,
       },
     },
     max_output_tokens: 8000,
-  });
+  };
+
+  const response = await metaRequest("/responses", body, 35_000);
 
   if (response.status === "incomplete") {
     const reason = response.incomplete_details?.reason ?? "unknown";
     throw new Error(`Muse Spark response incomplete: ${reason}`);
   }
 
-  const raw = response.output_text ?? "";
+  const raw = readOutputText(response);
   if (!raw.trim()) {
     throw new Error("Muse Spark returned an empty response");
   }

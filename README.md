@@ -4,7 +4,7 @@ Chart image intelligence on the Meta Model API. Upload a chart screenshot and re
 
 Decision support and education only. No execution, no client funds, no signal group.
 
-This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through the Meta Model API. No other model provider is used anywhere in the codebase.
+This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through the Meta Model API. There is no model-provider SDK in the project; the app calls the endpoint directly with `fetch`, so the only model dependency is Meta's own API.
 
 ![ChartCorex workbench](public/demo-shot.png)
 
