@@ -56,7 +56,7 @@ export default function Home() {
           </nav>
           <Link
             href="/scan"
-            className="rounded-md bg-violet px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-[#6a45ff]"
+            className="rounded-md bg-violet px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
           >
             Open the app
           </Link>
@@ -68,13 +68,13 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(85,47,246,0.22),transparent_60%)]" />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:py-24">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-violet-soft">
+              <div className="text-[11px] uppercase tracking-[0.2em] text-violet">
                 Chart image intelligence
               </div>
               <h1 className="mt-4 text-[40px] font-semibold leading-[1.04] tracking-[-0.03em] sm:text-[52px]">
                 Your chart is the input.
                 <br />
-                <span className="text-violet-soft">A full trade structure is the output.</span>
+                <span className="text-violet">A full trade structure is the output.</span>
               </h1>
               <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
                 Upload a screenshot. ChartCorex segments the chart, measures every
@@ -85,7 +85,7 @@ export default function Home() {
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Link
                   href="/scan"
-                  className="rounded-md bg-violet px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-[#6a45ff]"
+                  className="rounded-md bg-violet px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
                 >
                   Analyse a chart
                 </Link>
@@ -114,7 +114,7 @@ export default function Home() {
               />
               <div className="absolute -bottom-4 left-4 right-4 flex items-center justify-between rounded-lg border border-line bg-canvas/90 px-3 py-2 backdrop-blur sm:left-6 sm:right-auto sm:gap-6">
                 <span className="font-mono text-[10px] text-muted">
-                  <span className="text-violet-soft">SAM 3.1</span> + Muse Spark
+                  <span className="text-violet">SAM 3.1</span> + Muse Spark
                 </span>
                 <span className="font-mono text-[10px] text-muted">image to plan</span>
               </div>
@@ -137,7 +137,7 @@ export default function Home() {
               {steps.map((step) => (
                 <div key={step.n} className="rounded-xl border border-line bg-surface p-5">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-violet-soft">{step.n}</span>
+                    <span className="font-mono text-[10px] text-violet">{step.n}</span>
                     <span className="rounded border border-line px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted">
                       {step.model}
                     </span>
@@ -202,7 +202,7 @@ export default function Home() {
                   {["sam-3.1", "muse-spark-1.3", "muse-image-1.0"].map((model) => (
                     <span
                       key={model}
-                      className="rounded-md border border-violet/40 bg-violet/10 px-2.5 py-1 font-mono text-[10.5px] text-violet-soft"
+                      className="rounded-md border border-violet/40 bg-violet/10 px-2.5 py-1 font-mono text-[10.5px] text-violet"
                     >
                       {model}
                     </span>
@@ -261,7 +261,7 @@ export default function Home() {
             </p>
             <Link
               href="/scan"
-              className="mt-7 inline-block rounded-md bg-violet px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-[#6a45ff]"
+              className="mt-7 inline-block rounded-md bg-violet px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
             >
               Analyse a chart
             </Link>

@@ -18,7 +18,7 @@ export function LogoLockup({
         style={{ width: size, height: size }}
       />
       <span className={`text-[15px] font-semibold tracking-[-0.02em] ${labelClassName}`}>
-        Chart<span className="text-violet-soft">Corex</span>
+        Chart<span className="text-violet">Corex</span>
       </span>
     </span>
   );

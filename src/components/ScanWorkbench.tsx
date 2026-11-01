@@ -1,13 +1,52 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { LogoLockup } from "@/components/Logo";
 import type { AnalyzeResponse } from "@/lib/types";
 
 const MAX_EDGE = 1700;
 const TIMEFRAMES = ["M5", "M15", "M30", "H1", "H4", "D1"];
-const INSTRUMENTS = ["XAUUSD", "EURUSD", "GBPUSD", "NAS100", "BTCUSD", "US30"];
+
+const ASSET_GROUPS = [
+  {
+    name: "Metals",
+    items: [
+      { symbol: "XAUUSD", name: "Gold" },
+      { symbol: "XAGUSD", name: "Silver" },
+    ],
+  },
+  {
+    name: "Forex majors",
+    items: [
+      { symbol: "EURUSD", name: "Euro" },
+      { symbol: "GBPUSD", name: "Cable" },
+      { symbol: "USDJPY", name: "Yen" },
+      { symbol: "AUDUSD", name: "Aussie" },
+      { symbol: "USDCAD", name: "Loonie" },
+      { symbol: "USDCHF", name: "Swiss" },
+    ],
+  },
+  {
+    name: "Indices",
+    items: [
+      { symbol: "NAS100", name: "Nasdaq 100" },
+      { symbol: "US30", name: "Dow 30" },
+      { symbol: "US500", name: "S&P 500" },
+      { symbol: "GER40", name: "DAX 40" },
+    ],
+  },
+  {
+    name: "Crypto",
+    items: [
+      { symbol: "BTCUSD", name: "Bitcoin" },
+      { symbol: "ETHUSD", name: "Ethereum" },
+      { symbol: "SOLUSD", name: "Solana" },
+    ],
+  },
+];
+
+const ALL_ASSETS = ASSET_GROUPS.flatMap((group) => group.items);
 
 type PreparedImage = {
   dataUrl: string;
@@ -47,15 +86,16 @@ function formatPrice(value: number | null | undefined): string {
 }
 
 const biasTone: Record<string, string> = {
-  Bullish: "border-up/30 bg-up/10 text-up",
-  Bearish: "border-down/30 bg-down/10 text-down",
+  Bullish: "border-up/25 bg-up/10 text-up",
+  Bearish: "border-down/25 bg-down/10 text-down",
   Neutral: "border-line bg-surface-2 text-muted",
 };
 
 export default function ScanWorkbench() {
-  const [image, setImage] = useState<PreparedImage | null>(null);
   const [instrument, setInstrument] = useState("XAUUSD");
   const [timeframe, setTimeframe] = useState("H1");
+  const [query, setQuery] = useState("");
+  const [image, setImage] = useState<PreparedImage | null>(null);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [status, setStatus] = useState<"idle" | "reading" | "analysing">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -67,13 +107,28 @@ export default function ScanWorkbench() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const activeAsset =
+    ALL_ASSETS.find((asset) => asset.symbol === instrument) ?? {
+      symbol: instrument,
+      name: "Custom",
+    };
+
+  const groups = useMemo(() => {
+    const q = query.trim().toUpperCase();
+    if (!q) return ASSET_GROUPS;
+    return ASSET_GROUPS.map((group) => ({
+      ...group,
+      items: group.items.filter(
+        (item) => item.symbol.includes(q) || item.name.toUpperCase().includes(q)
+      ),
+    })).filter((group) => group.items.length > 0);
+  }, [query]);
+
   useEffect(() => {
     if (status === "idle") return;
     const started = Date.now();
     setElapsed(0);
-    const timer = window.setInterval(() => {
-      setElapsed((Date.now() - started) / 1000);
-    }, 100);
+    const timer = window.setInterval(() => setElapsed((Date.now() - started) / 1000), 100);
     return () => window.clearInterval(timer);
   }, [status]);
 
@@ -91,7 +146,7 @@ export default function ScanWorkbench() {
     }
   }, []);
 
-  const useSample = useCallback(async () => {
+  const loadSample = useCallback(async () => {
     const response = await fetch("/sample-chart.png");
     const blob = await response.blob();
     await acceptFile(new File([blob], "sample-chart.png", { type: "image/png" }));
@@ -113,15 +168,11 @@ export default function ScanWorkbench() {
 
     const line = Math.max(1, Math.round(width * 0.0012));
     ctx.lineWidth = line;
-    ctx.fillStyle = "rgba(238, 236, 239, 0.03)";
-    ctx.strokeStyle = "rgba(238, 236, 239, 0.22)";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.24)";
     for (const box of result.geometry.boxes) {
-      const x = box.x * width;
-      const y = box.y * height;
-      const w = box.w * width;
-      const h = box.h * height;
-      ctx.fillRect(x, y, w, h);
-      ctx.strokeRect(x, y, w, h);
+      ctx.fillRect(box.x * width, box.y * height, box.w * width, box.h * height);
+      ctx.strokeRect(box.x * width, box.y * height, box.w * width, box.h * height);
     }
 
     for (const level of result.geometry.levels) {
@@ -130,8 +181,8 @@ export default function ScanWorkbench() {
       ctx.setLineDash([line * 6, line * 4]);
       ctx.strokeStyle =
         level.type === "resistance"
-          ? "rgba(243, 85, 208, 0.9)"
-          : "rgba(168, 148, 255, 0.9)";
+          ? "rgba(243, 85, 208, 0.95)"
+          : "rgba(138, 107, 255, 0.95)";
       ctx.moveTo(0, y);
       ctx.lineTo(width, y);
       ctx.stroke();
@@ -182,27 +233,29 @@ export default function ScanWorkbench() {
   const busy = status !== "idle";
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <header className="sticky top-0 z-20 border-b border-line bg-canvas/85 backdrop-blur">
-        <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-3.5">
+    <div className="relative min-h-screen">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_15%_-10%,rgba(85,47,246,0.14),transparent_55%),radial-gradient(ellipse_at_85%_-20%,rgba(243,85,208,0.12),transparent_55%)]" />
+
+      <header className="sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <Link href="/" aria-label="ChartCorex home">
-              <LogoLockup />
+              <LogoLockup size={30} />
             </Link>
             <span className="hidden h-4 w-px bg-line sm:block" />
             <span className="hidden text-[10px] uppercase tracking-[0.18em] text-muted sm:block">
-              Chart image intelligence
+              Terminal
             </span>
           </div>
-          <div className="flex items-center gap-2.5">
-            <span className="hidden rounded-md border border-violet/40 bg-violet/10 px-2.5 py-1 font-mono text-[10px] tracking-wide text-violet-soft sm:block">
+          <div className="flex items-center gap-2">
+            <span className="hidden rounded-full border border-violet/25 bg-violet/[0.06] px-3 py-1 font-mono text-[10px] text-violet sm:block">
               META MODELS
             </span>
             {(image || result) && (
               <button
                 type="button"
                 onClick={reset}
-                className="rounded-md border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-violet/50 hover:text-ink"
+                className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] text-muted transition-colors hover:border-violet/40 hover:text-ink"
               >
                 New scan
               </button>
@@ -211,57 +264,106 @@ export default function ScanWorkbench() {
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-[1500px] gap-4 px-5 py-5 lg:grid-cols-[1.12fr_0.88fr]">
-        <section className="flex flex-col gap-4">
-          <div className="rounded-xl border border-line bg-surface p-4">
-            <div className="mb-3 flex flex-wrap items-end gap-3">
-              <label className="flex flex-col gap-1">
-                <span className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                  Instrument
+      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:grid-cols-[232px_minmax(0,1fr)_392px]">
+        <aside className="hidden lg:block">
+          <div className="sticky top-[72px] flex max-h-[calc(100vh-88px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+            <div className="border-b border-line p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase tracking-[0.16em] text-muted">Assets</span>
+                <span className="font-mono text-[10px] text-muted">{ALL_ASSETS.length}</span>
+              </div>
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search market"
+                className="mt-2 w-full rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[12px] text-ink outline-none placeholder:text-muted focus:border-violet/40"
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto p-2">
+              {groups.map((group) => (
+                <div key={group.name} className="mb-3">
+                  <div className="px-2 pb-1 text-[9.5px] uppercase tracking-[0.14em] text-muted">
+                    {group.name}
+                  </div>
+                  {group.items.map((item) => {
+                    const active = item.symbol === instrument;
+                    return (
+                      <button
+                        key={item.symbol}
+                        type="button"
+                        onClick={() => setInstrument(item.symbol)}
+                        className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left transition-colors ${
+                          active
+                            ? "bg-violet/[0.07] text-violet"
+                            : "text-ink hover:bg-surface-2"
+                        }`}
+                      >
+                        <span className="font-mono text-[11.5px]">{item.symbol}</span>
+                        <span className={`text-[10.5px] ${active ? "text-violet/70" : "text-muted"}`}>
+                          {item.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted">
+              Select an asset, then upload its chart.
+            </div>
+          </div>
+        </aside>
+
+        <section className="flex min-w-0 flex-col gap-4">
+          <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-[22px] font-semibold tracking-[-0.01em]">
+                  {activeAsset.symbol}
                 </span>
-                <input
-                  list="instruments"
-                  value={instrument}
-                  onChange={(event) => setInstrument(event.target.value.toUpperCase())}
-                  className="w-32 rounded-md border border-line bg-canvas px-2.5 py-1.5 font-mono text-sm text-ink outline-none transition-colors focus:border-violet-soft/60"
-                />
-                <datalist id="instruments">
-                  {INSTRUMENTS.map((item) => (
-                    <option key={item} value={item} />
-                  ))}
-                </datalist>
-              </label>
-              <label className="flex flex-col gap-1">
-                <span className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                  Timeframe
-                </span>
+                <span className="text-[12px] text-muted">{activeAsset.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <select
-                  value={timeframe}
-                  onChange={(event) => setTimeframe(event.target.value)}
-                  className="w-24 rounded-md border border-line bg-canvas px-2.5 py-1.5 font-mono text-sm text-ink outline-none transition-colors focus:border-violet-soft/60"
+                  value={instrument}
+                  onChange={(event) => setInstrument(event.target.value)}
+                  className="rounded-lg border border-line bg-surface px-2 py-1.5 text-[12px] text-ink outline-none lg:hidden"
                 >
-                  {TIMEFRAMES.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
+                  {ALL_ASSETS.map((asset) => (
+                    <option key={asset.symbol} value={asset.symbol}>
+                      {asset.symbol}
                     </option>
                   ))}
                 </select>
-              </label>
-              <div className="ml-auto flex items-center gap-3">
-                {image ? (
-                  <span className="font-mono text-[11px] text-muted">
-                    {image.width} x {image.height}
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={useSample}
-                    className="rounded-md border border-line px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-violet/50 hover:text-ink"
-                  >
-                    Use sample chart
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => inputRef.current?.click()}
+                  className="rounded-lg border border-line px-3 py-1.5 text-[12px] text-ink transition-colors hover:border-violet/40"
+                >
+                  Upload chart
+                </button>
               </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              {TIMEFRAMES.map((tf) => (
+                <button
+                  key={tf}
+                  type="button"
+                  onClick={() => setTimeframe(tf)}
+                  className={`rounded-lg px-2.5 py-1 font-mono text-[11px] transition-colors ${
+                    tf === timeframe
+                      ? "bg-violet text-white"
+                      : "bg-surface-2 text-muted hover:text-ink"
+                  }`}
+                >
+                  {tf}
+                </button>
+              ))}
+              <span className="ml-auto flex items-center gap-1.5 text-[10.5px] text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-up" />
+                Uploaded screenshot
+              </span>
             </div>
 
             <div
@@ -279,33 +381,43 @@ export default function ScanWorkbench() {
               onClick={() => {
                 if (!image) inputRef.current?.click();
               }}
-              className={`relative overflow-hidden rounded-lg border border-dashed transition-colors ${
-                dragging ? "border-violet-soft/70 bg-violet/10" : "border-line"
-              } ${image ? "bg-canvas" : "grid h-[300px] cursor-pointer place-items-center bg-canvas"}`}
+              className={`relative mt-3 aspect-[16/10] overflow-hidden rounded-xl border transition-colors ${
+                dragging ? "border-violet/60 bg-violet/[0.04]" : "border-line bg-surface-2"
+              } ${image ? "" : "cursor-pointer"}`}
             >
               {image ? (
-                <div className="relative">
+                <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     ref={imageRef}
                     src={image.dataUrl}
                     alt="Uploaded chart"
                     onLoad={drawOverlay}
-                    className="block h-auto w-full"
+                    className="h-full w-full object-contain"
                   />
                   <canvas
                     ref={canvasRef}
                     className="pointer-events-none absolute inset-0 h-full w-full"
                   />
-                </div>
+                </>
               ) : (
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <span className="text-sm font-medium text-ink">
+                <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
+                  <div className="font-display text-[15px] font-semibold text-ink">
                     Drop a chart screenshot
-                  </span>
-                  <span className="text-xs text-muted">
+                  </div>
+                  <div className="text-[11.5px] text-muted">
                     PNG, JPEG or WebP, or click to browse
-                  </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      void loadSample();
+                    }}
+                    className="mt-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[11.5px] text-muted transition-colors hover:border-violet/40 hover:text-ink"
+                  >
+                    Use sample chart
+                  </button>
                 </div>
               )}
               <input
@@ -322,7 +434,7 @@ export default function ScanWorkbench() {
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
+              <label className="flex cursor-pointer items-center gap-2 text-[11px] text-muted">
                 <input
                   type="checkbox"
                   checked={showOverlay}
@@ -331,251 +443,211 @@ export default function ScanWorkbench() {
                 />
                 Show segmentation
               </label>
-              <button
-                type="button"
-                onClick={runAnalysis}
-                disabled={!image || busy}
-                className="rounded-md bg-violet px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-[#6a45ff] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Scan chart"}
-              </button>
+              <span className="font-mono text-[10px] text-muted">
+                {image ? `${image.width} x ${image.height}` : "no image"}
+              </span>
             </div>
-          </div>
 
-          {result && (
-            <div className="rounded-xl border border-line bg-surface p-4">
-              <div className="mb-2.5 flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                  Extraction
+            <button
+              type="button"
+              onClick={runAnalysis}
+              disabled={!image || busy}
+              className="mt-3 w-full rounded-xl bg-violet px-5 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#4a26e8] disabled:cursor-not-allowed disabled:opacity-35"
+            >
+              {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Scan chart"}
+            </button>
+
+            {result && (
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-[9.5px] text-muted">
+                <span>
+                  vision {(result.timings.segmentMs / 1000).toFixed(2)}s / reason{" "}
+                  {(result.timings.reasonMs / 1000).toFixed(2)}s / total{" "}
+                  {(result.timings.totalMs / 1000).toFixed(2)}s
                 </span>
-                <span className="font-mono text-[10px] text-muted">
-                  {result.mocked ? "mock run" : "live"}
+                <span className="truncate">
+                  {result.models.sam} + {result.models.muse}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <Stat
-                  label="Chart panel"
-                  value={result.segmentation.region ? "segmented" : "full image"}
-                />
-                <Stat label="Candles" value={String(result.geometry.candleCount)} />
-                <Stat label="Levels" value={String(result.geometry.levels.length)} />
-                <Stat
-                  label="Vision"
-                  value={`${(result.timings.segmentMs / 1000).toFixed(2)}s`}
-                />
-              </div>
-            </div>
-          )}
+            )}
 
-          <div className="rounded-xl border border-line bg-surface p-4">
-            <div className="mb-2.5 text-[10px] uppercase tracking-[0.16em] text-muted">
-              Pipeline
-            </div>
-            <ol className="space-y-2.5 text-xs">
-              <PipelineRow step="01" model="SAM 3.1" text="Segments the chart panel and its objects." />
-              <PipelineRow step="02" model="Geometry" text="Measures every candle and clusters the levels." />
-              <PipelineRow step="03" model="Muse Spark" text="Reads the chart and returns the constrained plan." />
-            </ol>
+            {result && (
+              <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[9.5px] text-muted">
+                <span className="truncate">sam {result.requests.sam ?? "mock"}</span>
+                <span className="truncate">muse {result.requests.muse ?? "mock"}</span>
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-3 rounded-lg border border-down/25 bg-down/[0.06] px-3 py-2 text-[12px] text-down">
+                {error}
+              </div>
+            )}
           </div>
 
-          {error && (
-            <div className="rounded-lg border border-down/30 bg-down/10 px-4 py-3 text-sm text-down">
-              {error}
-            </div>
-          )}
+          <div className="grid grid-cols-3 gap-3">
+            <SmallStat
+              label="Chart panel"
+              value={result ? (result.segmentation.region ? "segmented" : "full image") : "pending"}
+            />
+            <SmallStat
+              label="Candles"
+              value={result ? String(result.geometry.candleCount) : "pending"}
+            />
+            <SmallStat
+              label="Levels"
+              value={result ? String(result.geometry.levels.length) : "pending"}
+            />
+          </div>
         </section>
 
-        <section className="flex flex-col gap-4">
-          {!plan && (
-            <div className="rounded-xl border border-line bg-surface p-6">
-              <h2 className="text-[22px] font-semibold leading-tight tracking-[-0.02em]">
-                Upload a chart.
-                <br />
-                Get the structure.
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                Entry, stop, three targets and the reasoning, measured from the image
-                in front of you rather than inferred from a data feed.
-              </p>
-              <div className="mt-6 space-y-4">
-                <EmptyStep n="01" title="Read the chart" text="The vision layer segments the panel and measures every candle." />
-                <EmptyStep n="02" title="Score what is visible" text="Confidence is built from visible evidence only. Missing panels score zero." />
-                <EmptyStep n="03" title="Return one plan" text="One bias, one entry zone, three targets, written rationale." />
-              </div>
-              <p className="mt-6 border-t border-line pt-4 text-[11px] leading-relaxed text-muted">
-                Decision support and education only. Not financial advice. No execution
-                and no client funds.
-              </p>
+        <section className="flex min-w-0 flex-col">
+          <div className="flex-1 rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="text-[10px] uppercase tracking-[0.16em] text-muted">
+                AI report
+              </span>
+              <span className="flex items-center gap-1.5 text-[10px] text-muted">
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    busy ? "animate-pulse bg-pink" : plan ? "bg-up" : "bg-muted/40"
+                  }`}
+                />
+                {busy ? "Analysing" : plan ? "Ready" : "Idle"}
+              </span>
             </div>
-          )}
 
-          {plan && (
-            <>
-              <div className="rounded-xl border border-line bg-surface p-4">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${
-                        biasTone[plan.bias] ?? biasTone.Neutral
-                      }`}
-                    >
+            {!plan && (
+              <div className="flex h-full flex-col justify-center py-10">
+                <div className="font-display text-[18px] font-semibold leading-tight">
+                  The report writes itself here.
+                </div>
+                <p className="mt-2 text-[12px] leading-relaxed text-muted">
+                  One bias, one entry zone, a stop, three targets and the reasoning.
+                  Nothing runs until you press scan.
+                </p>
+                <ol className="mt-5 space-y-3">
+                  <EmptyStep n="01" title="Pick the asset" text="Set the instrument and timeframe on the left." />
+                  <EmptyStep n="02" title="Upload the chart" text="Use a screenshot of the chart in front of you." />
+                  <EmptyStep n="03" title="Scan" text="The vision layer measures it, the model reasons over it." />
+                </ol>
+              </div>
+            )}
+
+            {plan && (
+              <div className="pt-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-semibold ${biasTone[plan.bias] ?? biasTone.Neutral}`}>
                       {plan.bias}
                     </span>
-                    <span className="rounded-md border border-line px-2.5 py-1 text-xs text-muted">
+                    <span className="rounded-md border border-line px-2 py-0.5 text-[10.5px] text-muted">
                       {plan.signalType}
                     </span>
-                    <span className="rounded-md border border-line px-2.5 py-1 text-xs text-muted">
-                      Risk {plan.riskLevel}
+                    <span className="rounded-md border border-line px-2 py-0.5 text-[10.5px] text-muted">
+                      {plan.riskLevel} risk
                     </span>
                   </div>
-                  <div className="min-w-[104px] text-right">
-                    <div className="font-mono text-[30px] font-medium leading-none">
+                  <div className="min-w-[72px] text-right">
+                    <div className="font-mono text-[26px] font-medium leading-none">
                       {plan.confidence}
                     </div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.14em] text-muted">
+                    <div className="text-[9px] uppercase tracking-[0.12em] text-muted">
                       confidence
                     </div>
-                    <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-surface-2">
-                      <div
-                        className="h-full rounded-full bg-pink"
-                        style={{ width: `${plan.confidence}%` }}
-                      />
+                    <div className="mt-1.5 h-[3px] w-full overflow-hidden rounded-full bg-surface-2">
+                      <div className="h-full rounded-full bg-pink" style={{ width: `${plan.confidence}%` }} />
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-2.5 flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted">
-                  <span className="text-ink">{plan.instrument}</span>
-                  <span>/</span>
-                  <span className="text-ink">{plan.timeframe}</span>
-                  <span>/</span>
-                  <span>{plan.chartType}</span>
-                  {!plan.priceScaleVisible && (
-                    <span className="rounded border border-pink/30 bg-pink/10 px-1.5 py-0.5 text-pink">
-                      price axis unreadable
-                    </span>
-                  )}
-                  {result?.mocked && (
-                    <span className="rounded border border-pink/30 bg-pink/10 px-1.5 py-0.5 text-pink">
-                      mock data
-                    </span>
-                  )}
-                </div>
+                <p className="mt-3 text-[12px] leading-relaxed text-ink/85">{plan.summary}</p>
 
-                <p className="mt-3.5 text-sm leading-relaxed text-ink/90">{plan.summary}</p>
-
-                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  <PriceCell
-                    label="Entry zone"
-                    value={`${formatPrice(plan.entryZone.low)} - ${formatPrice(plan.entryZone.high)}`}
-                    tone="entry"
-                  />
+                <div className="mt-3 grid grid-cols-2 gap-1.5">
+                  <PriceCell label="Entry" value={`${formatPrice(plan.entryZone.low)} - ${formatPrice(plan.entryZone.high)}`} tone="entry" />
                   <PriceCell label="Stop" value={formatPrice(plan.stopLoss)} tone="stop" />
                   {plan.takeProfits.map((tp) => (
-                    <PriceCell
-                      key={tp.label}
-                      label={tp.label}
-                      value={formatPrice(tp.price)}
-                      tone="target"
-                    />
+                    <PriceCell key={tp.label} label={tp.label} value={formatPrice(tp.price)} tone="target" />
                   ))}
                 </div>
 
-                <div className="mt-2 flex items-center justify-between rounded-lg border border-line bg-canvas px-3 py-2 font-mono text-[11px] text-muted">
+                <div className="mt-1.5 flex items-center justify-between rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 font-mono text-[10px] text-muted">
                   <span>Risk to reward</span>
                   <span className="text-ink">{plan.riskReward.toFixed(2)}</span>
                 </div>
-              </div>
 
-              <div className="rounded-xl border border-line bg-surface p-4">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <SectionLabel>Structure</SectionLabel>
-                    <dl className="mt-2 space-y-2.5 text-xs">
-                      <Row label="Trend" value={plan.trend} />
-                      <Row label="Last BOS" value={plan.marketStructure.recentBos} />
-                      <Row label="Last CHoCH" value={plan.marketStructure.recentChoch} />
-                      <Row label="Liquidity" value={plan.marketStructure.liquidityNotes} />
-                    </dl>
-                  </div>
-                  <div>
-                    <SectionLabel>Key levels</SectionLabel>
-                    <dl className="mt-2 space-y-2.5 text-xs">
-                      <Row label="Support" value={formatPrice(plan.keyLevels.support)} />
-                      <Row label="Resistance" value={formatPrice(plan.keyLevels.resistance)} />
-                      <Row label="Confluent" value={formatPrice(plan.keyLevels.confluent)} />
-                      <Row label="Pivot" value={formatPrice(plan.keyLevels.pivot)} />
-                    </dl>
-                  </div>
-                </div>
-              </div>
+                <ReportSection title="Structure">
+                  <Row label="Trend" value={plan.trend} />
+                  <Row label="Last BOS" value={plan.marketStructure.recentBos} />
+                  <Row label="Last CHoCH" value={plan.marketStructure.recentChoch} />
+                  <Row label="Liquidity" value={plan.marketStructure.liquidityNotes} />
+                </ReportSection>
 
-              <div className="rounded-xl border border-line bg-surface p-4">
-                <SectionLabel>Devil&apos;s advocate</SectionLabel>
-                <dl className="mt-2 space-y-2.5 text-xs">
+                <ReportSection title="Key levels">
+                  <div className="grid grid-cols-2 gap-x-3">
+                    <Row label="Support" value={formatPrice(plan.keyLevels.support)} />
+                    <Row label="Resistance" value={formatPrice(plan.keyLevels.resistance)} />
+                    <Row label="Confluent" value={formatPrice(plan.keyLevels.confluent)} />
+                    <Row label="Pivot" value={formatPrice(plan.keyLevels.pivot)} />
+                  </div>
+                </ReportSection>
+
+                <ReportSection title="Devil's advocate">
                   <Row label="Counter" value={plan.devilsAdvocate.counterThesis} />
                   <Row label="Invalidated if" value={plan.devilsAdvocate.invalidation} />
                   <Row label="Still valid" value={plan.devilsAdvocate.whyTakeIt} />
-                </dl>
-                <div className="mt-3 border-t border-line pt-3 text-xs leading-relaxed text-muted">
-                  <span className="text-muted">Management: </span>
-                  <span className="text-ink/85">{plan.tradeManagement}</span>
-                </div>
-              </div>
+                </ReportSection>
 
-              {plan.assumptions.length > 0 && (
-                <div className="rounded-xl border border-pink/25 bg-pink/[0.05] p-4">
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-pink">
-                    Assumptions
+                {plan.assumptions.length > 0 && (
+                  <div className="mt-3 rounded-lg border border-pink/25 bg-pink/[0.05] p-2.5">
+                    <div className="text-[9px] uppercase tracking-[0.14em] text-pink">
+                      Assumptions
+                    </div>
+                    <ul className="mt-1 space-y-0.5 text-[11px] leading-relaxed text-ink/70">
+                      {plan.assumptions.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="mt-2 space-y-1 text-xs text-ink/75">
-                    {plan.assumptions.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                )}
 
-              <div className="rounded-xl border border-line px-4 py-3 font-mono text-[10px] text-muted">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span>
-                    {result?.models.sam} + {result?.models.muse}
-                  </span>
-                  <span>
-                    vision {(result?.timings.segmentMs ?? 0) / 1000}s / reason{" "}
-                    {(result?.timings.reasonMs ?? 0) / 1000}s / total{" "}
-                    {(result?.timings.totalMs ?? 0) / 1000}s
-                  </span>
-                </div>
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line pt-2">
-                  <span className="uppercase tracking-[0.14em] text-violet-soft">
-                    Meta requests
-                  </span>
-                  <span className="truncate">
-                    sam {result?.requests.sam ?? "mock"}
-                  </span>
-                  <span className="truncate">
-                    muse {result?.requests.muse ?? "mock"}
-                  </span>
-                </div>
+                <p className="mt-3 border-t border-line pt-2 text-[9.5px] leading-relaxed text-muted">
+                  {plan.disclaimer}
+                </p>
               </div>
-
-              <p className="px-1 text-[10.5px] leading-relaxed text-muted">
-                {plan.disclaimer}
-              </p>
-            </>
-          )}
+            )}
+          </div>
         </section>
       </main>
     </div>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function SmallStat({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <div className="text-[10px] uppercase tracking-[0.12em] text-muted">{label}</div>
-      <div className="mt-0.5 font-mono text-sm text-ink">{value}</div>
+    <div className="rounded-xl border border-line bg-surface px-3 py-2">
+      <div className="text-[9px] uppercase tracking-[0.12em] text-muted">{label}</div>
+      <div className="mt-0.5 font-mono text-[11px] text-ink">{value}</div>
+    </div>
+  );
+}
+
+function EmptyStep({ n, title, text }: { n: string; title: string; text: string }) {
+  return (
+    <li className="flex gap-3">
+      <span className="font-mono text-[10px] text-violet">{n}</span>
+      <div>
+        <div className="text-[12px] font-semibold text-ink">{title}</div>
+        <div className="text-[11px] leading-relaxed text-muted">{text}</div>
+      </div>
+    </li>
+  );
+}
+
+function ReportSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-3 border-t border-line pt-3">
+      <div className="text-[9px] uppercase tracking-[0.14em] text-muted">{title}</div>
+      <dl className="mt-1.5 space-y-1.5 text-[11px]">{children}</dl>
     </div>
   );
 }
@@ -584,76 +656,22 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <dt className="text-muted">{label}</dt>
-      <dd className="mt-0.5 text-ink/85">{value}</dd>
-    </div>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
-      {children}
-    </div>
-  );
-}
-
-function PipelineRow({
-  step,
-  model,
-  text,
-}: {
-  step: string;
-  model: string;
-  text: string;
-}) {
-  return (
-    <li className="flex gap-3">
-      <span className="font-mono text-[10px] text-violet-soft">{step}</span>
-      <span className="w-[86px] shrink-0 font-mono text-[11px] text-ink">{model}</span>
-      <span className="text-muted">{text}</span>
-    </li>
-  );
-}
-
-function EmptyStep({
-  n,
-  title,
-  text,
-}: {
-  n: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="flex gap-3">
-      <span className="mt-0.5 font-mono text-[10px] text-violet-soft">{n}</span>
-      <div>
-        <div className="text-sm font-medium text-ink">{title}</div>
-        <div className="mt-0.5 text-xs leading-relaxed text-muted">{text}</div>
-      </div>
+      <dd className="text-ink/80">{value}</dd>
     </div>
   );
 }
 
 const priceTones: Record<string, string> = {
-  entry: "border-violet/30 bg-violet/10",
-  stop: "border-down/25 bg-down/[0.07]",
-  target: "border-up/20 bg-up/[0.06]",
+  entry: "border-violet/25 bg-violet/[0.06]",
+  stop: "border-down/20 bg-down/[0.05]",
+  target: "border-up/20 bg-up/[0.05]",
 };
 
-function PriceCell({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: string;
-  tone: "entry" | "stop" | "target";
-}) {
+function PriceCell({ label, value, tone }: { label: string; value: string; tone: "entry" | "stop" | "target" }) {
   return (
-    <div className={`rounded-lg border px-3 py-2 ${priceTones[tone]}`}>
-      <div className="text-[9.5px] uppercase tracking-[0.14em] text-muted">{label}</div>
-      <div className="mt-0.5 font-mono text-sm text-ink">{value}</div>
+    <div className={`rounded-lg border px-2.5 py-1.5 ${priceTones[tone]}`}>
+      <div className="text-[9px] uppercase tracking-[0.12em] text-muted">{label}</div>
+      <div className="mt-0.5 font-mono text-[11.5px] text-ink">{value}</div>
     </div>
   );
 }

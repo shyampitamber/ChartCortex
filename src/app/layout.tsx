@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 import "./globals.css";
 
-const archivo = Archivo({
-  variable: "--font-archivo",
+const comfortaa = Comfortaa({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  variable: "--font-comfortaa",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${archivo.variable} ${jetbrains.variable} bg-canvas text-ink antialiased`}
-      >
+      <body className={`${comfortaa.variable} bg-canvas text-ink antialiased`}>
         {children}
       </body>
     </html>

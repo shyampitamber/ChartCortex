@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --canvas: #0b0a10;
-  --surface: #14121c;
-  --surface-2: #1b1826;
-  --line: rgba(238, 236, 239, 0.08);
-  --text: #eeecf0;
-  --muted: #8a8496;
+  --canvas: #f0f0f0;
+  --surface: #ffffff;
+  --surface-2: #f6f5f8;
+  --line: rgba(22, 18, 31, 0.08);
+  --text: #16121f;
+  --muted: #6f6a7a;
   --violet: #552ff6;
-  --violet-soft: #a894ff;
+  --violet-soft: #8a6bff;
   --pink: #f355d0;
-  --up: #2fbf71;
-  --down: #f0445e;
+  --up: #0e9f6e;
+  --down: #e0244a;
+  --font-display: ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 @theme inline {
@@ -26,23 +27,25 @@
   --color-pink: var(--pink);
   --color-up: var(--up);
   --color-down: var(--down);
-  --font-sans: var(--font-archivo);
-  --font-mono: var(--font-jetbrains);
+  --font-sans: var(--font-comfortaa);
+  --font-display: var(--font-display);
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 body {
   background: var(--canvas);
   color: var(--text);
-  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-family: var(--font-comfortaa), system-ui, sans-serif;
 }
 
 ::selection {
   background: var(--pink);
-  color: #1a0b1a;
+  color: #ffffff;
 }
 
 input,
 select,
-button {
+button,
+textarea {
   font-family: inherit;
 }

@@ -23,7 +23,7 @@ The prompt layer in `src/lib/prompts/` is an institutional rule set written for 
 
 The logo, favicon and landing artwork were generated with `muse-image-1.0` through the Meta Model API. `scripts/generate-brand.mjs` reproduces the source images, `scripts/brand-assets.mjs` derives the icon sizes and the webp hero. Assets live in `public/brand/`.
 
-Palette: `#EEECEF` marshmallow white, `#552FF6` violet, `#F355D0` pink, on a `#0B0A10` canvas. Violet fills actions and the mark, pink is the signal accent, and green and red are reserved exclusively for price direction.
+Palette: `#F0F0F0` marshmallow white surfaces, `#552FF6` violet for actions and the mark, `#F355D0` pink for signal accents, and green and red reserved exclusively for price direction. UI type is Comfortaa with a rounded system display stack, matching the studio's other product.
 
 Every result shows the Meta response IDs for the segmentation and the reasoning calls, so API usage is verifiable in the product, not only in the code.
 
