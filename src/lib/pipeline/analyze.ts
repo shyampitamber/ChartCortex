@@ -25,6 +25,7 @@ function emptySegmentation(model: string): SegmentationResult {
     rawLength: 0,
     boxes: [],
     region: null,
+    requestId: null,
   };
 }
 
@@ -46,6 +47,7 @@ export async function analyzeChart({
       geometry: mockGeometry(),
       timings: { segmentMs: 0, reasonMs: 0, totalMs: Date.now() - started },
       models: { sam: SAM_MODEL, muse: MUSE_MODEL },
+      requests: { sam: null, muse: null },
       mocked: true,
     };
   }
@@ -94,6 +96,7 @@ export async function analyzeChart({
       totalMs: Date.now() - started,
     },
     models: { sam: segmentation.model, muse: MUSE_MODEL },
+    requests: { sam: segmentation.requestId, muse: reasoning.requestId },
     mocked: false,
   };
 }

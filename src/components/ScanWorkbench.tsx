@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { LogoLockup } from "@/components/Logo";
 import type { AnalyzeResponse } from "@/lib/types";
 
@@ -185,7 +186,9 @@ export default function ScanWorkbench() {
       <header className="sticky top-0 z-20 border-b border-line bg-canvas/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-3.5">
           <div className="flex items-center gap-3">
-            <LogoLockup />
+            <Link href="/" aria-label="ChartCorex home">
+              <LogoLockup />
+            </Link>
             <span className="hidden h-4 w-px bg-line sm:block" />
             <span className="hidden text-[10px] uppercase tracking-[0.18em] text-muted sm:block">
               Chart image intelligence
@@ -533,15 +536,28 @@ export default function ScanWorkbench() {
                 </div>
               )}
 
-              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line px-4 py-3 font-mono text-[10px] text-muted">
-                <span>
-                  {result?.models.sam} + {result?.models.muse}
-                </span>
-                <span>
-                  vision {(result?.timings.segmentMs ?? 0) / 1000}s / reason{" "}
-                  {(result?.timings.reasonMs ?? 0) / 1000}s / total{" "}
-                  {(result?.timings.totalMs ?? 0) / 1000}s
-                </span>
+              <div className="rounded-xl border border-line px-4 py-3 font-mono text-[10px] text-muted">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span>
+                    {result?.models.sam} + {result?.models.muse}
+                  </span>
+                  <span>
+                    vision {(result?.timings.segmentMs ?? 0) / 1000}s / reason{" "}
+                    {(result?.timings.reasonMs ?? 0) / 1000}s / total{" "}
+                    {(result?.timings.totalMs ?? 0) / 1000}s
+                  </span>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line pt-2">
+                  <span className="uppercase tracking-[0.14em] text-violet-soft">
+                    Meta requests
+                  </span>
+                  <span className="truncate">
+                    sam {result?.requests.sam ?? "mock"}
+                  </span>
+                  <span className="truncate">
+                    muse {result?.requests.muse ?? "mock"}
+                  </span>
+                </div>
               </div>
 
               <p className="px-1 text-[10.5px] leading-relaxed text-muted">

@@ -73,5 +73,6 @@ export async function segmentChart(
     rawLength: text.length,
     boxes,
     region,
+    requestId: response.id ?? null,
   };
 }

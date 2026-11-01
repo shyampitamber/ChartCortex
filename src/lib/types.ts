@@ -41,6 +41,7 @@ export type SegmentationResult = {
   rawLength: number;
   boxes: ChartBox[];
   region: ChartBox | null;
+  requestId: string | null;
 };
 
 export type AnalysisTimings = {
@@ -60,5 +61,9 @@ export type AnalyzeResponse = {
   geometry: ChartGeometry;
   timings: AnalysisTimings;
   models: AnalysisModels;
+  requests: {
+    sam: string | null;
+    muse: string | null;
+  };
   mocked: boolean;
 };

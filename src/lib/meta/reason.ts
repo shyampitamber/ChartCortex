@@ -23,7 +23,11 @@ export async function reasonAboutChart({
   timeframe,
   geometry,
   panelDetected,
-}: ReasonInput): Promise<{ plan: TradePlan; durationMs: number }> {
+}: ReasonInput): Promise<{
+  plan: TradePlan;
+  durationMs: number;
+  requestId: string | null;
+}> {
   const started = Date.now();
 
   const body: ResponseRequest = {
@@ -80,5 +84,5 @@ export async function reasonAboutChart({
 
   const plan = tradePlanSchema.parse(JSON.parse(raw));
 
-  return { plan, durationMs: Date.now() - started };
+  return { plan, durationMs: Date.now() - started, requestId: response.id ?? null };
 }

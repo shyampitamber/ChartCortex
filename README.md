@@ -19,6 +19,14 @@ Reasoning runs at `reasoning.effort: "low"` with an 8000 token output budget. A 
 
 The prompt layer in `src/lib/prompts/` is an institutional rule set written for image-first analysis. Only visible evidence scores; every absent panel contributes zero.
 
+## Brand
+
+The logo, favicon and landing artwork were generated with `muse-image-1.0` through the Meta Model API. `scripts/generate-brand.mjs` reproduces the source images, `scripts/brand-assets.mjs` derives the icon sizes and the webp hero. Assets live in `public/brand/`.
+
+Palette: `#EEECEF` marshmallow white, `#552FF6` violet, `#F355D0` pink, on a `#0B0A10` canvas. Violet fills actions and the mark, pink is the signal accent, and green and red are reserved exclusively for price direction.
+
+Every result shows the Meta response IDs for the segmentation and the reasoning calls, so API usage is verifiable in the product, not only in the code.
+
 ## What is measured and what is reasoned
 
 - Candle highs, lows, bodies, swing points and clustered levels are **measured** from pixels, not guessed by a model.
@@ -35,7 +43,7 @@ Copy-Item .env.local.example .env.local
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open http://localhost:3000 for the landing page, and http://localhost:3000/scan for the workbench.
 
 Without `MODEL_API_KEY` the app runs in mock mode so the interface can be exercised. The UI shows a `mock data` badge whenever that happens.
 
