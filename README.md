@@ -4,6 +4,8 @@ Chart image intelligence on the Meta Model API. Upload a chart screenshot and re
 
 Decision support and education only. No execution, no client funds, no signal group.
 
+This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through the Meta Model API. No other model provider is used anywhere in the codebase.
+
 ![ChartCorex workbench](public/demo-shot.png)
 
 ## How it works
@@ -53,6 +55,14 @@ Without `MODEL_API_KEY` the app runs in mock mode so the interface can be exerci
 ```
 
 Returns the plan, the segmentation result, the derived geometry, per-stage timings and the model IDs used.
+
+## Deployment
+
+- GitHub: https://github.com/shyampitamber/chartcorex (public, shared with Meta for judging)
+- Production: https://chartcorex.vercel.app
+- Supabase: project ref `zdrkmddaytryrduqqxqm`, Central EU (Frankfurt), org Ascend Forex
+- Vercel environment: `MODEL_API_KEY` (sensitive), `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (sensitive)
+- Pushes to `main` deploy automatically through the Vercel Git integration
 
 ## Limits
 
