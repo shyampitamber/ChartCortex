@@ -205,7 +205,8 @@ html[data-theme="light"] .brand-gradient-text {
   height: 620px;
   left: -180px;
   top: -220px;
-  background: radial-gradient(circle, #81ffd9 0%, transparent 65%);
+  background: radial-gradient(circle, #123a6b 0%, transparent 65%);
+  opacity: 0.5;
 }
 .hero-blob-b {
   width: 560px;
@@ -225,11 +226,11 @@ html[data-theme="light"] .hero-blob-b {
 .hero-stage {
   position: relative;
   border-radius: 18px;
-  border: 1px solid rgba(129, 255, 217, 0.16);
+  border: 1px solid rgba(255, 77, 157, 0.18);
   background:
-    radial-gradient(70% 90% at 50% 42%, rgba(129, 255, 217, 0.16), transparent 70%),
-    radial-gradient(50% 60% at 82% 16%, rgba(255, 77, 157, 0.16), transparent 70%),
-    linear-gradient(180deg, #0e1a26 0%, #060a0f 100%);
+    radial-gradient(70% 90% at 50% 42%, rgba(18, 58, 107, 0.6), transparent 70%),
+    radial-gradient(50% 60% at 82% 16%, rgba(255, 77, 157, 0.2), transparent 70%),
+    linear-gradient(180deg, #0b1624 0%, #05080c 100%);
   box-shadow:
     0 40px 90px -40px rgba(0, 0, 0, 0.8),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);

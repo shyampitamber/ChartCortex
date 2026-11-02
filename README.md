@@ -21,11 +21,11 @@ The prompt layer in `src/lib/prompts/` is an institutional rule set written for 
 
 ## Brand
 
-The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle standing taller than the brain between them. It is used for the header, the favicon and the app icon.
+The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle between them. The candle is centred on the brain, with equal overhang above and below, and stands taller than the brain. The wordmark sets Chart in navy and Corex in pink. It is used for the header, the favicon and the app icon.
 
 The landing hero is a real screen recording of the app: image upload, scan, report. `scripts/record-demo.mjs` records it with Playwright and the result is encoded into `public/media/demo.mp4`.
 
-Palette: navy `#070B10` and `#0D141C` surfaces, teal `#81FFD9` for primary buttons with black text, and pink `#FF4D9D` as the signal accent. Green and red are reserved exclusively for price direction. Buttons are rectangular with a 12px radius. UI type is Comfortaa, with the heavier rounded system display stack for the wordmark, headings, menu items and buttons. Dark is the default theme, with light available from the header toggle.
+Palette: pink and navy lead. Navy `#070B10` and `#0D141C` surfaces, pink `#FF4D9D` as the brand and signal accent, and teal `#81FFD9` reserved for primary buttons, with black text, plus small interface accents. Green and red are reserved exclusively for price direction. Buttons are rectangular with a 12px radius. UI type is Comfortaa, with the heavier rounded system display stack for the wordmark, headings, menu items and buttons. Dark is the default theme, with light available from the header toggle.
 
 Every result shows the Meta response IDs for the segmentation and the reasoning calls, so API usage is verifiable in the product, not only in the code.
 

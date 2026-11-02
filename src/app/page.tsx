@@ -78,7 +78,7 @@ export default function Home() {
             <h1 className="mt-7 text-[42px] font-[650] leading-[1.02] tracking-[-0.03em] sm:text-[64px]">
               Your chart is the input.
               <br />
-              <span className="text-accent">A trade plan is the </span>
+              <span className="text-ink">A trade plan is the </span>
               <span className="text-pink">output.</span>
             </h1>
 
