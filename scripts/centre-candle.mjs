@@ -1,7 +1,7 @@
 import sharp from "sharp";
 
-const input = "E:\\MyApps\\ChartCorex\\.design\\logo-centred-b.png";
-const out = "E:\\MyApps\\ChartCorex\\.design\\logo-centred-final.png";
+const input = "E:\\MyApps\\ChartCortex\\.design\\logo-centred-b.png";
+const out = "E:\\MyApps\\ChartCortex\\.design\\logo-centred-final.png";
 
 const { data, info } = await sharp(input)
   .ensureAlpha()

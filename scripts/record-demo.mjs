@@ -3,7 +3,7 @@ import { chromium } from "playwright-core";
 
 const exe =
   "C:\\Users\\admin\\AppData\\Local\\ms-playwright\\chromium-1243\\chrome-win64\\chrome.exe";
-const dir = "E:\\MyApps\\ChartCorex\\.design\\video";
+const dir = "E:\\MyApps\\ChartCortex\\.design\\video";
 fs.mkdirSync(dir, { recursive: true });
 for (const file of fs.readdirSync(dir)) {
   if (file.endsWith(".webm")) fs.rmSync(dir + "\\" + file);
@@ -21,7 +21,7 @@ await page.goto("https://ChartCortex.vercel.app/scan", { waitUntil: "networkidle
 await page.waitForTimeout(1500);
 await page.setInputFiles(
   "input[type=file]",
-  "E:\\MyApps\\ChartCorex\\public\\sample-chart.png"
+  "E:\\MyApps\\ChartCortex\\public\\sample-chart.png"
 );
 await page.waitForSelector('img[alt="Uploaded chart"]', { timeout: 20000 });
 await page.waitForTimeout(1600);
@@ -37,6 +37,6 @@ await page.waitForTimeout(1800);
 const video = page.video();
 await context.close();
 const recorded = await video.path();
-fs.copyFileSync(recorded, "E:\\MyApps\\ChartCorex\\.design\\video\\demo.webm");
+fs.copyFileSync(recorded, "E:\\MyApps\\ChartCortex\\.design\\video\\demo.webm");
 await browser.close();
 console.log("VIDEO=saved");

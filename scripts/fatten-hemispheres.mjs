@@ -1,7 +1,7 @@
 import sharp from "sharp";
 
-const input = "E:\\MyApps\\ChartCorex\\.design\\logo-final-tall.png";
-const out = "E:\\MyApps\\ChartCorex\\.design\\logo-final-fat.png";
+const input = "E:\\MyApps\\ChartCortex\\.design\\logo-final-tall.png";
+const out = "E:\\MyApps\\ChartCortex\\.design\\logo-final-fat.png";
 const width = 1600;
 const height = 1600;
 const scaleX = 1.12;

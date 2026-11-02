@@ -1,3 +1,3 @@
 import sharp from "sharp";
-await sharp("E:\\MyApps\\ChartCorex\\public\\media\\demo-poster.jpg").png().toFile("E:\\MyApps\\ChartCorex\\public\\screenshot.png");
+await sharp("E:\\MyApps\\ChartCortex\\public\\media\\demo-poster.jpg").png().toFile("E:\\MyApps\\ChartCortex\\public\\screenshot.png");
 console.log("screenshot updated");

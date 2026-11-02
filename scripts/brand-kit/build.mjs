@@ -3,7 +3,7 @@ import path from "node:path";
 import sharp from "sharp";
 import { chromium } from "playwright-core";
 
-const ROOT = "E:\\MyApps\\ChartCorex";
+const ROOT = "E:\\MyApps\\ChartCortex";
 const OUT = path.join(ROOT, "brand");
 const TMP = path.join(ROOT, ".design", "brand-masters");
 for (const dir of ["png", "jpg", "svg", "fonts"]) {

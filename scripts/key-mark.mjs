@@ -1,7 +1,7 @@
 import sharp from "sharp";
 
-const src = "E:\\MyApps\\ChartCorex\\.design\\logo-final-fat.png";
-const out = "E:\\MyApps\\ChartCorex\\.design\\mark-transparent.png";
+const src = "E:\\MyApps\\ChartCortex\\.design\\logo-final-fat.png";
+const out = "E:\\MyApps\\ChartCortex\\.design\\mark-transparent.png";
 
 const { data, info } = await sharp(src)
   .ensureAlpha()
@@ -55,6 +55,6 @@ await sharp({
 })
   .composite([{ input: mark, gravity: "center" }])
   .png()
-  .toFile("E:\\MyApps\\ChartCorex\\.design\\mark-on-navy.png");
+  .toFile("E:\\MyApps\\ChartCortex\\.design\\mark-on-navy.png");
 
 console.log("flood keyed");

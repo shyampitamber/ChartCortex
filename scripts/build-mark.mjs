@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import sharp from "sharp";
 
-const src = "E:\\MyApps\\ChartCorex\\.design\\logo-final-fat.png";
-const out = "E:\\MyApps\\ChartCorex\\public\\brand\\";
+const src = "E:\\MyApps\\ChartCortex\\.design\\logo-final-fat.png";
+const out = "E:\\MyApps\\ChartCortex\\public\\brand\\";
 
 const trimmed = await sharp(src).trim({ threshold: 18 }).toBuffer();
 const meta = await sharp(trimmed).metadata();
@@ -28,6 +28,6 @@ for (const size of [512, 256, 64]) {
     .toFile(out + `mark-${size}.png`);
 }
 
-fs.copyFileSync(out + "mark-256.png", "E:\\MyApps\\ChartCorex\\src\\app\\icon.png");
+fs.copyFileSync(out + "mark-256.png", "E:\\MyApps\\ChartCortex\\src\\app\\icon.png");
 
 console.log("built", w, h, side);
