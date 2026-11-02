@@ -75,8 +75,12 @@ h6 {
 
 button,
 .btn {
-  font-family: var(--font-comfortaa);
+  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
   font-weight: 600;
+}
+
+.font-poppins {
+  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
 }
 
 ::selection {
@@ -130,7 +134,7 @@ html[data-theme="light"] .glass-pill {
   height: 48px;
   padding: 0 24px;
   border-radius: 12px;
-  font-family: var(--font-comfortaa);
+  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: -0.005em;

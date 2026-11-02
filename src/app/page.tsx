@@ -41,7 +41,7 @@ export default function Home() {
           <Link href="/" aria-label="ChartCortex home">
             <LogoLockup size={32} />
           </Link>
-          <nav className="hidden items-center gap-7 text-[13.5px] font-semibold text-muted md:flex">
+          <nav className="hidden items-center gap-7 font-poppins text-[13.5px] font-medium text-muted md:flex">
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
             <a href="#meta" className="transition-colors hover:text-ink">Meta models</a>
             <a
