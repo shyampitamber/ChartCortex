@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
 export function LogoLockup({
-  size = 32,
+  size = 38,
   labelClassName = "",
 }: {
   size?: number;
   labelClassName?: string;
 }) {
+  const line = Math.round(size * 0.44);
   return (
     <span className={`inline-flex items-center gap-2.5 ${labelClassName}`}>
       <img
@@ -17,9 +18,19 @@ export function LogoLockup({
         className="rounded-lg"
         style={{ width: size, height: size }}
       />
-      <span className="font-chivo text-[16px] font-black uppercase tracking-[0.01em]">
-        <span className="text-[#105BFF]">Chart</span>
-        <span className="text-[#F355D0]">Cortex</span>
+      <span className="flex flex-col justify-between" style={{ height: size }}>
+        <span
+          className="font-chivo font-black uppercase leading-none text-[#105BFF]"
+          style={{ fontSize: line, letterSpacing: "0.01em" }}
+        >
+          Chart
+        </span>
+        <span
+          className="font-chivo font-black uppercase leading-none text-[#F355D0]"
+          style={{ fontSize: line, letterSpacing: "0.01em" }}
+        >
+          Cortex
+        </span>
       </span>
     </span>
   );

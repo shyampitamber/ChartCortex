@@ -68,7 +68,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-display);
+  font-family: var(--font-chivo), Chivo, system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -77,14 +77,12 @@ button,
 .btn {
   font-family: var(--font-chivo), Chivo, system-ui, sans-serif;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .font-chivo {
   font-family: var(--font-chivo), Chivo, system-ui, sans-serif;
-}
-
-.font-poppins {
-  font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
 }
 
 ::selection {
@@ -141,7 +139,8 @@ html[data-theme="light"] .glass-pill {
   font-family: var(--font-chivo), Chivo, system-ui, sans-serif;
   font-weight: 700;
   font-size: 14px;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,

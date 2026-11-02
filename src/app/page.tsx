@@ -39,7 +39,7 @@ export default function Home() {
       <header className="glass-bar sticky top-0 z-30 border-b border-line">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <Link href="/" aria-label="ChartCortex home">
-            <LogoLockup size={32} />
+            <LogoLockup size={40} />
           </Link>
           <nav className="hidden items-center gap-7 font-chivo text-[13px] font-semibold uppercase tracking-[0.02em] text-muted md:flex">
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
@@ -75,7 +75,7 @@ export default function Home() {
               Chart image intelligence
             </span>
 
-            <h1 className="mt-7 text-[42px] font-[650] leading-[1.02] tracking-[-0.03em] sm:text-[64px]">
+            <h1 className="mt-7 text-[40px] leading-[1.02] tracking-[-0.02em] sm:text-[60px]">
               Your chart is the input.
               <br />
               <span className="text-ink">A trade plan is the </span>
@@ -286,7 +286,7 @@ export default function Home() {
 
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <LogoLockup size={26} />
+          <LogoLockup size={30} />
           <p className="max-w-xl text-[11px] leading-relaxed text-muted">
             Decision support and education only. Not financial advice. No execution and
             no client funds. Chart analysis is generated on demand and does not

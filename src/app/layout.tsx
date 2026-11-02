@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Chivo, Comfortaa, Poppins } from "next/font/google";
+import { Chivo, Comfortaa } from "next/font/google";
 import "./globals.css";
 
 const comfortaa = Comfortaa({
@@ -8,17 +8,10 @@ const comfortaa = Comfortaa({
   display: "swap",
 });
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["500", "600", "700"],
-  display: "swap",
-});
-
 const chivo = Chivo({
   subsets: ["latin"],
   variable: "--font-chivo",
-  weight: ["500", "600", "700", "900"],
+  weight: ["500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -53,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body
-        className={`${comfortaa.variable} ${poppins.variable} ${chivo.variable} bg-canvas text-ink antialiased`}
+        className={`${comfortaa.variable} ${chivo.variable} bg-canvas text-ink antialiased`}
       >
         <script
           dangerouslySetInnerHTML={{
