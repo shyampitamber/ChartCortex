@@ -19,7 +19,7 @@ const MAX_BASE64 = 8_000_000;
 
 export async function GET() {
   return NextResponse.json({
-    service: "chartcorex-analyze",
+    service: "ChartCortex-analyze",
     metaKeyConfigured: hasMetaKey(),
   });
 }
@@ -72,11 +72,11 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(result, {
-      headers: { "x-chartcorex-ms": String(Date.now() - started) },
+      headers: { "x-ChartCortex-ms": String(Date.now() - started) },
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Analysis failed";
-    console.error("[chartcorex] analyze failed:", message);
+    console.error("[ChartCortex] analyze failed:", message);
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

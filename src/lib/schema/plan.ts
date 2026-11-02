@@ -67,4 +67,4 @@ export const tradePlanJsonSchema = z.toJSONSchema(tradePlanSchema, {
   io: "output",
 });
 
-export const PLAN_SCHEMA_NAME = "ChartCorexTradePlan";
+export const PLAN_SCHEMA_NAME = "ChartCortexTradePlan";

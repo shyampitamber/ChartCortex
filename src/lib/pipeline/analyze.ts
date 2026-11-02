@@ -58,14 +58,14 @@ export async function analyzeChart({
   const [segmentation, extraction] = await Promise.all([
     segmentChart(dataUrl).catch((error: unknown) => {
       console.error(
-        "[chartcorex] segmentation failed:",
+        "[ChartCortex] segmentation failed:",
         error instanceof Error ? error.message : error
       );
       return emptySegmentation(SAM_MODEL);
     }),
     extractCandles(buffer).catch((error: unknown) => {
       console.error(
-        "[chartcorex] candle extraction failed:",
+        "[ChartCortex] candle extraction failed:",
         error instanceof Error ? error.message : error
       );
       return { width: imageWidth, height: imageHeight, candles: [] };

@@ -89,7 +89,7 @@ export function buildSystemPrompt({
     : "  - none detected";
 
   return `
-You are ChartCorex, an institutional chart image analyst. A client has uploaded a screenshot of a live chart. You read the image, combine it with the segmentation geometry supplied below, and return one complete trade structure.
+You are ChartCortex, an institutional chart image analyst. A client has uploaded a screenshot of a live chart. You read the image, combine it with the segmentation geometry supplied below, and return one complete trade structure.
 
 === ASSET CHARACTER ===
 ${ASSET_CHARACTER[assetKey]}

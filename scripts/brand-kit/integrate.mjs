@@ -1,4 +1,4 @@
-﻿import sharp from "sharp";
+import sharp from "sharp";
 const src = "E:\\MyApps\\ChartCorex\\.design\\mark-transparent.png";
 for (const size of [512, 256, 64]) {
   await sharp(src).resize(size, size, { fit: "contain" }).png().toFile(`E:\\MyApps\\ChartCorex\\public\\brand\\mark-t-${size}.png`);

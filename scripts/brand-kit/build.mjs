@@ -57,7 +57,7 @@ async function render(name, w, h, bg, body) {
 const word = (color) =>
   `<span style="color:${C.violet}">Chart</span><span style="color:${
     color ?? C.pink
-  }">Corex</span>`;
+  }">Cortex</span>`;
 
 const wordmarkBody = (fs_) =>
   `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center">
@@ -97,7 +97,7 @@ const paletteBody = (dark) => {
   return `<div style="width:100%;height:100%;padding:80px 90px;display:flex;flex-direction:column;gap:54px;color:${ink}">
     <div style="display:flex;justify-content:space-between;align-items:flex-end">
       <div>
-        <div style="font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:${muted}">ChartCorex</div>
+        <div style="font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:${muted}">ChartCortex</div>
         <div style="font-size:70px;font-weight:700;letter-spacing:-.02em;margin-top:14px">Brand system</div>
       </div>
       <div style="font-size:22px;color:${muted}">${dark ? "Dark default" : "Light theme"}</div>
@@ -111,7 +111,7 @@ const paletteBody = (dark) => {
       </div>
       <div style="flex:1">
         <div style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:${muted}">Rules</div>
-        <div style="font-size:16px;line-height:1.6;color:${muted};margin-top:10px">Violet and pink lead. Teal is for primary buttons only. Green and red are reserved for price direction. Wordmark: Chart in violet, Corex in pink.</div>
+        <div style="font-size:16px;line-height:1.6;color:${muted};margin-top:10px">Violet and pink lead. Teal is for primary buttons only. Green and red are reserved for price direction. Wordmark: Chart in violet, Cortex in pink.</div>
       </div>
     </div>
   </div>`;
@@ -128,7 +128,7 @@ const ogBody = `<div style="width:100%;height:100%;padding:64px 70px;display:fle
 
 const ogSquareBody = `<div style="width:100%;height:100%;padding:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(60% 60% at 30% 20%, rgba(16,91,255,.4), transparent 62%), radial-gradient(55% 55% at 75% 80%, rgba(243,85,208,.32), transparent 62%), ${C.navy}">
   <img src="data:image/png;base64,${markB64}" style="width:300px;display:block" />
-  <div style="margin-top:40px;font-size:76px;font-weight:700;letter-spacing:-.025em;color:${C.ink}">Chart<span style="color:${C.pink}">Corex</span></div>
+  <div style="margin-top:40px;font-size:76px;font-weight:700;letter-spacing:-.025em;color:${C.ink}">Chart<span style="color:${C.pink}">Cortex</span></div>
   <div style="margin-top:20px;font-size:28px;color:${C.muted}">Chart image intelligence</div>
 </div>`;
 
@@ -227,27 +227,27 @@ function svgDoc(w, h, bg, inner, extra = "") {
 
 fs.writeFileSync(
   path.join(OUT, "svg", "wordmark-dark.svg"),
-  svgDoc(1600, 450, C.navy, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(1600, 450, C.navy, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "wordmark-light.svg"),
-  svgDoc(1600, 450, C.light, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(1600, 450, C.light, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "lockup-horizontal-dark.svg"),
-  svgDoc(2400, 667, C.navy, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(2400, 667, C.navy, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "lockup-horizontal-light.svg"),
-  svgDoc(2400, 667, C.light, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(2400, 667, C.light, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "lockup-stacked-dark.svg"),
-  svgDoc(1024, 1024, C.navy, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(1024, 1024, C.navy, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "lockup-stacked-light.svg"),
-  svgDoc(1024, 1024, C.light, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Corex</tspan></text>`)
+  svgDoc(1024, 1024, C.light, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
 );
 fs.writeFileSync(
   path.join(OUT, "svg", "icon-dark.svg"),

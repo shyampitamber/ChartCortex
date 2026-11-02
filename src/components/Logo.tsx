@@ -19,7 +19,7 @@ export function LogoLockup({
       />
       <span className="text-[17px] font-bold tracking-[-0.01em]">
         <span className="text-[#105BFF]">Chart</span>
-        <span className="text-[#F355D0]">Corex</span>
+        <span className="text-[#F355D0]">Cortex</span>
       </span>
     </span>
   );

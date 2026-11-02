@@ -1,4 +1,4 @@
-# ChartCorex
+# ChartCortex
 
 Chart image intelligence on the Meta Model API. Upload a chart screenshot and receive a complete trade structure: entry zone, stop loss, three take profits, confidence, market structure and reasoning.
 
@@ -6,7 +6,7 @@ Decision support and education only. No execution, no client funds, no signal gr
 
 This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through the Meta Model API. There is no model-provider SDK in the project; the app calls the endpoint directly with `fetch`, so the only model dependency is Meta's own API.
 
-![ChartCorex workbench](public/screenshot.png)
+![ChartCortex workbench](public/screenshot.png)
 
 ## How it works
 
@@ -21,7 +21,7 @@ The prompt layer in `src/lib/prompts/` is an institutional rule set written for 
 
 ## Brand
 
-The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle between them. The candle is centred on the brain, with equal overhang above and below, and stands taller than the brain. The wordmark sets Chart in violet #105BFF and Corex in pink #F355D0, set in Comfortaa. It is used for the header, the favicon and the app icon.
+The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle between them. The candle is centred on the brain, with equal overhang above and below, and stands taller than the brain. The wordmark sets Chart in violet #105BFF and Cortex in pink #F355D0, set in Comfortaa. It is used for the header, the favicon and the app icon.
 
 The complete export set, with PNG, JPG and SVG at every size, is in `brand/`, documented in `brand/brand.md`. The header uses the transparent mark; the favicon and OG image come from the same kit.`n`nThe landing hero is a real screen recording of the app: image upload, scan, report. `scripts/record-demo.mjs` records it with Playwright and the result is encoded into `public/media/demo.mp4`.
 
@@ -68,8 +68,8 @@ Returns the plan, the segmentation result, the derived geometry, per-stage timin
 
 ## Deployment
 
-- GitHub: https://github.com/shyampitamber/ChartCorex (public, shared with Meta for judging)
-- Production: https://chartcorex.vercel.app
+- GitHub: https://github.com/shyampitamber/ChartCortex (public, shared with Meta for judging)
+- Production: https://ChartCortex.vercel.app
 - Supabase: project ref `zdrkmddaytryrduqqxqm`, Central EU (Frankfurt)
 - Vercel environment: `MODEL_API_KEY` (sensitive), `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (sensitive)
 - Pushes to `main` deploy automatically through the Vercel Git integration

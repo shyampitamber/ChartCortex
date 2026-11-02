@@ -240,7 +240,7 @@ export default function ScanWorkbench() {
       <header className="sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <Link href="/" aria-label="ChartCorex home">
+            <Link href="/" aria-label="ChartCortex home">
               <LogoLockup size={30} />
             </Link>
             <span className="hidden h-4 w-px bg-line sm:block" />

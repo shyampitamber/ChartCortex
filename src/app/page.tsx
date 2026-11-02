@@ -38,14 +38,14 @@ export default function Home() {
     <div className="min-h-screen bg-canvas">
       <header className="glass-bar sticky top-0 z-30 border-b border-line">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <Link href="/" aria-label="ChartCorex home">
+          <Link href="/" aria-label="ChartCortex home">
             <LogoLockup size={32} />
           </Link>
           <nav className="hidden items-center gap-7 font-display text-[13.5px] font-semibold text-muted md:flex">
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
             <a href="#meta" className="transition-colors hover:text-ink">Meta models</a>
             <a
-              href="https://github.com/shyampitamber/ChartCorex"
+              href="https://github.com/shyampitamber/ChartCortex"
               target="_blank"
               rel="noreferrer"
               className="transition-colors hover:text-ink"
@@ -128,7 +128,7 @@ export default function Home() {
                 muted
                 loop
                 playsInline
-                aria-label="ChartCorex analysing an uploaded chart and returning a trade plan"
+                aria-label="ChartCortex analysing an uploaded chart and returning a trade plan"
               />
             </div>
             <p className="mt-3 text-center text-[11px] text-muted">
@@ -193,7 +193,7 @@ export default function Home() {
               <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_50%_40%,rgba(85,47,246,0.2),transparent_65%)] blur-2xl" />
               <img
                 src="/screenshot.png"
-                alt="ChartCorex workbench showing a segmented chart and a trade plan"
+                alt="ChartCortex workbench showing a segmented chart and a trade plan"
                 className="relative w-full rounded-xl border border-line"
               />
             </div>
@@ -293,7 +293,7 @@ export default function Home() {
             guarantee any outcome.
           </p>
           <a
-            href="https://github.com/shyampitamber/ChartCorex"
+            href="https://github.com/shyampitamber/ChartCortex"
             target="_blank"
             rel="noreferrer"
             className="text-[11px] text-muted transition-colors hover:text-ink"

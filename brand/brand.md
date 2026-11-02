@@ -1,4 +1,4 @@
-# ChartCorex brand system
+# ChartCortex brand system
 
 ## The mark
 
@@ -11,7 +11,7 @@ Two brain hemispheres, navy on the left and pink on the right, split by a teal c
 | Navy | `#070B10` | Page and app background |
 | Panel | `#0D141C` | Cards, panels, raised surfaces |
 | Galactic Violet | `#105BFF` | Wordmark "Chart", brand accents |
-| Bubblegum Pink | `#F355D0` | Wordmark "Corex", signal accents |
+| Bubblegum Pink | `#F355D0` | Wordmark "Cortex", signal accents |
 | Teal | `#81FFD9` | Primary buttons only, black text on teal |
 | Off white | `#EAF2F0` | Text on navy |
 | Muted | `#8FA3A6` | Secondary text on navy |
