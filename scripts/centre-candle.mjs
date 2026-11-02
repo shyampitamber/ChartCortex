@@ -21,7 +21,7 @@ let cMaxY = 0;
 
 for (let y = 0; y < height; y += 1) {
   for (let x = 0; x < width; x += 1) {
-    if (x < width * 0.4 || x > width * 0.6) continue;
+    if (x < width * 0.44 || x > width * 0.58) continue;
     const i = (y * width + x) * channels;
     if (!isTeal(data[i], data[i + 1], data[i + 2])) continue;
     if (x < cMinX) cMinX = x;
