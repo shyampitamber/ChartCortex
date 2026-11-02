@@ -9,9 +9,26 @@ const comfortaa = Comfortaa({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://chartcorex.vercel.app"),
   title: "ChartCorex | Chart image intelligence",
   description:
     "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+  openGraph: {
+    title: "ChartCorex | Chart image intelligence",
+    description:
+      "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+    url: "https://chartcorex.vercel.app",
+    siteName: "ChartCorex",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ChartCorex | Chart image intelligence",
+    description:
+      "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({

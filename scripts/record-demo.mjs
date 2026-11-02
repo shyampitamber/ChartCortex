@@ -17,7 +17,7 @@ const context = await browser.newContext({
 });
 
 const page = await context.newPage();
-await page.goto("http://localhost:3001/scan", { waitUntil: "networkidle", timeout: 60000 });
+await page.goto("https://chartcorex.vercel.app/scan", { waitUntil: "networkidle", timeout: 60000 });
 await page.waitForTimeout(1500);
 await page.setInputFiles(
   "input[type=file]",

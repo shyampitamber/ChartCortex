@@ -10,7 +10,7 @@ export function LogoLockup({
   return (
     <span className={`inline-flex items-center gap-2.5 ${labelClassName}`}>
       <img
-        src="/brand/mark-64.png"
+        src="/brand/mark-t-64.png"
         width={size}
         height={size}
         alt=""
