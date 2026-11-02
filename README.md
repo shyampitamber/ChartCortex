@@ -21,11 +21,11 @@ The prompt layer in `src/lib/prompts/` is an institutional rule set written for 
 
 ## Brand
 
-The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle between them. The candle is centred on the brain, with equal overhang above and below, and stands taller than the brain. The wordmark sets Chart in violet #105BFF and Cortex in pink #F355D0, set in Comfortaa. It is used for the header, the favicon and the app icon.
+The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle between them. The candle is centred on the brain, with equal overhang above and below, and stands taller than the brain. The wordmark is set in Chivo Black, uppercase, with CHART in violet #105BFF stacked above CORTEX in pink #F355D0. It is used for the header, the favicon and the app icon.
 
 The complete export set, with PNG, JPG and SVG at every size, is in `brand/`, documented in `brand/brand.md`. The header uses the transparent mark; the favicon and OG image come from the same kit.`n`nThe landing hero is a real screen recording of the app: image upload, scan, report. `scripts/record-demo.mjs` records it with Playwright and the result is encoded into `public/media/demo.mp4`.
 
-Palette: violet and pink lead. Navy `#070B10` and `#0D141C` surfaces, violet `#105BFF` and pink `#F355D0` for the wordmark and brand accents, and teal `#81FFD9` reserved for primary buttons, with black text, plus small interface accents. Green and red are reserved exclusively for price direction. Buttons are rectangular with a 12px radius. UI type is Comfortaa, which also sets the wordmark, with the heavier rounded system display stack for headings, menu items and buttons. Dark is the default theme, with light available from the header toggle.
+Palette: violet and pink lead. Navy `#070B10` and `#0D141C` surfaces, violet `#105BFF` and pink `#F355D0` for the wordmark and brand accents, and teal `#81FFD9` reserved for primary buttons, with black text, plus small interface accents. Green and red are reserved exclusively for price direction. Buttons are rectangular with a 12px radius. Chivo sets the wordmark, headings, menu items and buttons; Comfortaa sets body copy. Dark is the default theme, with light available from the header toggle.
 
 Every result shows the Meta response IDs for the segmentation and the reasoning calls, so API usage is verifiable in the product, not only in the code.
 

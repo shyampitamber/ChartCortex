@@ -22,9 +22,9 @@ The supplied hex `#FE8500` renders orange and is not used. Bubblegum Pink is `#F
 
 ## Typography
 
-- **Wordmark and interface:** Comfortaa, weight 700 for the wordmark, 600 for buttons, 400 for body.
+- **Wordmark:** Chivo, weight 900, uppercase, with CHART over CORTEX.`n- **Headings, menu items and buttons:** Chivo, weight 600 to 900.`n- **Body:** Comfortaa.
 - **Display:** the rounded system display stack (`ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif`), weight 650 to 700, used for headings.
-- Comfortaa is shipped in `fonts/comfortaa-latin.woff2` and embedded in the SVG sources.
+- Chivo 900 is shipped in `fonts/chivo-900.woff2`. Body text uses Comfortaa, loaded by the app.
 
 ## Logo usage
 

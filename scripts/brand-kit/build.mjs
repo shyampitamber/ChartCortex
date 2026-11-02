@@ -13,12 +13,11 @@ fs.mkdirSync(TMP, { recursive: true });
 
 const MARK = path.join(ROOT, ".design", "mark-transparent.png");
 const SHOT = path.join(ROOT, "public", "screenshot.png");
-const FONT_SRC = "E:\\MyApps\\ViralCore\\frontend\\assets\\fonts\\comfortaa-latin.woff2";
+const FONT_SRC = path.join(ROOT, "brand", "fonts", "chivo-900.woff2");
 
 const markB64 = fs.readFileSync(MARK).toString("base64");
 const shotB64 = fs.readFileSync(SHOT).toString("base64");
 const fontB64 = fs.readFileSync(FONT_SRC).toString("base64");
-fs.copyFileSync(FONT_SRC, path.join(OUT, "fonts", "comfortaa-latin.woff2"));
 
 const C = {
   navy: "#070B10",
@@ -32,8 +31,8 @@ const C = {
   lightInk: "#0B1620",
 };
 
-const fontFace = `@font-face{font-family:Comfortaa;src:url(data:font/woff2;base64,${fontB64}) format('woff2');font-weight:300 700;font-style:normal;font-display:block}`;
-const baseCss = `*{box-sizing:border-box;margin:0;padding:0}html,body{overflow:hidden}body{font-family:Comfortaa,system-ui,sans-serif;-webkit-font-smoothing:antialiased}`;
+const fontFace = `@font-face{font-family:Chivo;src:url(data:font/woff2;base64,${fontB64}) format('woff2');font-weight:900;font-style:normal;font-display:block}`;
+const baseCss = `*{box-sizing:border-box;margin:0;padding:0}html,body{overflow:hidden}body{font-family:Chivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}`;
 
 const browser = await chromium.launch({
   executablePath:
@@ -55,19 +54,24 @@ async function render(name, w, h, bg, body) {
 }
 
 const word = (color) =>
-  `<span style="color:${C.violet}">Chart</span><span style="color:${
+  `<span style="color:${C.violet}">CHART</span><span style="color:${
     color ?? C.pink
-  }">Cortex</span>`;
+  }">CORTEX</span>`;
 
 const wordmarkBody = (fs_) =>
   `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center">
-    <div style="font-size:${fs_}px;font-weight:700;letter-spacing:-.02em;line-height:1;white-space:nowrap">${word()}</div>
+    <div style="font-size:${fs_}px;font-weight:900;letter-spacing:.01em;line-height:1;white-space:nowrap">${word()}</div>
   </div>`;
 
 const lockupBody = (markW, textPx, gap) =>
   `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:${gap}px">
     <img src="data:image/png;base64,${markB64}" style="width:${markW}px;display:block" />
-    <div style="font-size:${textPx}px;font-weight:700;letter-spacing:-.02em;line-height:1;white-space:nowrap">${word()}</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-between;height:${Math.round(
+      markW * 0.8
+    )}px">
+      <div style="font-size:${textPx}px;font-weight:900;line-height:1;letter-spacing:.01em;color:${C.violet}">CHART</div>
+      <div style="font-size:${textPx}px;font-weight:900;line-height:1;letter-spacing:.01em;color:${C.pink}">CORTEX</div>
+    </div>
   </div>`;
 
 const stackedBody = (markW, textPx) =>
@@ -75,7 +79,10 @@ const stackedBody = (markW, textPx) =>
     markW * 0.09
   )}px">
     <img src="data:image/png;base64,${markB64}" style="width:${markW}px;display:block" />
-    <div style="font-size:${textPx}px;font-weight:700;letter-spacing:-.02em;line-height:1;white-space:nowrap">${word()}</div>
+    <div style="display:flex;flex-direction:column;align-items:center;line-height:1">
+      <div style="font-size:${textPx}px;font-weight:900;letter-spacing:.01em;color:${C.violet}">CHART</div>
+      <div style="font-size:${textPx}px;font-weight:900;letter-spacing:.01em;color:${C.pink}">CORTEX</div>
+    </div>
   </div>`;
 
 const swatch = (hex, label, text) =>
@@ -128,7 +135,7 @@ const ogBody = `<div style="width:100%;height:100%;padding:64px 70px;display:fle
 
 const ogSquareBody = `<div style="width:100%;height:100%;padding:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(60% 60% at 30% 20%, rgba(16,91,255,.4), transparent 62%), radial-gradient(55% 55% at 75% 80%, rgba(243,85,208,.32), transparent 62%), ${C.navy}">
   <img src="data:image/png;base64,${markB64}" style="width:300px;display:block" />
-  <div style="margin-top:40px;font-size:76px;font-weight:700;letter-spacing:-.025em;color:${C.ink}">Chart<span style="color:${C.pink}">Cortex</span></div>
+  <div style="margin-top:40px;font-size:76px;font-weight:900;letter-spacing:.01em;color:${C.ink}">CHART<span style="color:${C.pink}">CORTEX</span></div>
   <div style="margin-top:20px;font-size:28px;color:${C.muted}">Chart image intelligence</div>
 </div>`;
 
@@ -140,8 +147,8 @@ console.log("rendering masters");
 const masters = {
   "wordmark-dark": await render("wordmark-dark", 3200, 900, C.navy, wordmarkBody(430)),
   "wordmark-light": await render("wordmark-light", 3200, 900, C.light, wordmarkBody(430)),
-  "lockup-dark": await render("lockup-dark", 3600, 1000, C.navy, lockupBody(900, 240, 70)),
-  "lockup-light": await render("lockup-light", 3600, 1000, C.light, lockupBody(900, 240, 70)),
+  "lockup-dark": await render("lockup-dark", 3600, 1000, C.navy, lockupBody(900, 320, 70)),
+  "lockup-light": await render("lockup-light", 3600, 1000, C.light, lockupBody(900, 320, 70)),
   "stacked-dark": await render("stacked-dark", 1600, 1600, C.navy, stackedBody(720, 200)),
   "stacked-light": await render("stacked-light", 1600, 1600, C.light, stackedBody(720, 200)),
   "palette-dark": await render("palette-dark", 2000, 1250, C.navy, paletteBody(true)),
@@ -218,50 +225,33 @@ await writeIcon(darkTile, "app-tile", [1024, 512, 192, 180], C.navy);
 await writeIcon(maskable, "app-maskable", [512], C.navy);
 
 console.log("svg");
-const fontCss = `@font-face{font-family:Comfortaa;src:url(data:font/woff2;base64,${fontB64}) format('woff2');font-weight:300 700}`;
-const markUri = `data:image/png;base64,${markB64}`;
-
-function svgDoc(w, h, bg, inner, extra = "") {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><style>${fontCss}${extra}</style><rect width="${w}" height="${h}" fill="${bg}"/>${inner}</svg>`;
-}
-
-fs.writeFileSync(
-  path.join(OUT, "svg", "wordmark-dark.svg"),
-  svgDoc(1600, 450, C.navy, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "wordmark-light.svg"),
-  svgDoc(1600, 450, C.light, `<text x="800" y="300" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="215" letter-spacing="-4"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "lockup-horizontal-dark.svg"),
-  svgDoc(2400, 667, C.navy, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "lockup-horizontal-light.svg"),
-  svgDoc(2400, 667, C.light, `<image href="${markUri}" x="600" y="160" width="420"/><text x="1080" y="405" font-family="Comfortaa" font-weight="700" font-size="200" letter-spacing="-3"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "lockup-stacked-dark.svg"),
-  svgDoc(1024, 1024, C.navy, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "lockup-stacked-light.svg"),
-  svgDoc(1024, 1024, C.light, `<image href="${markUri}" x="272" y="180" width="480"/><text x="512" y="770" text-anchor="middle" font-family="Comfortaa" font-weight="700" font-size="100" letter-spacing="-2"><tspan fill="${C.violet}">Chart</tspan><tspan fill="${C.pink}">Cortex</tspan></text>`)
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "icon-dark.svg"),
-  svgDoc(512, 512, C.navy, `<image href="${markUri}" x="100" y="100" width="312"/>`, "")
-);
-fs.writeFileSync(
-  path.join(OUT, "svg", "icon-light.svg"),
-  svgDoc(512, 512, "#FFFFFF", `<image href="${markUri}" x="100" y="100" width="312"/>`, "")
-);
+const svgNames = {
+  "wordmark-dark": "wordmark-dark",
+  "wordmark-light": "wordmark-light",
+  "lockup-dark": "lockup-horizontal-dark",
+  "lockup-light": "lockup-horizontal-light",
+  "stacked-dark": "lockup-stacked-dark",
+  "stacked-light": "lockup-stacked-light",
+  "palette-dark": "palette-dark",
+  "palette-light": "palette-light",
+  "og-1200": "og-1200",
+  "og-square-1200": "og-square-1200",
+  "social-avatar": "social-avatar",
+};
 for (const [name, master] of Object.entries(masters)) {
   const b64 = fs.readFileSync(master).toString("base64");
   fs.writeFileSync(
-    path.join(OUT, "svg", `${name}.svg`),
+    path.join(OUT, "svg", `${svgNames[name] ?? name}.svg`),
     `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"><image href="data:image/png;base64,${b64}" width="100" height="100" preserveAspectRatio="xMidYMid meet"/></svg>`
+  );
+}
+for (const name of ["icon-dark", "icon-light", "app-icon", "app-tile", "app-maskable"]) {
+  const file = path.join(OUT, "png", `${name}-512.png`);
+  if (!fs.existsSync(file)) continue;
+  const b64 = fs.readFileSync(file).toString("base64");
+  fs.writeFileSync(
+    path.join(OUT, "svg", `${name}.svg`),
+    `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><image href="data:image/png;base64,${b64}" width="512" height="512"/></svg>`
   );
 }
 
