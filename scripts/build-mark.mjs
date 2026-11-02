@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import sharp from "sharp";
 
-const src = "E:\\MyApps\\ChartCorex\\.design\\logo-final-tall.png";
+const src = "E:\\MyApps\\ChartCorex\\.design\\logo-final-fat.png";
 const out = "E:\\MyApps\\ChartCorex\\public\\brand\\";
 
 const trimmed = await sharp(src).trim({ threshold: 18 }).toBuffer();
