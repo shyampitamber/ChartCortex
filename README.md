@@ -21,11 +21,11 @@ The prompt layer in `src/lib/prompts/` is an institutional rule set written for 
 
 ## Brand
 
-The logo, favicon and landing artwork were generated with `muse-image-1.0` through the Meta Model API. The mark is two hemispheres in violet and pink with a black candle between them, on a white field. `scripts/generate-brand.mjs` and `scripts/generate-logo-v3.mjs` reproduce the source images, `scripts/brand-assets.mjs` and `scripts/mark-assets-v3.mjs` derive the icon sizes.
+The mark is a 3D render of two brain hemispheres, navy on the left and pink on the right, with a teal candle standing taller than the brain between them. It is used for the header, the favicon and the app icon.
 
 The landing hero is a real screen recording of the app: image upload, scan, report. `scripts/record-demo.mjs` records it with Playwright and the result is encoded into `public/media/demo.mp4`.
 
-Palette: `#F0F0F0` marshmallow white surfaces, `#552FF6` violet for actions and the mark, `#F355D0` pink for signal accents, and green and red reserved exclusively for price direction. UI type is Comfortaa, with the heavier rounded system display stack for the wordmark, headings, menu items and buttons. Light is the default theme, with a dark theme available from the header toggle.
+Palette: navy `#070B10` and `#0D141C` surfaces, teal `#81FFD9` for primary buttons with black text, and pink `#FF4D9D` as the signal accent. Green and red are reserved exclusively for price direction. Buttons are rectangular with a 12px radius. UI type is Comfortaa, with the heavier rounded system display stack for the wordmark, headings, menu items and buttons. Dark is the default theme, with light available from the header toggle.
 
 Every result shows the Meta response IDs for the segmentation and the reasoning calls, so API usage is verifiable in the product, not only in the code.
 

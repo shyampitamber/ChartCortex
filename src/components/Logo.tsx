@@ -20,7 +20,7 @@ export function LogoLockup({
       <span
         className={`font-display text-[16px] font-bold tracking-[-0.01em] ${labelClassName}`}
       >
-        Chart<span className="text-violet">Corex</span>
+        Chart<span className="text-accent">Corex</span>
       </span>
     </span>
   );

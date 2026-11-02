@@ -249,7 +249,7 @@ export default function ScanWorkbench() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden rounded-full border border-violet/25 bg-violet/[0.06] px-3 py-1 font-mono text-[10px] text-violet sm:block">
+            <span className="hidden rounded-full border border-accent/30 bg-teal/[0.06] px-3 py-1 font-mono text-[10px] text-accent sm:block">
               META MODELS
             </span>
             <ThemeToggle />
@@ -257,7 +257,7 @@ export default function ScanWorkbench() {
               <button
                 type="button"
                 onClick={reset}
-                className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] text-muted transition-colors hover:border-violet/40 hover:text-ink"
+                className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] text-muted transition-colors hover:border-accent/40 hover:text-ink"
               >
                 New scan
               </button>
@@ -278,7 +278,7 @@ export default function ScanWorkbench() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search market"
-                className="mt-2 w-full rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[12px] text-ink outline-none placeholder:text-muted focus:border-violet/40"
+                className="mt-2 w-full rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[12px] text-ink outline-none placeholder:text-muted focus:border-accent/40"
               />
             </div>
             <div className="flex-1 overflow-y-auto p-2">
@@ -296,12 +296,12 @@ export default function ScanWorkbench() {
                         onClick={() => setInstrument(item.symbol)}
                         className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left transition-colors ${
                           active
-                            ? "bg-violet/[0.07] text-violet"
+                            ? "bg-teal/[0.08] text-accent"
                             : "text-ink hover:bg-surface-2"
                         }`}
                       >
                         <span className="font-mono text-[11.5px]">{item.symbol}</span>
-                        <span className={`text-[10.5px] ${active ? "text-violet/70" : "text-muted"}`}>
+                        <span className={`text-[10.5px] ${active ? "text-accent/70" : "text-muted"}`}>
                           {item.name}
                         </span>
                       </button>
@@ -340,7 +340,7 @@ export default function ScanWorkbench() {
                 <button
                   type="button"
                   onClick={() => inputRef.current?.click()}
-                  className="rounded-lg border border-line px-3 py-1.5 text-[12px] text-ink transition-colors hover:border-violet/40"
+                  className="rounded-lg border border-line px-3 py-1.5 text-[12px] text-ink transition-colors hover:border-accent/40"
                 >
                   Upload chart
                 </button>
@@ -355,7 +355,7 @@ export default function ScanWorkbench() {
                   onClick={() => setTimeframe(tf)}
                   className={`rounded-lg px-2.5 py-1 font-mono text-[11px] transition-colors ${
                     tf === timeframe
-                      ? "bg-violet text-white"
+                      ? "bg-teal text-[#04120F]"
                       : "bg-surface-2 text-muted hover:text-ink"
                   }`}
                 >
@@ -384,7 +384,7 @@ export default function ScanWorkbench() {
                 if (!image) inputRef.current?.click();
               }}
               className={`relative mt-3 aspect-[16/10] overflow-hidden rounded-xl border transition-colors ${
-                dragging ? "border-violet/60 bg-violet/[0.04]" : "border-line bg-surface-2"
+                dragging ? "border-teal/60 bg-teal/[0.04]" : "border-line bg-surface-2"
               } ${image ? "" : "cursor-pointer"}`}
             >
               {image ? (
@@ -416,7 +416,7 @@ export default function ScanWorkbench() {
                       event.stopPropagation();
                       void loadSample();
                     }}
-                    className="mt-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[11.5px] text-muted transition-colors hover:border-violet/40 hover:text-ink"
+                    className="mt-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[11.5px] text-muted transition-colors hover:border-accent/40 hover:text-ink"
                   >
                     Use sample chart
                   </button>
@@ -441,7 +441,7 @@ export default function ScanWorkbench() {
                   type="checkbox"
                   checked={showOverlay}
                   onChange={(event) => setShowOverlay(event.target.checked)}
-                  className="h-3.5 w-3.5 accent-violet"
+                  className="h-3.5 w-3.5 accent-teal"
                 />
                 Show segmentation
               </label>
@@ -454,7 +454,7 @@ export default function ScanWorkbench() {
               type="button"
               onClick={runAnalysis}
               disabled={!image || busy}
-              className="mt-3 w-full rounded-xl bg-violet px-5 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#4a26e8] disabled:cursor-not-allowed disabled:opacity-35"
+              className="mt-3 w-full rounded-xl bg-teal px-5 py-3 text-[13px] font-semibold text-[#04120F] transition-colors hover:bg-[#9CFFE5] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Scan chart"}
             </button>
@@ -636,7 +636,7 @@ function SmallStat({ label, value }: { label: string; value: string }) {
 function EmptyStep({ n, title, text }: { n: string; title: string; text: string }) {
   return (
     <li className="flex gap-3">
-      <span className="font-mono text-[10px] text-violet">{n}</span>
+      <span className="font-mono text-[10px] text-accent">{n}</span>
       <div>
         <div className="text-[12px] font-semibold text-ink">{title}</div>
         <div className="text-[11px] leading-relaxed text-muted">{text}</div>
@@ -664,7 +664,7 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 const priceTones: Record<string, string> = {
-  entry: "border-violet/25 bg-violet/[0.06]",
+  entry: "border-accent/30 bg-teal/[0.06]",
   stop: "border-down/20 bg-down/[0.05]",
   target: "border-up/20 bg-up/[0.05]",
 };

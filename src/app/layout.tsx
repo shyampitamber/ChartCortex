@@ -20,12 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark">
       <body className={`${comfortaa.variable} bg-canvas text-ink antialiased`}>
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('cc-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark')}}catch(e){}",
+              "try{if(localStorage.getItem('cc-theme')==='light'){document.documentElement.setAttribute('data-theme','light')}}catch(e){}",
           }}
         />
         {children}

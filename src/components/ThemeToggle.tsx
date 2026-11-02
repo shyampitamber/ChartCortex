@@ -2,25 +2,21 @@
 
 import { useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "dark" | "light";
 const STORAGE_KEY = "cc-theme";
 
 export function ThemeToggle({ className = "" }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     const stored = document.documentElement.getAttribute("data-theme");
-    setTheme(stored === "dark" ? "dark" : "light");
+    setTheme(stored === "light" ? "light" : "dark");
   }, []);
 
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setTheme(next);
-    if (next === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
+    document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
@@ -35,7 +31,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`grid h-8 w-8 place-items-center rounded-lg border border-line bg-surface text-muted transition-colors hover:border-violet/40 hover:text-ink ${className}`}
+      className={`grid h-8 w-8 place-items-center rounded-lg border border-line bg-surface text-muted transition-colors hover:border-accent/40 hover:text-ink ${className}`}
     >
       {isDark ? (
         <svg

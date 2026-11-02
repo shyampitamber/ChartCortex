@@ -55,7 +55,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Link href="/scan" className="btn-pill btn-violet btn-sm">
+            <Link href="/scan" className="btn btn-teal btn-sm">
               Open the app
             </Link>
           </div>
@@ -71,14 +71,15 @@ export default function Home() {
 
           <div className="relative mx-auto max-w-4xl px-5 pb-10 pt-20 text-center sm:pt-24">
             <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet" />
+              <span className="h-1.5 w-1.5 rounded-full bg-teal" />
               Chart image intelligence
             </span>
 
             <h1 className="mt-7 text-[42px] font-[650] leading-[1.02] tracking-[-0.03em] sm:text-[64px]">
               Your chart is the input.
               <br />
-              <span className="brand-gradient-text">A trade plan is the output.</span>
+              <span className="text-accent">A trade plan is the </span>
+              <span className="text-pink">output.</span>
             </h1>
 
             <p className="mx-auto mt-5 max-w-xl text-[15.5px] leading-relaxed text-muted">
@@ -87,10 +88,10 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/scan" className="btn-pill btn-violet">
+              <Link href="/scan" className="btn btn-teal">
                 Analyse a chart
               </Link>
-              <a href="#how" className="btn-pill btn-glass">
+              <a href="#how" className="btn btn-glass">
                 See how it works
               </a>
             </div>
@@ -101,7 +102,7 @@ export default function Home() {
                   <span key={item} className="inline-flex items-center gap-1.5">
                     <svg
                       viewBox="0 0 24 24"
-                      className="h-3 w-3 text-violet"
+                      className="h-3 w-3 text-accent"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2.4"
@@ -151,7 +152,7 @@ export default function Home() {
               {steps.map((step) => (
                 <div key={step.n} className="rounded-xl border border-line bg-surface p-5">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-violet">{step.n}</span>
+                    <span className="font-mono text-[10px] text-accent">{step.n}</span>
                     <span className="rounded border border-line px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted">
                       {step.model}
                     </span>
@@ -216,7 +217,7 @@ export default function Home() {
                   {["sam-3.1", "muse-spark-1.3", "muse-image-1.0"].map((model) => (
                     <span
                       key={model}
-                      className="rounded-md border border-violet/40 bg-violet/10 px-2.5 py-1 font-mono text-[10.5px] text-violet"
+                      className="rounded-md border border-accent/40 bg-teal/10 px-2.5 py-1 font-mono text-[10.5px] text-accent"
                     >
                       {model}
                     </span>
@@ -275,7 +276,7 @@ export default function Home() {
             </p>
             <Link
               href="/scan"
-              className="mt-7 inline-block rounded-md bg-violet px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
+              className="mt-7 inline-block rounded-md bg-teal px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#9CFFE5]"
             >
               Analyse a chart
             </Link>

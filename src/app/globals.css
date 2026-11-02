@@ -1,32 +1,40 @@
 @import "tailwindcss";
 
 :root {
+  --canvas: #070b10;
+  --surface: #0d141c;
+  --surface-2: #121c26;
+  --line: rgba(234, 242, 240, 0.1);
+  --text: #eaf2f0;
+  --muted: #8fa3a6;
+  --teal: #81ffd9;
+  --teal-soft: #a9ffe8;
+  --accent: #81ffd9;
+  --pink: #ff4d9d;
+  --navy: #0a1420;
+  --up: #4ade80;
+  --down: #fb7185;
+  --on-teal: #04120f;
+  --font-display: ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
   --canvas: #f0f0f0;
   --surface: #ffffff;
   --surface-2: #f6f5f8;
-  --line: rgba(22, 18, 31, 0.08);
-  --text: #16121f;
-  --muted: #6f6a7a;
-  --violet: #552ff6;
-  --violet-soft: #8a6bff;
-  --pink: #f355d0;
+  --line: rgba(10, 20, 32, 0.1);
+  --text: #0b1620;
+  --muted: #5f6f76;
+  --teal: #81ffd9;
+  --teal-soft: #0e8f72;
+  --accent: #0b7a63;
+  --pink: #d92d7a;
+  --navy: #0a1420;
   --up: #0e9f6e;
   --down: #e0244a;
-  --font-display: ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
-}
-
-html[data-theme="dark"] {
-  --canvas: #121016;
-  --surface: #1a1720;
-  --surface-2: #221e2b;
-  --line: rgba(255, 255, 255, 0.09);
-  --text: #f2f0f5;
-  --muted: #a29cae;
-  --violet: #8a6bff;
-  --violet-soft: #b4a1ff;
-  --pink: #f355d0;
-  --up: #34d399;
-  --down: #fb7185;
+  --on-teal: #04120f;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -36,9 +44,11 @@ html[data-theme="dark"] {
   --color-line: var(--line);
   --color-ink: var(--text);
   --color-muted: var(--muted);
-  --color-violet: var(--violet);
-  --color-violet-soft: var(--violet-soft);
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-accent: var(--accent);
   --color-pink: var(--pink);
+  --color-navy: var(--navy);
   --color-up: var(--up);
   --color-down: var(--down);
   --font-sans: var(--font-comfortaa);
@@ -70,8 +80,8 @@ button,
 }
 
 ::selection {
-  background: var(--pink);
-  color: #ffffff;
+  background: var(--teal);
+  color: var(--on-teal);
 }
 
 input,
@@ -80,14 +90,14 @@ textarea {
   font-family: inherit;
 }
 
-/* liquid glass surface, matching the studio's other products */
+/* liquid glass */
 .glass-bar {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(7, 11, 16, 0.72);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
 }
-html[data-theme="dark"] .glass-bar {
-  background: rgba(18, 16, 22, 0.74);
+html[data-theme="light"] .glass-bar {
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .glass-pill {
@@ -96,29 +106,30 @@ html[data-theme="dark"] .glass-bar {
   gap: 8px;
   padding: 8px 15px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 12px 30px -22px rgba(38, 46, 90, 0.55);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-}
-html[data-theme="dark"] .glass-pill {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
     0 12px 30px -22px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+html[data-theme="light"] .glass-pill {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 12px 30px -22px rgba(38, 46, 90, 0.55);
 }
 
-.btn-pill {
+/* rectangular buttons with rounded corners */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 48px;
-  padding: 0 26px;
-  border-radius: 999px;
+  padding: 0 24px;
+  border-radius: 12px;
   font-family: var(--font-display);
   font-weight: 650;
   font-size: 14px;
@@ -128,7 +139,7 @@ html[data-theme="dark"] .glass-pill {
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
-.btn-pill:hover {
+.btn:hover {
   transform: translateY(-1px);
 }
 .btn-sm {
@@ -137,38 +148,41 @@ html[data-theme="dark"] .glass-pill {
   font-size: 13px;
 }
 
-.btn-violet {
-  color: #fff;
-  background: linear-gradient(180deg, #6a45ff 0%, #4a26e8 100%);
+.btn-teal {
+  background: var(--teal);
+  color: var(--on-teal);
   box-shadow:
-    0 16px 34px -16px rgba(85, 47, 246, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    0 16px 34px -18px rgba(129, 255, 217, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.btn-teal:hover {
+  background: #9cffe5;
 }
 
 .btn-glass {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow:
-    inset 0 1px 0 #fff,
-    0 12px 30px -24px rgba(38, 46, 90, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
 }
-html[data-theme="dark"] .btn-glass {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+html[data-theme="light"] .btn-glass {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 12px 30px -24px rgba(38, 46, 90, 0.6);
 }
 
 .brand-gradient-text {
-  background: linear-gradient(92deg, #552ff6 8%, #f355d0 92%);
+  background: linear-gradient(92deg, #81ffd9 6%, #ff4d9d 94%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-html[data-theme="dark"] .brand-gradient-text {
-  background: linear-gradient(92deg, #a894ff 8%, #f355d0 92%);
+html[data-theme="light"] .brand-gradient-text {
+  background: linear-gradient(92deg, #0b7a63 6%, #d92d7a 94%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -184,67 +198,67 @@ html[data-theme="dark"] .brand-gradient-text {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.32;
+  opacity: 0.28;
 }
 .hero-blob-a {
   width: 620px;
   height: 620px;
   left: -180px;
   top: -220px;
-  background: radial-gradient(circle, #552ff6 0%, transparent 65%);
+  background: radial-gradient(circle, #81ffd9 0%, transparent 65%);
 }
 .hero-blob-b {
   width: 560px;
   height: 560px;
   right: -160px;
   top: -160px;
-  background: radial-gradient(circle, #f355d0 0%, transparent 65%);
-  opacity: 0.24;
-}
-html[data-theme="dark"] .hero-blob-a {
+  background: radial-gradient(circle, #ff4d9d 0%, transparent 65%);
   opacity: 0.22;
 }
-html[data-theme="dark"] .hero-blob-b {
-  opacity: 0.16;
+html[data-theme="light"] .hero-blob-a {
+  opacity: 0.18;
+}
+html[data-theme="light"] .hero-blob-b {
+  opacity: 0.14;
 }
 
 .hero-stage {
   position: relative;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  border: 1px solid rgba(129, 255, 217, 0.16);
   background:
-    radial-gradient(70% 90% at 50% 42%, rgba(85, 47, 246, 0.38), transparent 70%),
-    radial-gradient(50% 60% at 82% 16%, rgba(243, 85, 208, 0.22), transparent 70%),
-    linear-gradient(180deg, #1b1533 0%, #0a0812 100%);
+    radial-gradient(70% 90% at 50% 42%, rgba(129, 255, 217, 0.16), transparent 70%),
+    radial-gradient(50% 60% at 82% 16%, rgba(255, 77, 157, 0.16), transparent 70%),
+    linear-gradient(180deg, #0e1a26 0%, #060a0f 100%);
   box-shadow:
-    0 40px 90px -40px rgba(38, 26, 90, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  padding: 26px;
+    0 40px 90px -40px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: 24px;
   overflow: hidden;
 }
 .hero-stage::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(129, 255, 217, 0.12) 1px, transparent 1px);
   background-size: 22px 22px;
-  opacity: 0.32;
+  opacity: 0.35;
   pointer-events: none;
 }
 .hero-stage video {
   position: relative;
   display: block;
   width: 100%;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9);
 }
 @media (max-width: 640px) {
   .hero-stage {
-    padding: 12px;
-    border-radius: 22px;
+    padding: 10px;
+    border-radius: 14px;
   }
   .hero-stage video {
-    border-radius: 12px;
+    border-radius: 8px;
   }
 }
