@@ -36,14 +36,13 @@ const outputs = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+      <header className="glass-bar sticky top-0 z-30 border-b border-line">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <Link href="/" aria-label="ChartCorex home">
             <LogoLockup size={32} />
           </Link>
-          <nav className="hidden items-center gap-6 font-display text-sm font-semibold text-muted md:flex">
+          <nav className="hidden items-center gap-7 font-display text-[13.5px] font-semibold text-muted md:flex">
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
-            <a href="#output" className="transition-colors hover:text-ink">What you get</a>
             <a href="#meta" className="transition-colors hover:text-ink">Meta models</a>
             <a
               href="https://github.com/shyampitamber/ChartCorex"
@@ -56,10 +55,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Link
-              href="/scan"
-              className="rounded-md bg-violet px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
-            >
+            <Link href="/scan" className="btn-pill btn-violet btn-sm">
               Open the app
             </Link>
           </div>
@@ -67,46 +63,63 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="relative overflow-hidden border-b border-line">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(85,47,246,0.22),transparent_60%)]" />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:py-24">
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-violet">
-                Chart image intelligence
-              </div>
-              <h1 className="mt-4 text-[40px] font-semibold leading-[1.04] tracking-[-0.03em] sm:text-[52px]">
-                Your chart is the input.
-                <br />
-                <span className="text-violet">A full trade structure is the output.</span>
-              </h1>
-              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
-                Upload a screenshot. ChartCorex segments the chart, measures every
-                candle, and returns the entry zone, stop, three targets and the
-                reasoning behind them. On demand, in about the time it takes to read
-                this sentence twice.
-              </p>
-              <div className="mt-7 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/scan"
-                  className="rounded-md bg-violet px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#4a26e8]"
-                >
-                  Analyse a chart
-                </Link>
-                <a
-                  href="#how"
-                  className="rounded-md border border-line px-5 py-2.5 text-sm text-ink transition-colors hover:border-violet/50"
-                >
-                  See how it works
-                </a>
-              </div>
-              <p className="mt-5 text-[11.5px] leading-relaxed text-muted">
-                Typical scan is 10 to 20 seconds. Decision support and education only.
-                No execution, no client funds, no signal group.
-              </p>
+        <section className="relative overflow-hidden">
+          <div className="hero-aurora">
+            <div className="hero-blob hero-blob-a" />
+            <div className="hero-blob hero-blob-b" />
+          </div>
+
+          <div className="relative mx-auto max-w-4xl px-5 pb-10 pt-20 text-center sm:pt-24">
+            <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-violet" />
+              Chart image intelligence
+            </span>
+
+            <h1 className="mt-7 text-[42px] font-[650] leading-[1.02] tracking-[-0.03em] sm:text-[64px]">
+              Your chart is the input.
+              <br />
+              <span className="brand-gradient-text">A trade plan is the output.</span>
+            </h1>
+
+            <p className="mx-auto mt-5 max-w-xl text-[15.5px] leading-relaxed text-muted">
+              Upload a screenshot and get the entry, stop, three targets and the
+              reasoning, in under a minute.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/scan" className="btn-pill btn-violet">
+                Analyse a chart
+              </Link>
+              <a href="#how" className="btn-pill btn-glass">
+                See how it works
+              </a>
             </div>
 
-            <div className="relative">
-              <div className="absolute -inset-8 rounded-[36px] bg-[radial-gradient(circle_at_55%_45%,rgba(243,85,208,0.18),transparent_60%)] blur-2xl" />
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11.5px] text-muted">
+              {["Decision support only", "No execution", "No client funds"].map(
+                (item) => (
+                  <span key={item} className="inline-flex items-center gap-1.5">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-3 w-3 text-violet"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="m5 13 4 4L19 7" />
+                    </svg>
+                    {item}
+                  </span>
+                )
+              )}
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-[min(1120px,94vw)] pb-14">
+            <div className="hero-stage">
               <video
                 src="/media/demo.mp4"
                 poster="/media/demo-poster.jpg"
@@ -115,15 +128,11 @@ export default function Home() {
                 loop
                 playsInline
                 aria-label="ChartCorex analysing an uploaded chart and returning a trade plan"
-                className="relative w-full rounded-2xl border border-line object-cover"
               />
-              <div className="absolute -bottom-4 left-4 right-4 flex items-center justify-between rounded-lg border border-line bg-canvas/90 px-3 py-2 backdrop-blur sm:left-6 sm:right-auto sm:gap-6">
-                <span className="font-mono text-[10px] text-muted">
-                  <span className="text-violet">SAM 3.1</span> + Muse Spark
-                </span>
-                <span className="font-mono text-[10px] text-muted">image to plan</span>
-              </div>
             </div>
+            <p className="mt-3 text-center text-[11px] text-muted">
+              A real scan, recorded from the app. No mock data.
+            </p>
           </div>
         </section>
 
