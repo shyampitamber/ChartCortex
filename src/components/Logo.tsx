@@ -17,7 +17,7 @@ export function LogoLockup({
         className="rounded-lg"
         style={{ width: size, height: size }}
       />
-      <span className="font-poppins text-[17px] font-semibold tracking-[-0.01em]">
+      <span className="font-chivo text-[16px] font-black uppercase tracking-[0.01em]">
         <span className="text-[#105BFF]">Chart</span>
         <span className="text-[#F355D0]">Cortex</span>
       </span>
