@@ -17,13 +17,13 @@ const chivo = Chivo({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ChartCortex.vercel.app"),
-  title: "ChartCortex | Chart image intelligence",
+  title: "ChartCortex | Live chart intelligence",
   description:
-    "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+    "Select an asset and timeframe. ChartCortex analyses the live chart and returns the entry, stop, three targets and the reasoning, in under a minute.",
   openGraph: {
-    title: "ChartCortex | Chart image intelligence",
+    title: "ChartCortex | Live chart intelligence",
     description:
-      "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+      "Select an asset and timeframe. ChartCortex analyses the live chart and returns the entry, stop, three targets and the reasoning, in under a minute.",
     url: "https://ChartCortex.vercel.app",
     siteName: "ChartCortex",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ChartCortex | Chart image intelligence",
+    title: "ChartCortex | Live chart intelligence",
     description:
-      "Upload a chart screenshot and receive a complete trade structure with measured levels, entry, stop loss, targets and reasoning.",
+      "Select an asset and timeframe. ChartCortex analyses the live chart and returns the entry, stop, three targets and the reasoning, in under a minute.",
     images: ["/og.png"],
   },
 };

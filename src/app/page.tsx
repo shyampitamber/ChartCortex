@@ -73,31 +73,25 @@ export default function Home() {
           <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-10 text-center sm:pt-12">
             <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-teal" />
-              Chart image intelligence
+              Live market intelligence
             </span>
 
-            <h1 className="mt-6 grid gap-3 text-[30px] leading-[1.06] tracking-[-0.02em] sm:text-[36px] md:grid-cols-2 md:gap-10 lg:text-[42px]">
-              <span className="font-chivo font-black text-violet-ink md:text-left">
+            <div className="mt-6 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr] md:gap-8">
+              <h1 className="text-gradient-violet font-chivo text-[28px] font-black leading-[1.06] tracking-[-0.02em] sm:text-[34px] md:text-left lg:text-[40px]">
                 Your chart is the input.
-              </span>
-              <span className="font-chivo font-black text-[#F355D0] md:text-right">
-                A trade plan is the output.
-              </span>
-            </h1>
-
-            <p className="mx-auto mt-4 max-w-xl text-[14.5px] leading-relaxed text-muted">
-              Upload a screenshot and get the entry, stop, three targets and the
-              reasoning, in under a minute.
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/scan" className="btn btn-teal">
-                Analyse a chart
+              </h1>
+              <Link href="/scan" className="scan-btn btn btn-teal mx-auto">
+                Analyse
               </Link>
-              <a href="#how" className="btn btn-glass">
-                See how it works
-              </a>
+              <h2 className="text-gradient-pink font-chivo text-[28px] font-black leading-[1.06] tracking-[-0.02em] sm:text-[34px] md:text-right lg:text-[40px]">
+                A trade plan is the output.
+              </h2>
             </div>
+
+            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-relaxed text-muted">
+              Select an asset and timeframe. The live chart is analysed and returns
+              the entry, stop, three targets and the reasoning, in under a minute.
+            </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted">
               {["Decision support only", "No execution", "No client funds"].map(

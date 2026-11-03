@@ -1,6 +1,6 @@
 # ChartCortex
 
-Chart image intelligence on the Meta Model API. Upload a chart screenshot and receive a complete trade structure: entry zone, stop loss, three take profits, confidence, market structure and reasoning.
+Live chart intelligence on the Meta Model API. Upload a chart screenshot and receive a complete trade structure: entry zone, stop loss, three take profits, confidence, market structure and reasoning.
 
 Decision support and education only. No execution, no client funds, no signal group.
 
