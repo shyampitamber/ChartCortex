@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import { HeroStage } from "@/components/HeroStage";
 import { LogoLockup } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -69,25 +70,25 @@ export default function Home() {
             <div className="hero-blob hero-blob-b" />
           </div>
 
-          <div className="relative mx-auto max-w-4xl px-5 pb-10 pt-20 text-center sm:pt-24">
+          <div className="relative mx-auto max-w-4xl px-5 pb-4 pt-10 text-center sm:pt-12">
             <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-teal" />
               Chart image intelligence
             </span>
 
-            <h1 className="mt-7 text-[40px] leading-[1.02] tracking-[-0.02em] sm:text-[60px]">
+            <h1 className="mt-7 text-[38px] leading-[1.02] tracking-[-0.02em] sm:text-[54px]">
               Your chart is the input.
               <br />
               <span className="text-ink">A trade plan is the </span>
               <span className="text-pink">output.</span>
             </h1>
 
-            <p className="mx-auto mt-5 max-w-xl text-[15.5px] leading-relaxed text-muted">
+            <p className="mx-auto mt-4 max-w-xl text-[14.5px] leading-relaxed text-muted">
               Upload a screenshot and get the entry, stop, three targets and the
               reasoning, in under a minute.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link href="/scan" className="btn btn-teal">
                 Analyse a chart
               </Link>
@@ -96,7 +97,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11.5px] text-muted">
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted">
               {["Decision support only", "No execution", "No client funds"].map(
                 (item) => (
                   <span key={item} className="inline-flex items-center gap-1.5">
@@ -119,20 +120,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-[min(1120px,94vw)] pb-14">
-            <div className="hero-stage">
-              <video
-                src="/media/demo.mp4"
-                poster="/media/demo-poster.jpg"
-                autoPlay
-                muted
-                loop
-                playsInline
-                aria-label="ChartCortex analysing an uploaded chart and returning a trade plan"
-              />
-            </div>
-            <p className="mt-3 text-center text-[11px] text-muted">
-              A real scan, recorded from the app. No mock data.
+          <div className="relative mx-auto w-full max-w-[1320px] px-2 pb-8">
+            <HeroStage />
+            <p className="mt-2 text-center text-[11px] text-muted">
+              Market feeds in. One institutional report out.
             </p>
           </div>
         </section>
