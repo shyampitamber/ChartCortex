@@ -12,6 +12,14 @@ type AnalyzeBody = {
   imageHeight?: number;
   instrument?: string;
   timeframe?: string;
+  candles?: Array<{
+    time: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume?: number;
+  }>;
   mock?: boolean;
 };
 
@@ -60,6 +68,26 @@ export async function POST(request: Request) {
   }
 
   const started = Date.now();
+  const candles = Array.isArray(body.candles)
+    ? body.candles
+        .filter(
+          (candle) =>
+            candle &&
+            [candle.time, candle.open, candle.high, candle.low, candle.close].every(
+              Number.isFinite
+            )
+        )
+        .slice(0, 800)
+        .map((candle) => ({
+          time: candle.time,
+          open: candle.open,
+          high: candle.high,
+          low: candle.low,
+          close: candle.close,
+          volume: Number.isFinite(candle.volume) ? Number(candle.volume) : 0,
+        }))
+    : undefined;
+
   try {
     const result = await analyzeChart({
       imageBase64,
@@ -68,6 +96,7 @@ export async function POST(request: Request) {
       imageHeight,
       instrument: (body.instrument || "UNKNOWN").slice(0, 24),
       timeframe: (body.timeframe || "UNKNOWN").slice(0, 12),
+      candles,
       mock: Boolean(body.mock),
     });
 

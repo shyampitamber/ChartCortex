@@ -143,6 +143,7 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
     });
     volume.priceScale().applyOptions({
       scaleMargins: { top: 0.84, bottom: 0 },
+      visible: false,
     });
 
     chartRef.current = chart;

@@ -67,3 +67,20 @@ export type AnalyzeResponse = {
   };
   mocked: boolean;
 };
+
+export type MarketLevel = {
+  price: number;
+  type: "support" | "resistance";
+  touches: number;
+};
+
+export type MarketContext = {
+  instrument: string;
+  timeframe: string;
+  candleCount: number;
+  lastClose: number;
+  rangeHigh: number;
+  rangeLow: number;
+  trend: "Uptrend" | "Downtrend" | "Ranging";
+  levels: MarketLevel[];
+};

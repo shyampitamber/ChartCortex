@@ -7,13 +7,14 @@ import {
   tradePlanSchema,
   type TradePlan,
 } from "../schema/plan";
-import type { ChartGeometry } from "../types";
+import type { ChartGeometry, MarketContext } from "../types";
 
 export type ReasonInput = {
   imageDataUrl: string;
   instrument: string;
   timeframe: string;
   geometry: ChartGeometry;
+  market?: MarketContext;
   panelDetected: boolean;
 };
 
@@ -22,6 +23,7 @@ export async function reasonAboutChart({
   instrument,
   timeframe,
   geometry,
+  market,
   panelDetected,
 }: ReasonInput): Promise<{
   plan: TradePlan;
@@ -43,6 +45,7 @@ export async function reasonAboutChart({
               instrument,
               timeframe,
               geometry,
+              market,
               panelDetected,
             }),
           },

@@ -174,6 +174,7 @@ export default function ScanWorkbench() {
           imageHeight: snapshot.height,
           instrument,
           timeframe,
+          candles: series?.candles,
         }),
       });
       const payload = (await response.json()) as AnalyzeResponse & { error?: string };
@@ -184,7 +185,7 @@ export default function ScanWorkbench() {
     } finally {
       setStatus("idle");
     }
-  }, [instrument, timeframe]);
+  }, [instrument, timeframe, series]);
 
   const refresh = useCallback(() => {
     setResult(null);

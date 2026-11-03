@@ -1,10 +1,11 @@
 import { ASSET_CHARACTER, detectAssetKey } from "./assets";
-import type { ChartGeometry } from "../types";
+import type { ChartGeometry, MarketContext } from "../types";
 
 export type PromptInput = {
   instrument: string;
   timeframe: string;
   geometry: ChartGeometry;
+  market?: MarketContext;
   panelDetected: boolean;
 };
 
@@ -76,10 +77,11 @@ export function buildSystemPrompt({
   instrument,
   timeframe,
   geometry,
+  market,
   panelDetected,
 }: PromptInput): string {
   const assetKey = detectAssetKey(instrument);
-  const levelLines = geometry.levels.length
+  const imageLevels = geometry.levels.length
     ? geometry.levels
         .map(
           (level) =>
@@ -87,9 +89,34 @@ export function buildSystemPrompt({
         )
         .join("\n")
     : "  - none detected";
+  const marketLevels = market?.levels.length
+    ? market.levels
+        .map((level) => `  - ${level.type} at ${level.price}, ${level.touches} touches`)
+        .join("\n")
+    : "  - none detected";
+
+  const marketBlock = market
+    ? `Live market data from the OANDA feed:
+  - candles analysed: ${market.candleCount}
+  - last close: ${market.lastClose}
+  - visible range: ${market.rangeLow} to ${market.rangeHigh}
+  - fitted trend: ${market.trend}
+  - clustered swing levels:
+${marketLevels}
+
+The chart image is the same live series. Treat the measured levels and the last close as the price anchors, and use the image for visual structure.`
+    : `Segmentation and geometry (pixel space, fractions of image height and width):
+  - chart panel segmented by SAM 3.1: ${panelDetected ? "yes" : "no, the whole image was processed"}
+  - candlestick objects recovered by the pixel extraction layer: ${geometry.candleCount}
+  - fitted trend: ${geometry.trend}, slope ${(geometry.slopePct * 100).toFixed(2)} percent of image height across the window
+  - visible range: top ${(geometry.rangeHigh * 100).toFixed(1)} percent, bottom ${(geometry.rangeLow * 100).toFixed(1)} percent
+  - clustered swing levels:
+${imageLevels}
+
+Use the geometry as corroboration, not as a substitute for reading the image. The geometry has no price scale, so map it to prices using the visible axis.`;
 
   return `
-You are ChartCortex, an institutional chart image analyst. A client has uploaded a screenshot of a live chart. You read the image, combine it with the segmentation geometry supplied below, and return one complete trade structure.
+You are ChartCortex, an institutional chart analyst. A client is viewing a live chart. You read the chart image and the measured market data supplied below, and return one complete trade structure.
 
 === ASSET CHARACTER ===
 ${ASSET_CHARACTER[assetKey]}
@@ -97,17 +124,9 @@ ${ASSET_CHARACTER[assetKey]}
 === INPUT ===
 Instrument supplied by the client: ${instrument}
 Timeframe supplied by the client: ${timeframe}
-Read the instrument and timeframe from the image header when it is legible and prefer the image over the supplied values.
+Read the instrument and timeframe from the chart when they are legible, and prefer the chart over the supplied values.
 
-Segmentation and geometry (pixel space, fractions of image height and width):
-  - chart panel segmented by SAM 3.1: ${panelDetected ? "yes" : "no, the whole image was processed"}
-  - candlestick objects recovered by the pixel extraction layer: ${geometry.candleCount}
-  - fitted trend: ${geometry.trend}, slope ${(geometry.slopePct * 100).toFixed(2)} percent of image height across the window
-  - visible range: top ${(geometry.rangeHigh * 100).toFixed(1)} percent, bottom ${(geometry.rangeLow * 100).toFixed(1)} percent
-  - clustered swing levels:
-${levelLines}
-
-Use the geometry as corroboration, not as a substitute for reading the image. The geometry has no price scale, so map it to prices using the visible axis.
+${marketBlock}
 
 ${CONFIDENCE_ENGINE}
 
