@@ -60,6 +60,7 @@ body {
   background: var(--canvas);
   color: var(--text);
   font-family: var(--font-comfortaa), system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
 h1,
