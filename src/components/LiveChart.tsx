@@ -10,7 +10,6 @@ import {
   CandlestickSeries,
   ColorType,
   CrosshairMode,
-  HistogramSeries,
   LineStyle,
   createChart,
   type IChartApi,
@@ -44,7 +43,6 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const candleRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-  const volumeRef = useRef<ISeriesApi<"Histogram"> | null>(null);
 
   useImperativeHandle(
     ref,
@@ -111,7 +109,7 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
       },
       rightPriceScale: {
         borderColor: "rgba(255,255,255,0.08)",
-        scaleMargins: { top: 0.08, bottom: 0.24 },
+        scaleMargins: { top: 0.08, bottom: 0.1 },
       },
       timeScale: {
         borderColor: "rgba(255,255,255,0.08)",
@@ -136,19 +134,9 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
       },
     });
 
-    const volume = chart.addSeries(HistogramSeries, {
-      color: "rgba(143,163,166,0.25)",
-      priceFormat: { type: "volume" },
-      priceScaleId: "",
-    });
-    volume.priceScale().applyOptions({
-      scaleMargins: { top: 0.84, bottom: 0 },
-      visible: false,
-    });
 
     chartRef.current = chart;
     candleRef.current = series;
-    volumeRef.current = volume;
 
     const observer = new ResizeObserver(() => {
       chart.applyOptions({ width: el.clientWidth });
@@ -160,12 +148,11 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
       chart.remove();
       chartRef.current = null;
       candleRef.current = null;
-      volumeRef.current = null;
     };
   }, [height, instrument, timeframe]);
 
   useEffect(() => {
-    if (!candleRef.current || !volumeRef.current || !candles.length) return;
+    if (!candleRef.current || !candles.length) return;
     const precision = precisionFor(instrument);
 
     candleRef.current.applyOptions({
@@ -186,13 +173,6 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
       }))
     );
 
-    volumeRef.current.setData(
-      candles.map((candle) => ({
-        time: candle.time as UTCTimestamp,
-        value: candle.volume,
-        color: "rgba(143,163,166,0.25)",
-      }))
-    );
 
     chartRef.current?.timeScale().fitContent();
   }, [candles, instrument]);

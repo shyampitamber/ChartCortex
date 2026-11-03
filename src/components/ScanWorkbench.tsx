@@ -326,16 +326,6 @@ export default function ScanWorkbench() {
                   {tf}
                 </button>
               ))}
-              <span className="ml-auto font-mono text-[11px] text-muted">
-                {last ? formatPrice(last.close, instrument) : "..."}
-              </span>
-              <span
-                className={`font-mono text-[11px] ${
-                  (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
-                }`}
-              >
-                {series ? formatSigned(series.changePct) : ""}
-              </span>
             </div>
 
             <div className="relative mt-3 h-[440px] overflow-hidden rounded-xl border border-line bg-canvas">
@@ -371,8 +361,17 @@ export default function ScanWorkbench() {
                 <span className="font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
                   Last price
                 </span>
-                <span className="font-mono text-[18px] text-ink">
-                  {last ? formatPrice(last.close, instrument) : "..."}
+                <span className="flex items-baseline gap-2 font-mono">
+                  <span className="text-[18px] text-ink">
+                    {last ? formatPrice(last.close, instrument) : "..."}
+                  </span>
+                  <span
+                    className={`text-[11px] ${
+                      (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
+                    }`}
+                  >
+                    {series ? formatSigned(series.changePct) : ""}
+                  </span>
                 </span>
               </div>
               <button
