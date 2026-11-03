@@ -70,17 +70,19 @@ export default function Home() {
             <div className="hero-blob hero-blob-b" />
           </div>
 
-          <div className="relative mx-auto max-w-4xl px-5 pb-4 pt-10 text-center sm:pt-12">
+          <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-10 text-center sm:pt-12">
             <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-teal" />
               Chart image intelligence
             </span>
 
-            <h1 className="mt-7 text-[38px] leading-[1.02] tracking-[-0.02em] sm:text-[54px]">
-              Your chart is the input.
-              <br />
-              <span className="text-ink">A trade plan is the </span>
-              <span className="text-pink">output.</span>
+            <h1 className="mt-6 grid gap-3 text-[30px] leading-[1.06] tracking-[-0.02em] sm:text-[36px] md:grid-cols-2 md:gap-10 lg:text-[42px]">
+              <span className="font-chivo font-black text-[#105BFF] md:text-left">
+                Your chart is the input.
+              </span>
+              <span className="font-chivo font-black text-[#F355D0] md:text-right">
+                A trade plan is the output.
+              </span>
             </h1>
 
             <p className="mx-auto mt-4 max-w-xl text-[14.5px] leading-relaxed text-muted">
