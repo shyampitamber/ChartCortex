@@ -78,13 +78,13 @@ export default function Home() {
 
             <div className="mt-6 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr] md:gap-8">
               <h1 className="text-gradient-violet font-chivo text-[28px] font-black leading-[1.06] tracking-[-0.02em] sm:text-[34px] md:text-left lg:text-[40px]">
-                Your chart is the input.
+                Select your Chart
               </h1>
               <Link href="/scan" className="scan-btn btn btn-teal mx-auto">
                 Analyse
               </Link>
               <h2 className="text-gradient-pink font-chivo text-[28px] font-black leading-[1.06] tracking-[-0.02em] sm:text-[34px] md:text-right lg:text-[40px]">
-                A trade plan is the output.
+                Get a Trade Plan
               </h2>
             </div>
 

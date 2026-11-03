@@ -515,19 +515,41 @@ html[data-theme="light"] .text-gradient-pink {
 .hero-mini-chart {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
   height: 46px;
   padding: 3px 2px;
   border-radius: 6px;
+  overflow: hidden;
   background-image: linear-gradient(
     rgba(255, 255, 255, 0.055) 1px,
     transparent 1px
   );
   background-size: 100% 12px;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+.hero-candle-track {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: max-content;
+  height: 100%;
+  animation: feedScroll 9s linear infinite;
 }
 .hero-candle {
-  flex: 1;
-  min-width: 3px;
+  flex: 0 0 4px;
+  width: 4px;
   border-radius: 1px;
   transform-origin: bottom;
   animation: candleBreathe 2.4s ease-in-out infinite alternate;
@@ -584,6 +606,46 @@ html[data-theme="light"] .text-gradient-pink {
   .hero-candle,
   .scan-btn,
   .scan-btn::after {
+    animation: none !important;
+  }
+}
+
+.hero-feed-compact {
+  position: relative;
+}
+.hero-feed::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 16px;
+  border: 1px solid rgba(129, 255, 217, 0.16);
+  box-shadow: 0 0 26px -8px rgba(129, 255, 217, 0.35);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: feedHalo 4.6s ease-in-out infinite;
+}
+@keyframes feedHalo {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(0.99);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.01);
+  }
+}
+@keyframes feedScroll {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-candle-track,
+  .hero-feed::after {
     animation: none !important;
   }
 }

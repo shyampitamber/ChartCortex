@@ -135,20 +135,22 @@ function FeedCard({
           : { top: feed.top, left: feed.left, animationDelay: feed.delay }
       }
     >
-      <div className="flex items-center justify-between">
-        <span className="font-chivo text-[8px] font-semibold uppercase tracking-[0.16em] text-muted">
-          {feed.label}
-        </span>
-        <span className="font-mono text-[8px] text-muted">{feed.symbol}</span>
+      <div className="font-chivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink">
+        {feed.label}
       </div>
       <div className="hero-mini-chart">
-        {feed.candles.map((candle, index) => (
-          <span
-            key={`${feed.symbol}-${index}`}
-            className={`hero-candle ${candle.up ? "hero-candle-up" : "hero-candle-down"}`}
-            style={{ height: `${candle.h}%`, animationDelay: `${index * 0.14}s` }}
-          />
-        ))}
+        <div className="hero-candle-track">
+          {[...feed.candles, ...feed.candles].map((candle, index) => (
+            <span
+              key={`${feed.label}-${index}`}
+              className={`hero-candle ${candle.up ? "hero-candle-up" : "hero-candle-down"}`}
+              style={{
+                height: `${candle.h}%`,
+                animationDelay: `${(index % feed.candles.length) * 0.14}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
       <div className="flex items-center justify-between">
         <span className="font-mono text-[10px] text-ink">{feed.price}</span>
@@ -268,11 +270,7 @@ export function HeroStage() {
 
           <circle cx="600" cy="280" r="300" fill="url(#coreGlow)" />
 
-          <g className="orbit-wrap">
-            <ellipse cx="600" cy="280" rx="250" ry="86" transform="rotate(-16 600 280)" className="orbit orbit-a" />
-            <ellipse cx="600" cy="280" rx="305" ry="104" transform="rotate(12 600 280)" className="orbit orbit-b" />
-            <ellipse cx="600" cy="280" rx="196" ry="64" transform="rotate(-4 600 280)" className="orbit orbit-c" />
-          </g>
+          
 
           {FEEDS.map((feed, index) => (
             <path
