@@ -53,3 +53,6 @@ supabase/.temp/
 
 # founder-supplied source art
 Logo/
+
+# personal purchase documents
+Documents/*.msg
