@@ -555,10 +555,10 @@ html[data-theme="light"] .text-gradient-pink {
   animation: candleBreathe 2.4s ease-in-out infinite alternate;
 }
 .hero-candle-up {
-  background: var(--up);
+  background: var(--teal);
 }
 .hero-candle-down {
-  background: var(--down);
+  background: var(--pink);
 }
 @keyframes candleBreathe {
   from {
