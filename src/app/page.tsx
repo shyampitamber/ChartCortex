@@ -7,21 +7,21 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const steps = [
   {
     n: "01",
-    model: "SAM 3.1",
-    title: "Segment",
-    text: "The chart panel and its visible objects are segmented from the image, in the same request that reads the screenshot.",
+    model: "OANDA feed",
+    title: "Load",
+    text: "The asset and timeframe you pick stream into a live candlestick chart from the market data feed.",
   },
   {
     n: "02",
-    model: "Geometry layer",
-    title: "Measure",
-    text: "Every candle is recovered from the pixels, then swing highs, swing lows, support, resistance and the trend are calculated. Measured, not guessed.",
+    model: "SAM 3.1",
+    title: "Read",
+    text: "SAM 3.1 segments the live chart panel and its visible objects on every scan.",
   },
   {
     n: "03",
     model: "Muse Spark",
     title: "Reason",
-    text: "The model reads the image together with the measured geometry and returns one schema-constrained plan with a written rationale.",
+    text: "Muse Spark reads the chart with the measured OHLC structure and returns one schema-constrained plan.",
   },
 ];
 
@@ -131,8 +131,8 @@ export default function Home() {
                 Three passes, one plan.
               </h2>
               <p className="max-w-md text-sm leading-relaxed text-muted">
-                Nothing is inferred from a market feed. The only input is the image
-                you upload.
+                Every level is measured from the live OANDA feed and the chart on
+                screen.
               </p>
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -197,8 +197,8 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-relaxed text-muted">
                   Every scan is a real request to api.meta.ai. The app shows the Meta
                   response IDs for the segmentation and the reasoning on every result,
-                  so the calls are never a claim, they are a receipt. The mark, the
-                  favicon and the hero art were generated with muse-image-1.0.
+                  so the calls are never a claim, they are a receipt. The mark was
+                  supplied as a 3D render and refined into the app icon and lockups.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {["sam-3.1", "muse-spark-1.3", "muse-image-1.0"].map((model) => (
@@ -217,8 +217,8 @@ export default function Home() {
                     Measured
                   </div>
                   <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-                    Candle highs, lows and clustered levels come from pixels, not from
-                    a language model guessing coordinates.
+                    Candle highs, lows and clustered levels come from the live OHLC
+                    data, not from a language model guessing coordinates.
                   </p>
                 </div>
                 <div className="rounded-xl border border-line bg-surface p-5">
@@ -259,7 +259,7 @@ export default function Home() {
               Put a chart in. Get the structure out.
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted">
-              No account needed to try it. Upload the chart you are looking at now.
+              No account needed. Pick an asset, pick a timeframe, and press Analyse.
             </p>
             <Link
               href="/scan"

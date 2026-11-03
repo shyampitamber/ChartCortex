@@ -127,8 +127,8 @@ const paletteBody = (dark) => {
 const ogBody = `<div style="width:100%;height:100%;padding:64px 70px;display:flex;align-items:center;gap:56px;background:radial-gradient(60% 80% at 12% 10%, rgba(16,91,255,.38), transparent 62%), radial-gradient(50% 70% at 88% 90%, rgba(243,85,208,.3), transparent 62%), ${C.navy}">
   <div style="flex:1;min-width:0">
     <img src="data:image/png;base64,${markB64}" style="width:132px;display:block" />
-    <div style="margin-top:30px;font-size:52px;font-weight:700;line-height:1.04;letter-spacing:-.025em;color:${C.ink}">Your chart is the input.<br><span style="color:${C.pink}">A trade plan is the output.</span></div>
-    <div style="margin-top:18px;font-size:19px;color:${C.muted}">Chart image intelligence on the Meta Model API.</div>
+    <div style="margin-top:30px;font-size:52px;font-weight:700;line-height:1.04;letter-spacing:-.025em;color:${C.ink}">Select your chart.<br><span style="color:${C.pink}">Get a trade plan.</span></div>
+    <div style="margin-top:18px;font-size:19px;color:${C.muted}">Live market intelligence on the Meta Model API.</div>
   </div>
   <img src="data:image/png;base64,${shotB64}" style="width:520px;border-radius:14px;border:1px solid rgba(255,255,255,.16);display:block" />
 </div>`;
@@ -136,7 +136,7 @@ const ogBody = `<div style="width:100%;height:100%;padding:64px 70px;display:fle
 const ogSquareBody = `<div style="width:100%;height:100%;padding:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(60% 60% at 30% 20%, rgba(16,91,255,.4), transparent 62%), radial-gradient(55% 55% at 75% 80%, rgba(243,85,208,.32), transparent 62%), ${C.navy}">
   <img src="data:image/png;base64,${markB64}" style="width:300px;display:block" />
   <div style="margin-top:40px;font-size:76px;font-weight:900;letter-spacing:.01em;color:${C.ink}">CHART<span style="color:${C.pink}">CORTEX</span></div>
-  <div style="margin-top:20px;font-size:28px;color:${C.muted}">Chart image intelligence</div>
+  <div style="margin-top:20px;font-size:28px;color:${C.muted}">Live market intelligence</div>
 </div>`;
 
 const avatarBody = `<div style="width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(55% 55% at 28% 22%, rgba(16,91,255,.45), transparent 62%), radial-gradient(55% 55% at 76% 80%, rgba(243,85,208,.35), transparent 62%), ${C.navy}">
