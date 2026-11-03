@@ -20,7 +20,7 @@ export function LogoLockup({
       />
       <span className="flex flex-col justify-between" style={{ height: size }}>
         <span
-          className="font-chivo font-black uppercase leading-none text-[#105BFF]"
+          className="font-chivo font-black uppercase leading-none text-violet-ink"
           style={{ fontSize: line, letterSpacing: "0.01em" }}
         >
           Chart

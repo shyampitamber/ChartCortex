@@ -11,6 +11,8 @@
   --teal-soft: #a9ffe8;
   --accent: #81ffd9;
   --pink: #f355d0;
+  --violet: #105bff;
+  --violet-ink: #6e9aff;
   --navy: #0a1420;
   --up: #4ade80;
   --down: #fb7185;
@@ -30,6 +32,8 @@ html[data-theme="light"] {
   --teal-soft: #0e8f72;
   --accent: #0b7a63;
   --pink: #d92d7a;
+  --violet: #105bff;
+  --violet-ink: #105bff;
   --navy: #0a1420;
   --up: #0e9f6e;
   --down: #e0244a;
@@ -48,6 +52,8 @@ html[data-theme="light"] {
   --color-teal-soft: var(--teal-soft);
   --color-accent: var(--accent);
   --color-pink: var(--pink);
+  --color-violet: var(--violet);
+  --color-violet-ink: var(--violet-ink);
   --color-navy: var(--navy);
   --color-up: var(--up);
   --color-down: var(--down);

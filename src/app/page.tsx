@@ -77,7 +77,7 @@ export default function Home() {
             </span>
 
             <h1 className="mt-6 grid gap-3 text-[30px] leading-[1.06] tracking-[-0.02em] sm:text-[36px] md:grid-cols-2 md:gap-10 lg:text-[42px]">
-              <span className="font-chivo font-black text-[#105BFF] md:text-left">
+              <span className="font-chivo font-black text-violet-ink md:text-left">
                 Your chart is the input.
               </span>
               <span className="font-chivo font-black text-[#F355D0] md:text-right">
