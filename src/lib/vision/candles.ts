@@ -39,7 +39,7 @@ function classify(r: number, g: number, b: number, a: number): "up" | "down" | n
   else h = 60 * ((r - g) / delta + 4);
   if (h < 0) h += 360;
   if (h >= 70 && h <= 175) return "up";
-  if (h <= 25 || h >= 335) return "down";
+  if (h <= 25 || h >= 300) return "down";
   return null;
 }
 
