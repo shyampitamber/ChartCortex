@@ -1,5 +1,7 @@
 # ChartCortex
 
+**Built from scratch during the Meta Global AI Developer Hackathon, 1 to 4 November 2026.** Every commit, screen and asset in this repository was created inside the hackathon window. Nothing pre-existing is included: no earlier codebase, no reused UI. The founder's separate education business is context only and contributes no code and no product features.
+
 Live chart intelligence on the Meta Model API. Select an asset and timeframe, and receive a complete trade structure: entry zone, stop loss, three take profits, confidence, market structure and reasoning.
 
 Decision support and education only. No execution, no client funds, no signal group.
@@ -8,16 +10,12 @@ This build uses Meta models exclusively: `sam-3.1` and `muse-spark-1.3` through 
 
 ![ChartCortex terminal](public/screenshot.png)
 
-## What is new in this build
-
-ChartCortex was built during the hackathon window, 1 to 4 November 2026. The new work is:
+## What is in this build
 
 - The live OANDA market data feed, with asset and timeframe selection.
 - The live candlestick chart, rendered with lightweight-charts in the brand colours.
 - The Meta-native pipeline: SAM 3.1 segmentation, measured OHLC geometry, and a Muse Spark plan constrained by a JSON schema.
 - The interface, brand system, landing page and deployment on Vercel, Supabase and a public GitHub repository.
-
-The founder's pre-existing education business is context only. None of its product features are presented as hackathon work.
 
 ## How it works
 
@@ -52,6 +50,8 @@ Every result exposes the Meta response IDs for the segmentation and reasoning ca
 The `candles` array drives the measured geometry. The image drives SAM and Muse vision.
 
 ## Run locally
+
+Judges do not need keys. The production deployment at `https://chartcortex.vercel.app/scan` runs the full pipeline end to end. The keys below are only needed to run it locally.
 
 ```powershell
 Copy-Item .env.local.example .env.local

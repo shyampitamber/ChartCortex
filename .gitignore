@@ -56,3 +56,6 @@ Logo/
 
 # personal purchase documents
 Documents/*.msg
+
+# brand generator render cache
+brand/.tmp/

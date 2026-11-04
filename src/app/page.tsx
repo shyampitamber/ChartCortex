@@ -765,27 +765,27 @@ export default function Home() {
           </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16">
-            <div className="mb-4 flex items-end justify-between gap-4">
+            <div className="mb-5 flex items-end justify-between gap-4">
               <p className="font-chivo text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
                 The plan, as it renders
               </p>
               <p className="hidden text-[11px] text-muted/70 sm:block">
-                Live terminal, XAUUSD, H1
+                Desktop, tablet, phone
               </p>
             </div>
-            <div className="relative">
+            <div className="relative mx-auto max-w-4xl">
               <div
-                className="pointer-events-none absolute -inset-8 rounded-[40px] bg-[radial-gradient(circle_at_50%_35%,rgba(85,47,246,0.24),transparent_66%)] blur-2xl"
+                className="pointer-events-none absolute -inset-10 rounded-[40px] bg-[radial-gradient(circle_at_50%_40%,rgba(85,47,246,0.26),transparent_66%)] blur-2xl"
                 aria-hidden
               />
-              <div className="glass-card relative overflow-hidden p-2">
+              <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(ellipse_at_50%_45%,#101821_0%,#0A0F14_62%,#080C10_100%)]">
                 <Image
-                  src="/screenshot.png"
-                  alt="ChartCortex terminal showing a live XAUUSD chart and the trade plan it returns"
-                  width={1440}
-                  height={900}
-                  sizes="(min-width: 1152px) 1104px, 100vw"
-                  className="h-auto w-full rounded-[14px]"
+                  src="/brand/terminal-devices-v2.png"
+                  alt="The ChartCortex terminal on desktop, tablet and phone, showing a live XAUUSD chart and the trade plan it returns"
+                  width={1600}
+                  height={1600}
+                  sizes="(min-width: 896px) 896px, 100vw"
+                  className="h-auto w-full"
                 />
               </div>
             </div>

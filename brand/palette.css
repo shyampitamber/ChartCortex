@@ -1,0 +1,38 @@
+/* ChartCortex colour tokens, mirrors src/app/globals.css */
+:root {
+  --cc-canvas: #070b10;
+  --cc-surface: #0d141c;
+  --cc-surface-2: #121c26;
+  --cc-line: rgba(234, 242, 240, 0.1);
+  --cc-ink: #eaf2f0;
+  --cc-muted: #8fa3a6;
+  --cc-teal: #81ffd9;
+  --cc-teal-soft: #a9ffe8;
+  --cc-accent: #81ffd9;
+  --cc-violet: #105bff;
+  --cc-violet-ink: #6e9aff;
+  --cc-pink: #f355d0;
+  --cc-navy: #0a1420;
+  --cc-up: #4ade80;
+  --cc-down: #fb7185;
+  --cc-gradient: linear-gradient(135deg, #81ffd9 0%, #6e9aff 50%, #f355d0 100%);
+}
+
+:root[data-theme="light"] {
+  --cc-canvas: #f0f0f0;
+  --cc-surface: #ffffff;
+  --cc-surface-2: #f6f5f8;
+  --cc-line: rgba(10, 20, 32, 0.1);
+  --cc-ink: #0b1620;
+  --cc-muted: #5f6f76;
+  --cc-teal: #81ffd9;
+  --cc-teal-soft: #0e8f72;
+  --cc-accent: #0b7a63;
+  --cc-violet: #105bff;
+  --cc-violet-ink: #105bff;
+  --cc-pink: #d92d7a;
+  --cc-navy: #0a1420;
+  --cc-up: #0e9f6e;
+  --cc-down: #e0244a;
+  --cc-gradient: linear-gradient(135deg, #0b7a63 0%, #105bff 50%, #d92d7a 100%);
+}

@@ -1,0 +1,38 @@
+{
+  "name": "ChartCortex",
+  "gradient": {
+    "dark": ["#81FFD9", "#6E9AFF", "#F355D0"],
+    "light": ["#0B7A63", "#105BFF", "#D92D7A"]
+  },
+  "themes": {
+    "dark": {
+      "Canvas": "#070B10",
+      "Surface": "#0D141C",
+      "Surface 2": "#121C26",
+      "Ink": "#EAF2F0",
+      "Muted": "#8FA3A6",
+      "Teal": "#81FFD9",
+      "Violet": "#105BFF",
+      "Violet Ink": "#6E9AFF",
+      "Pink": "#F355D0",
+      "Navy": "#0A1420",
+      "Up": "#4ADE80",
+      "Down": "#FB7185"
+    },
+    "light": {
+      "Canvas": "#F0F0F0",
+      "Surface": "#FFFFFF",
+      "Surface 2": "#F6F5F8",
+      "Ink": "#0B1620",
+      "Muted": "#5F6F76",
+      "Teal": "#81FFD9",
+      "Teal Soft": "#0E8F72",
+      "Accent": "#0B7A63",
+      "Violet": "#105BFF",
+      "Pink": "#D92D7A",
+      "Navy": "#0A1420",
+      "Up": "#0E9F6E",
+      "Down": "#E0244A"
+    }
+  }
+}
