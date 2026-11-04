@@ -204,21 +204,28 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[1320px] px-2 pb-8">
+          <div className="relative mx-auto w-full max-w-[1320px] px-2 pb-10">
             <HeroStage />
-            <div className="mt-8 text-center">
-              <p className="mx-auto max-w-xl text-[14.5px] leading-relaxed text-muted">
+          </div>
+        </section>
+
+        <section className="relative z-10 border-y border-white/10 bg-black py-14">
+          <div className="mx-auto max-w-4xl px-5">
+            <div className="glass-card relative overflow-hidden p-8 text-center sm:p-10">
+              <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(129,255,217,0.18),transparent_65%)] blur-2xl" />
+              <div className="pointer-events-none absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(243,85,208,0.16),transparent_65%)] blur-2xl" />
+              <p className="relative mx-auto max-w-2xl font-chivo text-[22px] font-bold leading-snug tracking-[-0.01em] text-ink sm:text-[26px]">
                 Select an asset and timeframe. The live chart is analysed and
                 returns the entry, stop, three targets and the reasoning, in under
                 a minute.
               </p>
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted">
+              <div className="relative mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13.5px] font-semibold text-ink/80 sm:text-[14.5px]">
                 {["Decision support only", "No execution", "No client funds"].map(
                   (item) => (
-                    <span key={item} className="inline-flex items-center gap-1.5">
+                    <span key={item} className="inline-flex items-center gap-2">
                       <svg
                         viewBox="0 0 24 24"
-                        className="h-3 w-3 text-accent"
+                        className="h-4 w-4 text-teal"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2.4"
