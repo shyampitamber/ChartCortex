@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { HeroStage } from "@/components/HeroStage";
 import { LogoLockup } from "@/components/Logo";
@@ -113,14 +112,131 @@ function StepIcon({ name }: { name: "feed" | "scan" | "spark" }) {
   );
 }
 
+type OutputIconName = "compass" | "target" | "shield" | "flag" | "structure" | "advocate";
+
+function OutputIcon({ name }: { name: OutputIconName }) {
+  const shared = {
+    viewBox: "0 0 24 24",
+    className: "h-[17px] w-[17px]",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.7,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (name === "compass") {
+    return (
+      <svg {...shared}>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M15.5 8.5l-2 5-5 2 2-5z" />
+      </svg>
+    );
+  }
+  if (name === "target") {
+    return (
+      <svg {...shared}>
+        <circle cx="12" cy="12" r="7.5" />
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    );
+  }
+  if (name === "shield") {
+    return (
+      <svg {...shared}>
+        <path d="M12 3l7 3v5.5c0 4.2-2.9 7.6-7 9.5-4.1-1.9-7-5.3-7-9.5V6z" />
+        <path d="M9.5 12l1.8 1.9 3.4-3.6" />
+      </svg>
+    );
+  }
+  if (name === "flag") {
+    return (
+      <svg {...shared}>
+        <path d="M6 21V4" />
+        <path d="M6 5h9.5l-1.2 3.5L15.5 12H6" />
+        <path d="M18 4v4M20 6h-4" />
+      </svg>
+    );
+  }
+  if (name === "structure") {
+    return (
+      <svg {...shared}>
+        <path d="M3 17l4.5-5 3.5 3 4-6 5 4" />
+        <circle cx="7.5" cy="12" r="1.3" />
+        <circle cx="11" cy="15" r="1.3" />
+        <circle cx="15" cy="9" r="1.3" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...shared}>
+      <path d="M12 3l9 16H3z" />
+      <path d="M12 9v4.5" />
+      <path d="M12 16.5h.01" />
+    </svg>
+  );
+}
+
 const outputs = [
-  ["Bias and conviction", "One directional call, or a deliberate no-trade, with an honest confidence score."],
-  ["Entry zone", "A tradeable range that respects the timeframe width rules."],
-  ["Stop loss", "Placed against the structure that would prove the idea wrong."],
-  ["Three targets", "Ordered take profits with a rationale for each."],
-  ["Market structure", "Last break of structure, change of character, liquidity and key levels."],
-  ["Devil's advocate", "The strongest counter case, the invalidation trigger, and why the setup still holds."],
-];
+  {
+    title: "Directional bias",
+    icon: "compass",
+    tone: "violet",
+    tip: "One call, long, short or a deliberate no-trade, with an honest confidence score and the reasoning behind it.",
+  },
+  {
+    title: "Entry zone",
+    icon: "target",
+    tone: "teal",
+    tip: "A price band the setup is valid in, sized to the timeframe, so a wide zone never hides a poor fill.",
+  },
+  {
+    title: "Stop loss",
+    icon: "shield",
+    tone: "pink",
+    tip: "Placed beyond the structure that would prove the idea wrong, never at an arbitrary distance.",
+  },
+  {
+    title: "Three targets",
+    icon: "flag",
+    tone: "violet",
+    tip: "Three ordered take profits, each with its own reason for existing, from continuation to mean reversion.",
+  },
+  {
+    title: "Market structure",
+    icon: "structure",
+    tone: "teal",
+    tip: "The last break of structure, any change of character, and the liquidity and price levels that actually matter.",
+  },
+  {
+    title: "Devil's advocate",
+    icon: "advocate",
+    tone: "pink",
+    tip: "The strongest case against the trade, the trigger that invalidates it, and why the setup still stands.",
+  },
+] as const;
+
+const outputTones = {
+  violet: {
+    bar: "bg-[#6E9AFF]",
+    icon: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    index: "text-[#6E9AFF]/60",
+    dot: "bg-[#6E9AFF]",
+  },
+  teal: {
+    bar: "bg-teal",
+    icon: "border-teal/25 bg-teal/10 text-teal",
+    index: "text-teal/60",
+    dot: "bg-teal",
+  },
+  pink: {
+    bar: "bg-pink",
+    icon: "border-pink/25 bg-pink/10 text-pink",
+    index: "text-pink/60",
+    dot: "bg-pink",
+  },
+};
 
 export default function Home() {
   return (
@@ -388,38 +504,79 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="output" className="border-b border-line">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <h2 className="text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
-                Everything a decision needs.
+        <section id="output" className="relative border-b border-line">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[0.82fr_1.18fr] md:gap-14">
+            <div className="md:sticky md:top-24 md:self-start">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+                The output
+              </span>
+              <h2 className="mt-4 text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
+                One scan. A full desk note.
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-                The same structure an institutional desk would write down, returned as
-                one object instead of six messages.
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted">
+                No thread to assemble and nothing left to interpret. Every scan
+                returns one structured plan, and every line below is something the
+                engine commits to in writing.
               </p>
-              <dl className="mt-6 space-y-3">
-                {outputs.map(([title, text]) => (
-                  <div key={title} className="flex gap-3">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-pink" />
-                    <div>
-                      <dt className="text-[13px] font-medium text-ink">{title}</dt>
-                      <dd className="text-[12.5px] leading-relaxed text-muted">{text}</dd>
+              <p className="mt-6 flex items-center gap-2 font-chivo text-[10px] font-bold uppercase tracking-[0.18em] text-muted/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal animate-pulse" />
+                Hover a line for the detail
+              </p>
+            </div>
+
+            <ul className="border-y border-white/10">
+              {outputs.map((item, i) => {
+                const tone = outputTones[item.tone];
+                return (
+                  <li
+                    key={item.title}
+                    tabIndex={0}
+                    className="group relative border-b border-white/10 outline-none last:border-b-0"
+                  >
+                    <div className="relative flex items-center gap-4 py-5 pl-4 pr-1 transition-colors duration-300 group-hover:bg-white/[0.035] group-focus-within:bg-white/[0.035]">
+                      <span
+                        className={`absolute left-0 top-1/2 h-0 w-[2px] -translate-y-1/2 rounded-full ${tone.bar} transition-all duration-300 group-hover:h-[72%] group-focus-within:h-[72%]`}
+                      />
+                      <span
+                        className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg border transition-transform duration-300 group-hover:scale-105 ${tone.icon}`}
+                      >
+                        <OutputIcon name={item.icon} />
+                      </span>
+                      <h3 className="flex-1 font-chivo text-[18px] font-bold uppercase leading-none tracking-[0.01em] text-ink/80 transition-colors duration-300 group-hover:text-ink group-focus-within:text-ink sm:text-[20px]">
+                        {item.title}
+                      </h3>
+                      <span
+                        className={`hidden font-mono text-[10px] tracking-[0.1em] sm:block ${tone.index}`}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-white/10 text-[13px] leading-none text-muted transition-all duration-300 group-hover:rotate-45 group-hover:border-white/30 group-hover:text-ink group-focus-within:rotate-45">
+                        +
+                      </span>
                     </div>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="relative">
-              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_50%_40%,rgba(16,91,255,0.22),transparent_65%)] blur-2xl" />
-              <div className="glass-card relative p-2">
-                <img
-                  src="/screenshot.png"
-                  alt="ChartCortex workbench showing a live chart and a trade plan"
-                  className="relative w-full rounded-[16px]"
-                />
-              </div>
-            </div>
+
+                    <p className="px-4 pb-4 text-[12.5px] leading-relaxed text-muted md:hidden">
+                      {item.tip}
+                    </p>
+
+                    <div
+                      role="tooltip"
+                      className="pointer-events-none absolute right-0 top-full z-20 hidden w-[380px] translate-y-1 overflow-hidden rounded-xl border border-white/[0.12] bg-[#141C23]/92 opacity-0 shadow-[0_30px_70px_-36px_rgba(0,0,0,0.95)] backdrop-blur-xl transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 md:block"
+                    >
+                      <div className="bg-gradient-to-b from-white/[0.07] to-transparent p-4">
+                        <div className="flex items-center gap-2 font-chivo text-[9.5px] font-bold uppercase tracking-[0.18em] text-muted">
+                          <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
+                          Detail
+                        </div>
+                        <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
+                          {item.tip}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
 
