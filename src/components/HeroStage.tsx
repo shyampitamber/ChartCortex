@@ -1,4 +1,5 @@
 import { createElement } from "react";
+import { ReportView, type ReportData } from "@/components/ReportView";
 
 type Candle = { h: number; up: boolean };
 
@@ -11,6 +12,7 @@ type Feed = {
   top: string;
   left: string;
   delay: string;
+  duration: string;
   path: string;
   candles: Candle[];
 };
@@ -22,9 +24,10 @@ const FEEDS: Feed[] = [
     price: "1.0842",
     change: "+0.24%",
     up: true,
-    top: "8%",
+    top: "4.5%",
     left: "13%",
     delay: "0s",
+    duration: "9s",
     path: "M280 108 C350 108 410 180 480 238",
     candles: [
       { h: 42, up: true },
@@ -44,9 +47,10 @@ const FEEDS: Feed[] = [
     price: "20,412",
     change: "+0.61%",
     up: true,
-    top: "30%",
+    top: "28%",
     left: "12%",
     delay: "0.7s",
+    duration: "12s",
     path: "M280 232 C350 232 410 252 480 264",
     candles: [
       { h: 52, up: true },
@@ -66,9 +70,10 @@ const FEEDS: Feed[] = [
     price: "4,340.0",
     change: "+0.48%",
     up: true,
-    top: "52%",
+    top: "51.5%",
     left: "13%",
     delay: "1.4s",
+    duration: "10.5s",
     path: "M280 356 C350 356 410 322 480 296",
     candles: [
       { h: 60, up: true },
@@ -88,9 +93,10 @@ const FEEDS: Feed[] = [
     price: "78.42",
     change: "+0.35%",
     up: true,
-    top: "74%",
+    top: "75%",
     left: "12%",
     delay: "2.1s",
+    duration: "14s",
     path: "M280 480 C350 480 410 372 480 322",
     candles: [
       { h: 52, up: true },
@@ -106,18 +112,36 @@ const FEEDS: Feed[] = [
   },
 ];
 
-const REPORT = {
+const HERO_REPORT: ReportData = {
   instrument: "XAUUSD",
   timeframe: "H1",
   bias: "Bullish",
   confidence: 78,
-  entry: "4,340.0",
-  stop: "4,330.0",
-  tp1: "4,369.0",
-  tp2: "4,381.0",
-  tp3: "4,394.0",
-  rr: "2.1",
+  riskLevel: "Medium",
+  entryLow: 4340,
+  entryHigh: 4346,
+  stop: 4330,
+  targets: [
+    { label: "TP1", price: 4369, note: "prior high" },
+    { label: "TP2", price: 4381, note: "range high" },
+    { label: "TP3", price: 4394, note: "round number" },
+  ],
+  summary:
+    "Gold is holding a sequence of higher lows above the daily pivot. The last break of structure was to the upside and price is retesting the breakout shelf. Continuation is preferred while 4,330 holds.",
+  driver: "Dollar softness",
+  trend: "Uptrend",
+  support: 4322.4,
+  resistance: 4370,
+  invalidation:
+    "An hourly close below 4,330 breaks the higher low sequence and invalidates the setup.",
+  metaTime: "12.4s",
 };
+
+const heroFormat = (value: number) =>
+  new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 
 function FeedCard({
   feed,
@@ -132,7 +156,7 @@ function FeedCard({
       style={
         compact
           ? undefined
-          : { top: feed.top, left: feed.left, animationDelay: feed.delay }
+          : { top: feed.top, left: feed.left, animationDelay: feed.delay, animationDuration: feed.duration }
       }
     >
       <div className="font-chivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink">
@@ -164,76 +188,10 @@ function FeedCard({
   );
 }
 
-function MiniReport({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={`hero-report ${compact ? "hero-report-compact" : ""}`}>
-      <div className="flex items-center justify-between">
-        <span className="font-chivo text-[10px] uppercase tracking-[0.18em] text-muted">
-          AI report
-        </span>
-        <span className="rounded border border-up/30 bg-up/10 px-2 py-0.5 font-chivo text-[10px] font-semibold uppercase tracking-[0.08em] text-up">
-          {REPORT.bias}
-        </span>
-      </div>
-
-      <div className="mt-3 flex items-end justify-between">
-        <div>
-          <div className="font-chivo text-[18px] font-bold uppercase tracking-[0.02em]">
-            {REPORT.instrument}
-          </div>
-          <div className="font-mono text-[10px] text-muted">{REPORT.timeframe}</div>
-        </div>
-        <div className="text-right">
-          <div className="font-mono text-[30px] leading-none">{REPORT.confidence}</div>
-          <div className="font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
-            confidence
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
-        <div
-          className="h-full rounded-full bg-pink"
-          style={{ width: `${REPORT.confidence}%` }}
-        />
-      </div>
-
-      <div className="mt-4 grid grid-cols-2 gap-2">
-        {[
-          ["Entry", REPORT.entry],
-          ["Stop", REPORT.stop],
-          ["TP1", REPORT.tp1],
-          ["TP2", REPORT.tp2],
-          ["TP3", REPORT.tp3],
-          ["R:R", REPORT.rr],
-        ].map(([label, value]) => (
-          <div
-            key={label}
-            className="rounded-lg border border-line bg-canvas/60 px-2.5 py-2"
-          >
-            <div className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted">
-              {label}
-            </div>
-            <div className="font-mono text-[13px] text-ink">{value}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-4 border-t border-line pt-3 text-[11px] leading-relaxed text-muted">
-        One plan. One confidence. No noise.
-      </div>
-      <div className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.1em] text-muted">
-        <span>Meta models</span>
-        <span>12.4s</span>
-      </div>
-    </div>
-  );
-}
-
 export function HeroStage() {
   return (
     <div className="relative w-full">
-      <div className="relative mx-auto hidden aspect-[1200/560] w-full max-w-[1240px] lg:block">
+      <div className="relative mx-auto hidden aspect-[1200/560] w-full max-w-[1240px] lg:block" style={{ perspective: "1200px" }}>
         <div className="pointer-events-none absolute left-[4%] top-[16%] h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,91,255,0.35),transparent_65%)] blur-3xl" />
         <div className="pointer-events-none absolute right-[2%] top-[24%] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(243,85,208,0.28),transparent_65%)] blur-3xl" />
         <svg viewBox="0 0 1200 560" className="absolute inset-0 h-full w-full" aria-hidden>
@@ -325,7 +283,7 @@ export function HeroStage() {
           <FeedCard key={feed.label} feed={feed} />
         ))}
 
-        <MiniReport />
+        <div className="hero-report"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="desk" /></div>
       </div>
 
       <div className="lg:hidden">
@@ -345,7 +303,7 @@ export function HeroStage() {
           />
         </div>
         <div className="mx-auto mt-6 max-w-[360px]">
-          <MiniReport compact />
+          <div className="glass-card mx-auto mt-6 max-w-[360px] p-4"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="mob" /></div>
         </div>
       </div>
     </div>
