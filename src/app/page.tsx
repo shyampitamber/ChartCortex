@@ -72,28 +72,77 @@ export default function Home() {
 
       <main className="relative z-10">
         <section className="relative overflow-hidden">
-          <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-10 text-center sm:pt-12">
-            <span className="glass-pill ai-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
-              <svg
-                viewBox="0 0 24 24"
-                className="h-3.5 w-3.5 text-accent"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
-                <path d="M20 3v4" />
-                <path d="M22 5h-4" />
-                <path d="M4 17v2" />
-                <path d="M5 18H3" />
-              </svg>
-              Live Market AI
-            </span>
+          <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-4 text-center sm:pt-6">
+            <div className="relative inline-flex">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[92px] w-[250px] -translate-x-1/2 -translate-y-1/2">
+                <svg viewBox="0 0 250 92" className="h-full w-full">
+                  <defs>
+                    <linearGradient id="pillRingTeal" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#81FFD9" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#81FFD9" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#81FFD9" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="pillRingPink" x1="1" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#F355D0" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#F355D0" stopOpacity="0.85" />
+                      <stop offset="100%" stopColor="#F355D0" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="pillRingViolet" x1="0" y1="1" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#6E9AFF" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#6E9AFF" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#6E9AFF" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <g className="pill-orbit-wrap">
+                    <ellipse
+                      cx="125"
+                      cy="46"
+                      rx="98"
+                      ry="20"
+                      transform="rotate(-8 125 46)"
+                      className="pill-orbit pill-orbit-a"
+                    />
+                    <ellipse
+                      cx="125"
+                      cy="46"
+                      rx="110"
+                      ry="25"
+                      transform="rotate(6 125 46)"
+                      className="pill-orbit pill-orbit-b"
+                    />
+                    <ellipse
+                      cx="125"
+                      cy="46"
+                      rx="84"
+                      ry="15"
+                      transform="rotate(-2 125 46)"
+                      className="pill-orbit pill-orbit-c"
+                    />
+                  </g>
+                </svg>
+              </div>
+              <span className="glass-pill relative z-10 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-3.5 w-3.5 text-accent"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                  <path d="M20 3v4" />
+                  <path d="M22 5h-4" />
+                  <path d="M4 17v2" />
+                  <path d="M5 18H3" />
+                </svg>
+                Live Market AI
+              </span>
+            </div>
 
-            <div className="mt-6 grid items-center justify-items-center gap-3 md:grid-cols-[1fr_44px_auto_44px_1fr] md:gap-4">
+            <div className="mt-10 grid items-center justify-items-center gap-3 md:grid-cols-[1fr_44px_auto_44px_1fr] md:gap-4">
               <h1 className="text-gradient-violet font-chivo text-[28px] font-black leading-[1.06] tracking-[-0.02em] sm:text-[34px] md:justify-self-end md:text-right lg:text-[40px]">
                 Select your Chart
               </h1>
@@ -120,53 +169,6 @@ export default function Home() {
               </div>
 
               <div className="relative">
-                <div className="pointer-events-none absolute left-1/2 top-1/2 h-[150px] w-[280px] -translate-x-1/2 -translate-y-1/2">
-                  <svg viewBox="0 0 280 150" className="h-full w-full">
-                    <defs>
-                      <linearGradient id="btnRingTeal" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#81FFD9" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#81FFD9" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#81FFD9" stopOpacity="0" />
-                      </linearGradient>
-                      <linearGradient id="btnRingPink" x1="1" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#F355D0" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#F355D0" stopOpacity="0.85" />
-                        <stop offset="100%" stopColor="#F355D0" stopOpacity="0" />
-                      </linearGradient>
-                      <linearGradient id="btnRingViolet" x1="0" y1="1" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#6E9AFF" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#6E9AFF" stopOpacity="0.8" />
-                        <stop offset="100%" stopColor="#6E9AFF" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <g className="btn-orbit-wrap">
-                      <ellipse
-                        cx="140"
-                        cy="75"
-                        rx="122"
-                        ry="24"
-                        transform="rotate(-8 140 75)"
-                        className="btn-orbit btn-orbit-a"
-                      />
-                      <ellipse
-                        cx="140"
-                        cy="75"
-                        rx="136"
-                        ry="28"
-                        transform="rotate(7 140 75)"
-                        className="btn-orbit btn-orbit-b"
-                      />
-                      <ellipse
-                        cx="140"
-                        cy="75"
-                        rx="102"
-                        ry="18"
-                        transform="rotate(-2 140 75)"
-                        className="btn-orbit btn-orbit-c"
-                      />
-                    </g>
-                  </svg>
-                </div>
                 <Link
                   href="/scan"
                   className="scan-btn btn btn-teal relative z-10 min-w-[190px] px-10"
@@ -175,8 +177,8 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="arrow-left hidden text-pink md:flex" aria-hidden>
-                <svg viewBox="0 0 40 18" className="h-4 w-10 -scale-x-100 overflow-visible">
+              <div className="arrow-right hidden text-pink md:flex" aria-hidden>
+                <svg viewBox="0 0 40 18" className="h-4 w-10 overflow-visible">
                   <path
                     d="M2 9h30"
                     stroke="currentColor"

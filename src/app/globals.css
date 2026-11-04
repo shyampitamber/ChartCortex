@@ -976,3 +976,33 @@ html[data-theme="light"] .aurora-blob {
     animation: none !important;
   }
 }
+
+/* swirls around the AI pill */
+.pill-orbit {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 70 240;
+  animation: orbitDash 7s linear infinite;
+}
+.pill-orbit-a {
+  stroke: url(#pillRingTeal);
+}
+.pill-orbit-b {
+  stroke: url(#pillRingPink);
+  animation-duration: 10s;
+  animation-direction: reverse;
+}
+.pill-orbit-c {
+  stroke: url(#pillRingViolet);
+  animation-duration: 6s;
+}
+.pill-orbit-wrap {
+  transform-origin: 125px 46px;
+  animation: orbitTilt 14s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill-orbit,
+  .pill-orbit-wrap {
+    animation: none !important;
+  }
+}
