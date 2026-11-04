@@ -234,6 +234,8 @@ export function HeroStage() {
   return (
     <div className="relative w-full">
       <div className="relative mx-auto hidden aspect-[1200/560] w-full max-w-[1240px] lg:block">
+        <div className="pointer-events-none absolute left-[4%] top-[16%] h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,91,255,0.35),transparent_65%)] blur-3xl" />
+        <div className="pointer-events-none absolute right-[2%] top-[24%] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(243,85,208,0.28),transparent_65%)] blur-3xl" />
         <svg viewBox="0 0 1200 560" className="absolute inset-0 h-full w-full" aria-hidden>
           <defs>
             <linearGradient id="feedGrad" x1="0" y1="0" x2="1" y2="0">

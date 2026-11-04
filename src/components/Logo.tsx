@@ -13,7 +13,7 @@ export function LogoLockup({
       <span className="relative inline-flex shrink-0">
         <span
           aria-hidden
-          className="absolute -inset-2 rounded-full bg-[radial-gradient(circle,rgba(16,91,255,0.55),rgba(243,85,208,0.28)_52%,transparent_72%)] blur-md"
+          className="absolute -inset-3 rounded-full bg-[radial-gradient(circle,rgba(16,91,255,0.7),rgba(243,85,208,0.38)_52%,transparent_72%)] blur-md"
         />
         <img
           src="/brand/mark-t-64.png"
