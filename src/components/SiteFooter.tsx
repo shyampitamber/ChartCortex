@@ -4,7 +4,7 @@ import { LogoLockup } from "@/components/Logo";
 const productLinks = [
   { label: "How it works", href: "/#how" },
   { label: "Meta models", href: "/#meta" },
-  { label: "Open the app", href: "/scan" },
+  { label: "Terminal", href: "/scan" },
   {
     label: "GitHub",
     href: "https://github.com/shyampitamber/ChartCortex",

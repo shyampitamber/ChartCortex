@@ -442,7 +442,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Link href="/scan" className="btn btn-teal btn-sm">
-              Open the app
+              Terminal
             </Link>
           </div>
         </div>

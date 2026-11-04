@@ -25,7 +25,7 @@ export default function ContactPage() {
             <LogoLockup size={36} />
           </Link>
           <Link href="/scan" className="btn btn-teal btn-sm">
-            Open the app
+            Terminal
           </Link>
         </div>
         <div className="brand-rule" aria-hidden />
