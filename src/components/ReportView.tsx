@@ -53,14 +53,13 @@ export function ReportView({
 }) {
   const gradientId = `confidenceGrad-${idSuffix}`;
   const radius = 26;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - data.confidence / 100);
   const entryMid = (data.entryLow + data.entryHigh) / 2;
   const risk = Math.abs(entryMid - data.stop);
   const rMultiple = (price: number) =>
     risk > 0 ? Math.abs(price - entryMid) / risk : 0;
   const shortId = (value?: string | null) =>
     value ? value.replace(/^.*_/, "").slice(0, 10) : "n/a";
+  const confidence = Math.max(0, Math.min(100, data.confidence));
 
   return (
     <div className="flex h-full flex-col">
@@ -108,7 +107,7 @@ export function ReportView({
               cy="32"
               r={radius}
               fill="none"
-              stroke="rgba(255,255,255,0.08)"
+              stroke="var(--line)"
               strokeWidth="5"
             />
             <circle
@@ -119,8 +118,8 @@ export function ReportView({
               stroke={`url(#${gradientId})`}
               strokeWidth="5"
               strokeLinecap="round"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
+              pathLength={100}
+              strokeDasharray={`${confidence} ${100 - confidence}`}
             />
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
@@ -130,7 +129,7 @@ export function ReportView({
             </defs>
           </svg>
           <div className="absolute inset-0 grid place-items-center font-mono text-[18px]">
-            {data.confidence}
+            {confidence}
           </div>
         </div>
         <div className="min-w-0">

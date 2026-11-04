@@ -112,7 +112,6 @@ export default function ScanWorkbench() {
   const [status, setStatus] = useState<"idle" | "analysing">("idle");
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [clock, setClock] = useState("");
   const [pinned, setPinned] = useState<string[]>([]);
 
 
@@ -134,13 +133,6 @@ export default function ScanWorkbench() {
       ),
     })).filter((group) => group.items.length > 0);
   }, [query]);
-
-  useEffect(() => {
-    const tick = () => setClock(new Date().toISOString().slice(11, 19));
-    tick();
-    const timer = window.setInterval(tick, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     try {
@@ -305,7 +297,7 @@ export default function ScanWorkbench() {
               Terminal
             </span>
             <span
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-chivo text-[9px] font-semibold uppercase tracking-[0.12em] ${
+              className={`inline-flex h-[38px] items-center gap-1.5 rounded-xl border px-3 font-chivo text-[9px] font-semibold uppercase tracking-[0.12em] ${
                 live
                   ? "border-up/25 bg-up/[0.07] text-up"
                   : "border-line bg-surface-2 text-muted"
@@ -318,33 +310,12 @@ export default function ScanWorkbench() {
               />
               {live ? "Live feed" : marketError ? "Offline" : "Connecting"}
             </span>
-            <span className="hidden items-baseline gap-2 font-mono text-[11px] text-muted md:flex">
-              <span className="text-ink/80">{activeAsset.symbol}</span>
-              {last && <span>{formatPrice(last.close, instrument)}</span>}
-              <span
-                className={`text-[10px] ${
-                  (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
-                }`}
-              >
-                {formatSigned(series?.changePct ?? 0)}
-              </span>
-            </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden font-mono text-[10.5px] text-muted sm:block">
-              {clock} UTC
-            </span>
-            <span className="glass-chip hidden px-2.5 py-1 font-mono text-[9.5px] text-accent lg:block">
+            <span className="glass-chip hidden h-[38px] items-center px-3 font-mono text-[9.5px] leading-[38px] text-accent lg:flex">
               META MODELS
             </span>
             <ThemeToggle />
-            <button
-              type="button"
-              onClick={refresh}
-              className="glass-chip px-3 py-1.5 text-[12px] text-muted transition-colors hover:text-ink"
-            >
-              Refresh
-            </button>
           </div>
         </div>
         <div className="brand-rule" aria-hidden />
@@ -367,6 +338,9 @@ export default function ScanWorkbench() {
                 placeholder="Search market"
                 className="mt-2 w-full rounded-lg border border-line bg-canvas/50 px-2.5 py-1.5 text-[12px] text-ink outline-none backdrop-blur placeholder:text-muted focus:border-accent/40"
               />
+              <p className="mt-2 text-[10px] leading-relaxed text-muted">
+                Live Market Feed. Select an asset, then a timeframe.
+              </p>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               {pinnedAssets.length > 0 && !query.trim() && (
@@ -420,9 +394,6 @@ export default function ScanWorkbench() {
                   No market matches.
                 </p>
               )}
-            </div>
-            <div className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted">
-              Live Market Feed. Select an asset, then a timeframe.
             </div>
           </div>
         </aside>
@@ -489,24 +460,36 @@ export default function ScanWorkbench() {
             </div>
 
 
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              {TIMEFRAMES.map((tf) => (
-                <button
-                  key={tf}
-                  type="button"
-                  onClick={() => setTimeframe(tf)}
-                  className={`rounded-lg px-2.5 py-1 font-mono text-[11px] transition-colors ${
-                    tf === timeframe
-                      ? "bg-teal text-[#04120F]"
-                      : "bg-surface-2 text-muted hover:text-ink"
-                  }`}
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <span className="flex items-center gap-2 font-mono text-[10px] text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent/60" />
+                {series
+                  ? `${series.candles.length} candles / ${series.timeframe} / OANDA live feed`
+                  : "loading"}
+              </span>
+              <button
+                type="button"
+                onClick={refresh}
+                className="glass-chip flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[11px] text-muted transition-colors hover:text-ink"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
                 >
-                  {tf}
-                </button>
-              ))}
+                  <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+                  <path d="M20 4v7h-7" />
+                </svg>
+                Refresh
+              </button>
             </div>
 
-            <div className="relative mt-3 flex-1 min-h-0 overflow-hidden rounded-xl border border-line bg-canvas">
+            <div className="relative mt-2 flex-1 min-h-0 overflow-hidden rounded-xl border border-line bg-canvas">
               {marketError ? (
                 <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
                   <span className="text-[13px] text-down">Live feed unavailable</span>
@@ -536,13 +519,23 @@ export default function ScanWorkbench() {
               )}
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <span className="flex items-center gap-2 font-mono text-[10px] text-muted">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                {series
-                  ? `${series.candles.length} candles / ${series.timeframe} / OANDA live feed`
-                  : "loading"}
-              </span>
+            <div className="mt-3 flex items-stretch gap-2">
+              <div className="flex flex-1 gap-1.5">
+                {TIMEFRAMES.map((tf) => (
+                  <button
+                    key={tf}
+                    type="button"
+                    onClick={() => setTimeframe(tf)}
+                    className={`flex-1 rounded-lg py-2 font-mono text-[11.5px] transition-colors ${
+                      tf === timeframe
+                        ? "bg-teal text-[#04120F]"
+                        : "bg-surface-2 text-muted hover:text-ink"
+                    }`}
+                  >
+                    {tf}
+                  </button>
+                ))}
+              </div>
               <button
                 type="button"
                 onClick={runAnalysis}
@@ -552,6 +545,7 @@ export default function ScanWorkbench() {
                 {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Analyse"}
               </button>
             </div>
+
 
             {result && (
               <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -591,7 +585,7 @@ export default function ScanWorkbench() {
             </div>
 
 
-            <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+            <div className="report-scroll min-h-0 flex-1 overflow-y-auto pr-1">
             {!plan && busy && <ScanningState elapsed={elapsed} />}
 
             {!plan && !busy && (

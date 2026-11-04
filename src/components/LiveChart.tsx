@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Image from "next/image";
 import {
   CandlestickSeries,
   ColorType,
@@ -176,6 +177,7 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
         textColor: tone.text,
         fontFamily: "Chivo, ui-sans-serif, sans-serif",
         fontSize: 11,
+        attributionLogo: false,
       },
       localization: {
         timeFormatter: (time: number) =>
@@ -358,9 +360,80 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
       )}
 
       {scanning && (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
           <div className="scan-sweep absolute inset-x-0 h-24" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(129,255,217,0.05),transparent_35%)]" />
+
+          <div className="absolute inset-0 grid place-items-center">
+            <div className="relative grid place-items-center">
+              <span className="absolute h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(16,91,255,0.4),rgba(129,255,217,0.16)_48%,transparent_70%)] blur-2xl" />
+              <svg
+                viewBox="0 0 200 200"
+                className="absolute h-60 w-60"
+                aria-hidden
+              >
+                <defs>
+                  <linearGradient id="brainRingA" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#81FFD9" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#81FFD9" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="brainRingB" x1="1" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F355D0" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#F355D0" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <g className="brain-orbit">
+                  <ellipse
+                    cx="100"
+                    cy="100"
+                    rx="88"
+                    ry="34"
+                    transform="rotate(-20 100 100)"
+                    fill="none"
+                    stroke="url(#brainRingA)"
+                    strokeWidth="1.4"
+                    strokeDasharray="110 300"
+                  />
+                  <ellipse
+                    cx="100"
+                    cy="100"
+                    rx="88"
+                    ry="34"
+                    transform="rotate(150 100 100)"
+                    fill="none"
+                    stroke="url(#brainRingB)"
+                    strokeWidth="1.1"
+                    strokeDasharray="80 330"
+                  />
+                </g>
+                <g className="brain-orbit-reverse">
+                  <ellipse
+                    cx="100"
+                    cy="100"
+                    rx="70"
+                    ry="70"
+                    fill="none"
+                    stroke="rgba(129,255,217,0.18)"
+                    strokeWidth="1"
+                    strokeDasharray="2 9"
+                  />
+                </g>
+              </svg>
+              <Image
+                src="/brand/mark-t-64.png"
+                alt=""
+                width={80}
+                height={80}
+                className="brain-heartbeat relative h-24 w-24 rounded-2xl drop-shadow-[0_0_30px_rgba(129,255,217,0.55)]"
+              />
+            </div>
+          </div>
+
+          <div className="absolute inset-x-0 bottom-4 flex justify-center">
+            <span className="rounded-lg border border-line bg-canvas/80 px-3 py-1.5 font-chivo text-[9px] font-bold uppercase tracking-[0.18em] text-accent backdrop-blur">
+              Reading the chart
+            </span>
+          </div>
         </div>
       )}
     </div>

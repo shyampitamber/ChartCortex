@@ -1184,3 +1184,63 @@ html[data-theme="light"] .scan-sweep {
     animation: none !important;
   }
 }
+
+/* brain scanner: heartbeat mark with orbiting swirls */
+.brain-heartbeat {
+  animation: brainHeartbeat 1.8s ease-in-out infinite;
+}
+@keyframes brainHeartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  12%,
+  32% {
+    transform: scale(1.08);
+  }
+  22%,
+  44% {
+    transform: scale(1);
+  }
+}
+.brain-orbit,
+.brain-orbit-reverse {
+  transform-origin: 100px 100px;
+}
+.brain-orbit {
+  animation: brainOrbit 6s linear infinite;
+}
+.brain-orbit-reverse {
+  animation: brainOrbit 9s linear infinite reverse;
+}
+@keyframes brainOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brain-heartbeat,
+  .brain-orbit,
+  .brain-orbit-reverse {
+    animation: none !important;
+  }
+}
+
+/* report scrollbar: thin and brand coloured */
+.report-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.report-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.report-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.report-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 65%, transparent);
+  border-radius: 999px;
+}
+.report-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
