@@ -790,6 +790,40 @@ html[data-theme="light"] .aurora-blob {
   }
 }
 
+/* blueprint band: technical grid surface used by the output section */
+.blueprint-band {
+  --bp-base: #06080c;
+  --bp-grid: rgba(255, 255, 255, 0.045);
+  --bp-line: rgba(255, 255, 255, 0.1);
+  --bp-hover: rgba(255, 255, 255, 0.035);
+  position: relative;
+  isolation: isolate;
+  background-color: var(--bp-base);
+}
+html[data-theme="light"] .blueprint-band {
+  --bp-base: #eef1f5;
+  --bp-grid: rgba(16, 24, 40, 0.07);
+  --bp-line: rgba(10, 20, 32, 0.12);
+  --bp-hover: rgba(10, 20, 32, 0.035);
+}
+.blueprint-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to right, var(--bp-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bp-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(115% 85% at 50% 50%, #000 32%, transparent 80%);
+  mask-image: radial-gradient(115% 85% at 50% 50%, #000 32%, transparent 80%);
+}
+.blueprint-band .rail-row {
+  transition: background-color 0.3s ease;
+}
+.blueprint-band li:hover .rail-row,
+.blueprint-band li:focus-within .rail-row {
+  background-color: var(--bp-hover);
+}
+
 /* brand rule: teal edges, pink centre, sweep highlight */
 .brand-rule {
   position: relative;

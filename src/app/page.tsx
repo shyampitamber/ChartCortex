@@ -504,8 +504,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="output" className="relative border-b border-line">
-          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[0.82fr_1.18fr] md:gap-14">
+        <section id="output" className="blueprint-band relative border-b border-line">
+          <div className="blueprint-grid" aria-hidden />
+          <div
+            className="pointer-events-none absolute right-[-8%] top-1/2 h-[520px] w-[620px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(85,47,246,0.22),transparent_65%)] blur-3xl"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute bottom-[-10%] left-[4%] h-[320px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(129,255,217,0.12),transparent_65%)] blur-3xl"
+            aria-hidden
+          />
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[0.82fr_1.18fr] md:gap-14">
             <div className="md:sticky md:top-24 md:self-start">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                 The output
@@ -524,16 +533,16 @@ export default function Home() {
               </p>
             </div>
 
-            <ul className="border-y border-white/10">
+            <ul className="border-y border-[var(--bp-line)]">
               {outputs.map((item, i) => {
                 const tone = outputTones[item.tone];
                 return (
                   <li
                     key={item.title}
                     tabIndex={0}
-                    className="group relative border-b border-white/10 outline-none last:border-b-0"
+                    className="group relative border-b border-[var(--bp-line)] outline-none last:border-b-0"
                   >
-                    <div className="relative flex items-center gap-4 py-5 pl-4 pr-1 transition-colors duration-300 group-hover:bg-white/[0.035] group-focus-within:bg-white/[0.035]">
+                    <div className="rail-row relative flex items-center gap-4 py-5 pl-4 pr-1">
                       <span
                         className={`absolute left-0 top-1/2 h-0 w-[2px] -translate-y-1/2 rounded-full ${tone.bar} transition-all duration-300 group-hover:h-[72%] group-focus-within:h-[72%]`}
                       />
@@ -564,11 +573,11 @@ export default function Home() {
                       className="pointer-events-none absolute right-0 top-full z-20 hidden w-[380px] translate-y-1 overflow-hidden rounded-xl border border-white/[0.12] bg-[#141C23]/92 opacity-0 shadow-[0_30px_70px_-36px_rgba(0,0,0,0.95)] backdrop-blur-xl transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 md:block"
                     >
                       <div className="bg-gradient-to-b from-white/[0.07] to-transparent p-4">
-                        <div className="flex items-center gap-2 font-chivo text-[9.5px] font-bold uppercase tracking-[0.18em] text-muted">
+                        <div className="flex items-center gap-2 font-chivo text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#8fa3a6]">
                           <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
                           Detail
                         </div>
-                        <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
+                        <p className="mt-2 text-[13px] leading-relaxed text-[#eaf2f0]/90">
                           {item.tip}
                         </p>
                       </div>
