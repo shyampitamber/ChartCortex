@@ -509,7 +509,7 @@ export default function ScanWorkbench() {
               )}
             </div>
 
-            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="mt-3 grid grid-cols-1 gap-2 xl:grid-cols-2">
               <div className="flex items-stretch rounded-xl border border-line bg-surface-2/70 p-1">
                 {TIMEFRAMES.map((tf) => {
                   const active = tf === timeframe;
