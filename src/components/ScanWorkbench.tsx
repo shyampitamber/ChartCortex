@@ -426,7 +426,9 @@ export default function ScanWorkbench() {
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            {!plan && (
+            {!plan && busy && <ScanningState elapsed={elapsed} />}
+
+            {!plan && !busy && (
               <div className="pt-8">
                 <div className="font-chivo text-[18px] font-bold leading-tight">
                   The report writes itself here.
@@ -556,6 +558,49 @@ export default function ScanWorkbench() {
           </div>
         </section>
       </main>
+    </div>
+  );
+}
+
+function ScanningState({ elapsed }: { elapsed: number }) {
+  const steps = [
+    "Segmenting the live chart",
+    "Measuring structure",
+    "Writing the plan",
+  ];
+  return (
+    <div className="pt-8">
+      <div className="font-chivo text-[18px] font-bold leading-tight">
+        Reading the live chart.
+      </div>
+      <p className="mt-2 text-[12px] leading-relaxed text-muted">
+        SAM 3.1 segments the chart, then Muse Spark writes the plan.
+      </p>
+      <div className="mt-6 space-y-3">
+        {steps.map((label, index) => (
+          <div key={label} className="flex items-center gap-3 text-[12px] text-muted">
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-teal"
+              style={{ animationDelay: `${index * 0.35}s` }}
+            />
+            {label}
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 space-y-2">
+        <div className="h-2 w-3/4 animate-pulse rounded bg-surface-2" />
+        <div className="h-2 w-full animate-pulse rounded bg-surface-2" />
+        <div className="h-2 w-2/3 animate-pulse rounded bg-surface-2" />
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-2">
+        {[0, 1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="h-12 animate-pulse rounded-lg border border-line bg-surface-2/40"
+          />
+        ))}
+      </div>
+      <div className="mt-4 font-mono text-[10px] text-muted">{elapsed.toFixed(1)}s</div>
     </div>
   );
 }

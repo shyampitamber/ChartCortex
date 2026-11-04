@@ -20,33 +20,37 @@ const page = await context.newPage();
 const base = "https://chartcortex.vercel.app";
 
 await page.goto(base + "/", { waitUntil: "networkidle", timeout: 60000 });
-await page.waitForTimeout(6000);
+await page.waitForTimeout(12000);
 
 await page.goto(base + "/scan", { waitUntil: "networkidle", timeout: 60000 });
-await page.waitForTimeout(6000);
+await page.waitForTimeout(8000);
 
 await page.getByRole("button", { name: /EURUSD/ }).click().catch(() => {});
-await page.waitForTimeout(4000);
+await page.waitForTimeout(5000);
 await page.getByRole("button", { name: /XAUUSD/ }).click().catch(() => {});
-await page.waitForTimeout(6000);
+await page.waitForTimeout(7000);
 
 await page.getByRole("button", { name: "Analyse" }).click();
 await page.getByText("Risk to reward").waitFor({ timeout: 90000 });
-await page.waitForTimeout(10000);
+await page.waitForTimeout(12000);
 
-await page.mouse.move(1150, 600);
+await page.mouse.move(1250, 520);
 await page.mouse.wheel(0, 500);
-await page.waitForTimeout(5000);
+await page.waitForTimeout(6000);
 await page.mouse.wheel(0, 500);
-await page.waitForTimeout(5000);
+await page.waitForTimeout(6000);
 
 await page.getByRole("button", { name: /NAS100/ }).click().catch(() => {});
 await page.waitForTimeout(6000);
 await page.getByRole("button", { name: "Analyse" }).click();
 await page.waitForTimeout(32000);
 
+await page.mouse.move(1250, 520);
 await page.mouse.wheel(0, 400);
-await page.waitForTimeout(6000);
+await page.waitForTimeout(8000);
+
+await page.goto(base + "/", { waitUntil: "networkidle", timeout: 60000 });
+await page.waitForTimeout(8000);
 
 const video = page.video();
 await context.close();
