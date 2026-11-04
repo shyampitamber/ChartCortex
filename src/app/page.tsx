@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { HeroStage } from "@/components/HeroStage";
 import { LogoLockup } from "@/components/Logo";
@@ -586,6 +587,33 @@ export default function Home() {
                 );
               })}
             </ul>
+          </div>
+
+          <div className="relative mx-auto max-w-6xl px-5 pb-16">
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <p className="font-chivo text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
+                The plan, as it renders
+              </p>
+              <p className="hidden text-[11px] text-muted/70 sm:block">
+                Live terminal, XAUUSD, H1
+              </p>
+            </div>
+            <div className="relative">
+              <div
+                className="pointer-events-none absolute -inset-8 rounded-[40px] bg-[radial-gradient(circle_at_50%_35%,rgba(85,47,246,0.24),transparent_66%)] blur-2xl"
+                aria-hidden
+              />
+              <div className="glass-card relative overflow-hidden p-2">
+                <Image
+                  src="/screenshot.png"
+                  alt="ChartCortex terminal showing a live XAUUSD chart and the trade plan it returns"
+                  width={1440}
+                  height={900}
+                  sizes="(min-width: 1152px) 1104px, 100vw"
+                  className="h-auto w-full rounded-[14px]"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
