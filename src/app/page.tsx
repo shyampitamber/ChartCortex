@@ -239,6 +239,181 @@ const outputTones = {
   },
 };
 
+type PrincipleIconName = "measure" | "lock" | "eye" | "cursor";
+
+const principles = [
+  {
+    title: "Measured",
+    icon: "measure",
+    text: "Highs, lows and levels come from the live OHLC feed, so the model reads real numbers instead of guessing coordinates from pixels.",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
+    glowDot: "bg-[#6E9AFF]",
+  },
+  {
+    title: "Constrained",
+    icon: "lock",
+    text: "The plan is returned against a strict JSON schema. A missing field fails the scan instead of reaching the screen half written.",
+    iconBox: "border-teal/25 bg-teal/10 text-teal",
+    glow: "bg-[radial-gradient(circle,rgba(129,255,217,0.3),transparent_65%)]",
+    glowDot: "bg-teal",
+  },
+  {
+    title: "Honest",
+    icon: "eye",
+    text: "If a panel is missing or the price axis is unreadable, the scan says so. It does not invent a level to fill the gap.",
+    iconBox: "border-pink/25 bg-pink/10 text-pink",
+    glow: "bg-[radial-gradient(circle,rgba(243,85,208,0.3),transparent_65%)]",
+    glowDot: "bg-pink",
+  },
+  {
+    title: "On demand",
+    icon: "cursor",
+    text: "No background monitoring and no watchlist polling. Analysis runs when you press Analyse, on the chart in front of you.",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
+    glowDot: "bg-[#6E9AFF]",
+  },
+] as const;
+
+const metaModels = [
+  {
+    name: "SAM 3.1",
+    id: "sam-3.1",
+    role: "Vision pass",
+    status: "Live",
+    tone: "teal",
+    icon: "vision",
+    text: "Segments the chart panel and the objects inside it, so the engine knows where the market sits before it reads a single price.",
+  },
+  {
+    name: "Muse Spark 1.3",
+    id: "muse-spark-1.3",
+    role: "Reasoning pass",
+    status: "Live",
+    tone: "violet",
+    icon: "reason",
+    text: "Reads the chart alongside the measured structure, then writes the entry, the stop, three targets and the case against the trade.",
+  },
+  {
+    name: "Muse Image 1.0",
+    id: "muse-image-1.0",
+    role: "Visual pass",
+    status: "In build",
+    tone: "pink",
+    icon: "image",
+    text: "Renders the annotated chart and the report graphics, so a plan can be reviewed at a glance instead of read line by line.",
+  },
+] as const;
+
+const modelTones = {
+  teal: {
+    iconBox: "border-teal/25 bg-teal/10 text-teal",
+    status: "border-teal/30 bg-teal/[0.08] text-teal",
+    id: "text-teal/70",
+    role: "text-teal",
+    glow: "bg-[radial-gradient(circle,rgba(129,255,217,0.3),transparent_65%)]",
+  },
+  violet: {
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    status: "border-[#6E9AFF]/30 bg-[#6E9AFF]/[0.08] text-[#6E9AFF]",
+    id: "text-[#6E9AFF]/70",
+    role: "text-[#6E9AFF]",
+    glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
+  },
+  pink: {
+    iconBox: "border-pink/25 bg-pink/10 text-pink",
+    status: "border-pink/30 bg-pink/[0.08] text-pink",
+    id: "text-pink/70",
+    role: "text-pink",
+    glow: "bg-[radial-gradient(circle,rgba(243,85,208,0.3),transparent_65%)]",
+  },
+};
+
+function PrincipleIcon({ name }: { name: PrincipleIconName }) {
+  const shared = {
+    viewBox: "0 0 24 24",
+    className: "h-[15px] w-[15px]",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (name === "measure") {
+    return (
+      <svg {...shared}>
+        <path d="M3 12h18" />
+        <path d="M6 9v6M10 10v4M14 9v6M18 10v4" />
+      </svg>
+    );
+  }
+  if (name === "lock") {
+    return (
+      <svg {...shared}>
+        <rect x="4.5" y="10" width="15" height="10" rx="2.5" />
+        <path d="M8 10V7.5a4 4 0 0 1 8 0V10" />
+        <path d="M12 14v2.5" />
+      </svg>
+    );
+  }
+  if (name === "eye") {
+    return (
+      <svg {...shared}>
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...shared}>
+      <path d="m5 3.5 13 7.2-5.6 1.6-1.9 5.4z" />
+      <path d="M13.5 14.5 19 20" />
+    </svg>
+  );
+}
+
+function ModelIcon({ name }: { name: "vision" | "reason" | "image" }) {
+  const shared = {
+    viewBox: "0 0 24 24",
+    className: "h-[18px] w-[18px]",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.7,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (name === "vision") {
+    return (
+      <svg {...shared}>
+        <path d="M3 8V5.5A1.5 1.5 0 0 1 4.5 4H7" />
+        <path d="M17 4h2.5A1.5 1.5 0 0 1 21 5.5V8" />
+        <path d="M21 16v2.5a1.5 1.5 0 0 1-1.5 1.5H17" />
+        <path d="M7 20H4.5A1.5 1.5 0 0 1 3 18.5V16" />
+        <circle cx="12" cy="12" r="3.2" />
+      </svg>
+    );
+  }
+  if (name === "reason") {
+    return (
+      <svg {...shared}>
+        <path d="M12 4.5a4 4 0 0 0-4 4v.6A4 4 0 0 0 6 12.7V14a4 4 0 0 0 4 4h.5V20" />
+        <path d="M12 4.5a4 4 0 0 1 4 4v.6a4 4 0 0 1 2 3.6V14a4 4 0 0 1-4 4h-.5V20" />
+        <path d="M12 4.5V20" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...shared}>
+      <rect x="3" y="4.5" width="18" height="15" rx="2.5" />
+      <circle cx="8.5" cy="9.5" r="1.6" />
+      <path d="m4.5 17 5-5 3.5 3.5 3-2.5 3.5 4" />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-canvas">
@@ -619,66 +794,96 @@ export default function Home() {
 
         <section id="meta" className="border-b border-line">
           <div className="mx-auto max-w-6xl px-5 py-16">
-            <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr]">
+            <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
               <div>
-                <h2 className="text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+                  How it runs
+                </span>
+                <h2 className="mt-4 text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
                   Built on the Meta Model API.
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted">
-                  Every scan is a real request to api.meta.ai. The app shows the Meta
-                  response IDs for the segmentation and the reasoning on every result,
-                  so the calls are never a claim, they are a receipt. The mark was
-                  supplied as a 3D render and refined into the app icon and lockups.
+                  Every scan is a live call to api.meta.ai. Meta vision locates the
+                  chart panel, Meta reasoning reads it against measured market data,
+                  and the plan returns as a validated object. There is no other model
+                  provider in the path.
                 </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {["sam-3.1", "muse-spark-1.3", "muse-image-1.0"].map((model) => (
-                    <span
-                      key={model}
-                      className="rounded-md border border-accent/40 bg-teal/10 px-2.5 py-1 font-mono text-[10.5px] text-accent"
-                    >
-                      {model}
-                    </span>
-                  ))}
+                <div className="mt-6 inline-flex items-center gap-2.5 rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-[11px] text-muted">
+                  <span className="h-1.5 w-1.5 rounded-full bg-teal animate-pulse" />
+                  POST api.meta.ai/v1/responses
                 </div>
               </div>
+
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="glass-panel p-5">
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                    Measured
+                {principles.map((item) => (
+                  <div
+                    key={item.title}
+                    className="group glass-panel relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20"
+                  >
+                    <span
+                      className={`pointer-events-none absolute -right-8 -top-10 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${item.glow}`}
+                    />
+                    <div className="relative flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={`grid h-8 w-8 place-items-center rounded-lg border transition-transform duration-300 group-hover:scale-105 ${item.iconBox}`}
+                        >
+                          <PrincipleIcon name={item.icon} />
+                        </span>
+                        <span className="font-chivo text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink/70 transition-colors group-hover:text-ink">
+                          {item.title}
+                        </span>
+                      </div>
+                      <span className={`h-1 w-1 rounded-full ${item.glowDot}`} />
+                    </div>
+                    <p className="relative mt-3 text-[13px] leading-relaxed text-muted">
+                      {item.text}
+                    </p>
                   </div>
-                  <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-                    Candle highs, lows and clustered levels come from the live OHLC
-                    data, not from a language model guessing coordinates.
-                  </p>
-                </div>
-                <div className="glass-panel p-5">
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                    Constrained
-                  </div>
-                  <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-                    The plan is enforced by a JSON schema, so the interface always
-                    receives a complete, valid object.
-                  </p>
-                </div>
-                <div className="glass-panel p-5">
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                    Honest
-                  </div>
-                  <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-                    Missing panels score zero. If the price axis is unreadable, the plan
-                    says so instead of inventing prices.
-                  </p>
-                </div>
-                <div className="glass-panel p-5">
-                  <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
-                    On demand
-                  </div>
-                  <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-                    No background monitoring. Each analysis runs when you ask for it,
-                    on the chart in front of you.
-                  </p>
-                </div>
+                ))}
               </div>
+            </div>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {metaModels.map((model) => {
+                const tone = modelTones[model.tone];
+                return (
+                  <article
+                    key={model.id}
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+                  >
+                    <span
+                      className={`pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${tone.glow}`}
+                    />
+                    <div className="relative flex items-start justify-between gap-3">
+                      <span
+                        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${tone.iconBox}`}
+                      >
+                        <ModelIcon name={model.icon} />
+                      </span>
+                      <span
+                        className={`rounded-full border px-2.5 py-1 font-chivo text-[9px] font-bold uppercase tracking-[0.16em] ${tone.status}`}
+                      >
+                        {model.status}
+                      </span>
+                    </div>
+                    <h3 className="relative mt-4 font-chivo text-[17px] font-bold uppercase tracking-[0.02em] text-ink">
+                      {model.name}
+                    </h3>
+                    <div className={`relative mt-1 font-mono text-[11px] ${tone.id}`}>
+                      {model.id}
+                    </div>
+                    <p className="relative mt-3 flex-1 text-[12.5px] leading-relaxed text-muted">
+                      {model.text}
+                    </p>
+                    <div
+                      className={`relative mt-4 border-t border-white/10 pt-3 font-chivo text-[9.5px] font-bold uppercase tracking-[0.18em] ${tone.role}`}
+                    >
+                      {model.role}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
