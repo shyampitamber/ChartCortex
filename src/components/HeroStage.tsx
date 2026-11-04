@@ -286,7 +286,7 @@ export function HeroStage() {
           <FeedCard key={feed.label} feed={feed} />
         ))}
 
-        <div className="hero-report"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="desk" /></div>
+        <div className="hero-report"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="desk" showDetails={false} /></div>
       </div>
 
       <div className="lg:hidden">
@@ -306,7 +306,7 @@ export function HeroStage() {
           />
         </div>
         <div className="mx-auto mt-6 max-w-[360px]">
-          <div className="glass-card mx-auto mt-6 max-w-[360px] p-4"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="mob" /></div>
+          <div className="glass-card mx-auto mt-6 max-w-[360px] p-4"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="mob" showDetails={false} /></div>
         </div>
       </div>
     </div>

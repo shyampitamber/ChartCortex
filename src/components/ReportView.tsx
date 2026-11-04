@@ -37,11 +37,13 @@ export function ReportView({
   format,
   idSuffix = "a",
   showHeader = true,
+  showDetails = true,
 }: {
   data: ReportData;
   format: (value: number) => string;
   idSuffix?: string;
   showHeader?: boolean;
+  showDetails?: boolean;
 }) {
   const gradientId = `confidenceGrad-${idSuffix}`;
   const radius = 26;
@@ -151,6 +153,8 @@ export function ReportView({
         </div>
       </div>
 
+      {showDetails && (
+      <>
       <div className="mt-4 grid grid-cols-2 gap-2">
         <MiniField label="Driver" value={data.driver} />
         <MiniField label="Trend" value={data.trend} />
@@ -184,6 +188,8 @@ export function ReportView({
             )}
           </div>
         </div>
+      )}
+      </>
       )}
 
       <div className="mt-3 rounded-lg border border-pink/20 bg-pink/[0.05] px-3 py-2">
