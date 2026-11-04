@@ -87,7 +87,6 @@ function toReportData(
     targets: plan.takeProfits.map((tp, index) => ({
       label: tp.label || `TP${index + 1}`,
       price: tp.price,
-      note: tp.rationale,
     })),
     summary: plan.summary,
     driver: plan.primaryDriver,
@@ -95,6 +94,9 @@ function toReportData(
     support: plan.keyLevels.support,
     resistance: plan.keyLevels.resistance,
     invalidation: plan.devilsAdvocate.invalidation,
+    bos: plan.marketStructure.recentBos,
+    choch: plan.marketStructure.recentChoch,
+    liquidity: plan.marketStructure.liquidityNotes,
     metaTime: `${(totalMs / 1000).toFixed(1)}s`,
   };
 }

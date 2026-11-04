@@ -134,6 +134,9 @@ const HERO_REPORT: ReportData = {
   resistance: 4370,
   invalidation:
     "An hourly close below 4,330 breaks the higher low sequence and invalidates the setup.",
+  bos: "Bullish break through 4,238.50",
+  choch: "No change of character visible",
+  liquidity: "Equal lows at 4,214.00",
   metaTime: "12.4s",
 };
 

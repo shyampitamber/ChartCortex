@@ -14,6 +14,9 @@ export type ReportData = {
   support: number;
   resistance: number;
   invalidation: string;
+  bos?: string;
+  choch?: string;
+  liquidity?: string;
   metaTime?: string;
 };
 
@@ -154,6 +157,34 @@ export function ReportView({
         <MiniField label="Support" value={format(data.support)} />
         <MiniField label="Resistance" value={format(data.resistance)} />
       </div>
+
+      {(data.bos || data.choch || data.liquidity) && (
+        <div className="mt-3">
+          <div className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted">
+            Structure
+          </div>
+          <div className="mt-1 space-y-1 text-[10.5px] leading-relaxed">
+            {data.bos && (
+              <div>
+                <span className="text-muted">BOS </span>
+                <span className="text-ink/80">{data.bos}</span>
+              </div>
+            )}
+            {data.choch && (
+              <div>
+                <span className="text-muted">CHoCH </span>
+                <span className="text-ink/80">{data.choch}</span>
+              </div>
+            )}
+            {data.liquidity && (
+              <div>
+                <span className="text-muted">Liquidity </span>
+                <span className="text-ink/80">{data.liquidity}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="mt-3 rounded-lg border border-pink/20 bg-pink/[0.05] px-3 py-2">
         <div className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-pink">
