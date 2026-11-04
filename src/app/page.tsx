@@ -37,16 +37,22 @@ const stepTones = {
     line: "bg-teal",
     iconBox: "border-teal/25 bg-teal/10 text-teal",
     number: "text-teal",
+    chip: "border-teal/30 bg-teal/10 text-teal shadow-[0_0_24px_-10px_rgba(129,255,217,0.7)]",
+    dot: "bg-teal",
   },
   violet: {
     line: "bg-[#6E9AFF]",
     iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
     number: "text-[#6E9AFF]",
+    chip: "border-[#6E9AFF]/30 bg-[#6E9AFF]/10 text-[#6E9AFF] shadow-[0_0_24px_-10px_rgba(110,154,255,0.7)]",
+    dot: "bg-[#6E9AFF]",
   },
   pink: {
     line: "bg-pink",
     iconBox: "border-pink/25 bg-pink/10 text-pink",
     number: "text-pink",
+    chip: "border-pink/30 bg-pink/10 text-pink shadow-[0_0_24px_-10px_rgba(243,85,208,0.7)]",
+    dot: "bg-pink",
   },
 };
 
@@ -342,7 +348,7 @@ export default function Home() {
                 return (
                   <div
                     key={step.n}
-                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F14] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F14] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
                   >
                     <div className={`absolute inset-x-0 top-0 h-[2px] ${tone.line}`} />
                     <div className="flex items-center justify-between gap-3">
@@ -362,11 +368,18 @@ export default function Home() {
                         {step.n}
                       </span>
                     </div>
-                    <p className="mt-4 text-[13px] leading-relaxed text-muted">
+                    <p className="mt-4 flex-1 text-[13px] leading-relaxed text-muted">
                       {step.text}
                     </p>
-                    <div className="mt-4 border-t border-white/5 pt-3 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
-                      {step.model}
+                    <div className="mt-5 flex items-center">
+                      <span
+                        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-chivo text-[12px] font-bold uppercase tracking-[0.14em] ${tone.chip}`}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${tone.dot} shadow-[0_0_10px_2px_currentColor]`}
+                        />
+                        {step.model}
+                      </span>
                     </div>
                   </div>
                 );
