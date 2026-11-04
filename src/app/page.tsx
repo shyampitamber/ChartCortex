@@ -888,20 +888,38 @@ export default function Home() {
           </div>
         </section>
 
-        <section>
-          <div className="mx-auto max-w-6xl px-5 py-20 text-center">
-            <h2 className="text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[38px]">
-              Put a chart in. Get the structure out.
+        <section className="cta-band relative overflow-hidden border-y border-white/10">
+          <div
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(112deg,rgba(85,47,246,0.30),transparent_44%,rgba(243,85,208,0.22))]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute left-1/2 top-full h-[520px] w-[880px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(129,255,217,0.18),transparent_65%)] blur-3xl"
+            aria-hidden
+          />
+          <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+              Open the terminal
+            </span>
+            <h2 className="mt-5 text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[38px]">
+              Pick a chart. Read the plan.
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted">
-              No account needed. Pick an asset, pick a timeframe, and press Analyse.
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted">
+              Choose an asset and a timeframe, press Analyse, and the terminal
+              returns the entry, the stop, three targets and the reasoning in under
+              a minute.
             </p>
-            <Link
-              href="/scan"
-              className="mt-7 inline-block rounded-md bg-teal px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#9CFFE5]"
-            >
-              Analyse a chart
-            </Link>
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/scan"
+                className="scan-btn btn btn-teal relative z-10 min-w-[190px] px-10"
+              >
+                Analyse
+              </Link>
+            </div>
+            <p className="mt-6 font-chivo text-[10px] font-bold uppercase tracking-[0.18em] text-muted/70">
+              Free to try. Decision support only.
+            </p>
           </div>
         </section>
       </main>

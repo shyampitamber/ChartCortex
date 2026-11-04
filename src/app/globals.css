@@ -790,6 +790,14 @@ html[data-theme="light"] .aurora-blob {
   }
 }
 
+/* closing call to action: saturated brand band, distinct from the aurora sections */
+.cta-band {
+  background-color: #05070b;
+}
+html[data-theme="light"] .cta-band {
+  background-color: #f3f2f8;
+}
+
 /* blueprint band: technical grid surface used by the output section */
 .blueprint-band {
   --bp-base: #06080c;
