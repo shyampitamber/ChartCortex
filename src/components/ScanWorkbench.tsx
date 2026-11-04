@@ -229,7 +229,7 @@ export default function ScanWorkbench() {
         </div>
       </header>
 
-      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-61px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
+      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-68px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
         <aside className="hidden min-h-0 lg:block">
           <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
             <div className="border-b border-line p-3">
@@ -440,6 +440,24 @@ export default function ScanWorkbench() {
                   <EmptyStep n="02" title="The chart loads live" text="OANDA candles stream into the chart." />
                   <EmptyStep n="03" title="Analyse" text="SAM reads the chart, Muse Spark returns the plan." />
                 </ol>
+                <div className="mt-8 opacity-40">
+                  <div className="flex items-center justify-between">
+                    <span className="h-2 w-20 rounded bg-surface-2" />
+                    <span className="h-2 w-10 rounded bg-surface-2" />
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    {[0, 1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="h-12 rounded-lg border border-line bg-surface-2/50"
+                      />
+                    ))}
+                  </div>
+                  <div className="mt-2 h-10 rounded-lg border border-line bg-surface-2/40" />
+                </div>
+                <p className="mt-2 font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted">
+                  Preview of the report
+                </p>
               </div>
             )}
 
