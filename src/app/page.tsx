@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { HeroStage } from "@/components/HeroStage";
 import { LogoLockup } from "@/components/Logo";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const steps = [
@@ -66,6 +67,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
+        <div className="brand-rule" aria-hidden />
       </header>
 
       <main className="relative z-10">
@@ -271,24 +273,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <LogoLockup size={30} />
-          <p className="max-w-xl text-[11px] leading-relaxed text-muted">
-            Decision support and education only. Not financial advice. No execution and
-            no client funds. Chart analysis is generated on demand and does not
-            guarantee any outcome.
-          </p>
-          <a
-            href="https://github.com/shyampitamber/ChartCortex"
-            target="_blank"
-            rel="noreferrer"
-            className="text-[11px] text-muted transition-colors hover:text-ink"
-          >
-            Source
-          </a>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -231,6 +231,7 @@ export default function ScanWorkbench() {
             </button>
           </div>
         </div>
+        <div className="brand-rule" aria-hidden />
       </header>
 
       <main className="relative z-10 mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-68px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
