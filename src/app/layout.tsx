@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Chivo, Comfortaa } from "next/font/google";
 import "./globals.css";
 
@@ -26,15 +26,22 @@ export const metadata: Metadata = {
       "Select an asset and timeframe. ChartCortex analyses the live chart and returns the entry, stop, three targets and the reasoning, in under a minute.",
     url: "https://ChartCortex.vercel.app",
     siteName: "ChartCortex",
-    images: [{ url: "/og.png", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "/og-square.png",
+        width: 1200,
+        height: 1200,
+        alt: "ChartCortex app icon",
+      },
+    ],
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "ChartCortex | Live chart intelligence",
     description:
       "Select an asset and timeframe. ChartCortex analyses the live chart and returns the entry, stop, three targets and the reasoning, in under a minute.",
-    images: ["/og.png"],
+    images: ["/og-square.png"],
   },
 };
 
