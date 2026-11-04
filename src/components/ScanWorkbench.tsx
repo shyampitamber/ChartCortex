@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -398,6 +398,53 @@ export default function ScanWorkbench() {
           </div>
         </aside>
 
+        <div className="min-w-0 lg:hidden">
+          <div className="glass-card overflow-hidden p-2">
+            <div className="flex items-center justify-between px-1 pb-2">
+              <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
+                Assets
+              </span>
+              <span className="font-mono text-[10px] text-muted">{ALL_ASSETS.length}</span>
+            </div>
+            <div
+              className="flex snap-x gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="group"
+              aria-label="Select a market"
+            >
+              {[
+                ...pinnedAssets,
+                ...ALL_ASSETS.filter((item) => !pinned.includes(item.symbol)),
+              ].map((item) => {
+                const isActive = item.symbol === instrument;
+                return (
+                  <button
+                    key={`m-${item.symbol}`}
+                    type="button"
+                    onClick={() => setInstrument(item.symbol)}
+                    aria-pressed={isActive}
+                    className={`shrink-0 snap-start rounded-lg border px-2.5 py-1.5 text-left transition-colors ${
+                      isActive
+                        ? "border-accent/50 bg-accent/10 text-ink"
+                        : "border-line bg-canvas/40 text-muted"
+                    }`}
+                  >
+                    <span className="block font-chivo text-[11px] font-bold leading-none tracking-[0.02em]">
+                      {item.symbol}
+                    </span>
+                    <span
+                      className={`mt-1 block text-[9px] leading-none ${
+                        isActive ? "text-accent" : "text-muted/70"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         <section className="flex min-h-0 min-w-0 flex-col gap-4">
           <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
             <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
@@ -675,7 +722,7 @@ function ScanningState({ elapsed }: { elapsed: number }) {
                       : "border-line bg-surface-2 text-muted"
                 }`}
               >
-                {done ? "✓" : index + 1}
+                {done ? "âœ“" : index + 1}
               </span>
               <span
                 className={`flex-1 text-[12px] ${
@@ -792,7 +839,7 @@ function AssetRow({
             : "text-muted opacity-0 group-hover/row:opacity-100 focus-visible:opacity-100"
         }`}
       >
-        {pinned ? "★" : "☆"}
+        {pinned ? "â˜…" : "â˜†"}
       </button>
     </div>
   );
