@@ -33,10 +33,12 @@ export function ReportView({
   data,
   format,
   idSuffix = "a",
+  showHeader = true,
 }: {
   data: ReportData;
   format: (value: number) => string;
   idSuffix?: string;
+  showHeader?: boolean;
 }) {
   const gradientId = `confidenceGrad-${idSuffix}`;
   const radius = 26;
@@ -45,14 +47,16 @@ export function ReportView({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between">
-        <span className="font-chivo text-[10px] uppercase tracking-[0.18em] text-muted">
-          AI report
-        </span>
-        <span className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-accent">
-          Institutional
-        </span>
-      </div>
+      {showHeader && (
+        <div className="flex items-center justify-between">
+          <span className="font-chivo text-[10px] uppercase tracking-[0.18em] text-muted">
+            AI report
+          </span>
+          <span className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-accent">
+            Institutional
+          </span>
+        </div>
+      )}
 
       <div className="mt-3 flex items-start justify-between gap-3">
         <div>

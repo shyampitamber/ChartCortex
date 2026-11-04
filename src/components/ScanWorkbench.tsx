@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LogoLockup } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import LiveChart, { type LiveChartHandle } from "@/components/LiveChart";
+import { ReportView, type ReportData } from "@/components/ReportView";
 import type { AnalyzeResponse } from "@/lib/types";
 import type { CandleSeries } from "@/lib/market/oanda";
 
@@ -70,12 +71,33 @@ function formatSigned(value: number, digits = 2): string {
   return `${sign}${value.toFixed(digits)}%`;
 }
 
-const biasTone: Record<string, string> = {
-  Bullish: "border-up/25 bg-up/10 text-up",
-  Bearish: "border-down/25 bg-down/10 text-down",
-  Neutral: "border-line bg-surface-2 text-muted",
-};
-
+function toReportData(
+  plan: AnalyzeResponse["plan"],
+  totalMs: number
+): ReportData {
+  return {
+    instrument: plan.instrument,
+    timeframe: plan.timeframe,
+    bias: plan.bias,
+    confidence: plan.confidence,
+    riskLevel: plan.riskLevel,
+    entryLow: plan.entryZone.low,
+    entryHigh: plan.entryZone.high,
+    stop: plan.stopLoss,
+    targets: plan.takeProfits.map((tp, index) => ({
+      label: tp.label || `TP${index + 1}`,
+      price: tp.price,
+      note: tp.rationale,
+    })),
+    summary: plan.summary,
+    driver: plan.primaryDriver,
+    trend: plan.trend,
+    support: plan.keyLevels.support,
+    resistance: plan.keyLevels.resistance,
+    invalidation: plan.devilsAdvocate.invalidation,
+    metaTime: `${(totalMs / 1000).toFixed(1)}s`,
+  };
+}
 export default function ScanWorkbench() {
   const [instrument, setInstrument] = useState("XAUUSD");
   const [timeframe, setTimeframe] = useState("H1");
@@ -468,95 +490,14 @@ export default function ScanWorkbench() {
               </div>
             )}
 
-            {plan && (
+                        {plan && result && (
               <div className="pt-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className={`rounded-md border px-2 py-0.5 text-[10.5px] font-semibold ${biasTone[plan.bias] ?? biasTone.Neutral}`}>
-                      {plan.bias}
-                    </span>
-                    <span className="rounded-md border border-line px-2 py-0.5 text-[10.5px] text-muted">
-                      {plan.signalType}
-                    </span>
-                    <span className="rounded-md border border-line px-2 py-0.5 text-[10.5px] text-muted">
-                      {plan.riskLevel} risk
-                    </span>
-                  </div>
-                  <div className="min-w-[72px] text-right">
-                    <div className="font-mono text-[26px] font-medium leading-none">
-                      {plan.confidence}
-                    </div>
-                    <div className="font-chivo text-[9px] uppercase tracking-[0.12em] text-muted">
-                      confidence
-                    </div>
-                    <div className="mt-1.5 h-[3px] w-full overflow-hidden rounded-full bg-surface-2">
-                      <div className="h-full rounded-full bg-pink" style={{ width: `${plan.confidence}%` }} />
-                    </div>
-                  </div>
-                </div>
-
-                <p className="mt-3 text-[12px] leading-relaxed text-ink/85">{plan.summary}</p>
-
-                <div className="mt-3 grid grid-cols-2 gap-1.5">
-                  <PriceCell
-                    label="Entry"
-                    value={`${formatPrice(plan.entryZone.low, plan.instrument)} - ${formatPrice(plan.entryZone.high, plan.instrument)}`}
-                    tone="entry"
-                  />
-                  <PriceCell label="Stop" value={formatPrice(plan.stopLoss, plan.instrument)} tone="stop" />
-                  {plan.takeProfits.map((tp) => (
-                    <PriceCell
-                      key={tp.label}
-                      label={tp.label}
-                      value={formatPrice(tp.price, plan.instrument)}
-                      tone="target"
-                    />
-                  ))}
-                </div>
-
-                <div className="mt-1.5 flex items-center justify-between rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 font-mono text-[10px] text-muted">
-                  <span>Risk to reward</span>
-                  <span className="text-ink">{plan.riskReward.toFixed(2)}</span>
-                </div>
-
-                <ReportSection title="Structure">
-                  <Row label="Trend" value={plan.trend} />
-                  <Row label="Last BOS" value={plan.marketStructure.recentBos} />
-                  <Row label="Last CHoCH" value={plan.marketStructure.recentChoch} />
-                  <Row label="Liquidity" value={plan.marketStructure.liquidityNotes} />
-                </ReportSection>
-
-                <ReportSection title="Key levels">
-                  <div className="grid grid-cols-2 gap-x-3">
-                    <Row label="Support" value={formatPrice(plan.keyLevels.support, plan.instrument)} />
-                    <Row label="Resistance" value={formatPrice(plan.keyLevels.resistance, plan.instrument)} />
-                    <Row label="Confluent" value={formatPrice(plan.keyLevels.confluent, plan.instrument)} />
-                    <Row label="Pivot" value={formatPrice(plan.keyLevels.pivot, plan.instrument)} />
-                  </div>
-                </ReportSection>
-
-                <ReportSection title="Devil's advocate">
-                  <Row label="Counter" value={plan.devilsAdvocate.counterThesis} />
-                  <Row label="Invalidated if" value={plan.devilsAdvocate.invalidation} />
-                  <Row label="Still valid" value={plan.devilsAdvocate.whyTakeIt} />
-                </ReportSection>
-
-                {plan.assumptions.length > 0 && (
-                  <div className="mt-3 rounded-lg border border-pink/25 bg-pink/[0.05] p-2.5">
-                    <div className="font-chivo text-[9px] uppercase tracking-[0.14em] text-pink">
-                      Assumptions
-                    </div>
-                    <ul className="mt-1 space-y-0.5 text-[11px] leading-relaxed text-ink/70">
-                      {plan.assumptions.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <p className="mt-3 border-t border-line pt-2 text-[9.5px] leading-relaxed text-muted">
-                  {plan.disclaimer}
-                </p>
+                <ReportView
+                  data={toReportData(plan, result.timings.totalMs)}
+                  format={(value) => formatPrice(value, plan.instrument)}
+                  idSuffix="terminal"
+                  showHeader={false}
+                />
               </div>
             )}
             </div>
@@ -630,50 +571,5 @@ function EmptyStep({ n, title, text }: { n: string; title: string; text: string 
         <div className="text-[11px] leading-relaxed text-muted">{text}</div>
       </div>
     </li>
-  );
-}
-
-function ReportSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="mt-3 border-t border-line pt-3">
-      <div className="font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
-        {title}
-      </div>
-      <dl className="mt-1.5 space-y-1.5 text-[11px]">{children}</dl>
-    </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-muted">{label}</dt>
-      <dd className="text-ink/80">{value}</dd>
-    </div>
-  );
-}
-
-const priceTones: Record<string, string> = {
-  entry: "border-teal/25 bg-teal/[0.06]",
-  stop: "border-down/20 bg-down/[0.05]",
-  target: "border-up/20 bg-up/[0.05]",
-};
-
-function PriceCell({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: string;
-  tone: "entry" | "stop" | "target";
-}) {
-  return (
-    <div className={`rounded-lg border px-2.5 py-1.5 ${priceTones[tone]}`}>
-      <div className="font-chivo text-[9px] uppercase tracking-[0.12em] text-muted">
-        {label}
-      </div>
-      <div className="mt-0.5 font-mono text-[11.5px] text-ink">{value}</div>
-    </div>
   );
 }
