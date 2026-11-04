@@ -72,16 +72,16 @@ export function ReportView({
           </div>
           <div className="mt-1 font-mono text-[10px] text-muted">{data.timeframe}</div>
         </div>
-        <div className="flex flex-col items-end gap-1">
+        <div className="flex items-center gap-1.5">
           <span
-            className={`min-w-[118px] rounded-md border px-3 py-1.5 text-center font-chivo text-[11px] font-bold uppercase tracking-[0.08em] ${
+            className={`min-w-[102px] rounded-md border px-2.5 py-1.5 text-center font-chivo text-[10.5px] font-bold uppercase tracking-[0.08em] ${
               biasTone[data.bias] ?? biasTone.Neutral
             }`}
           >
             {data.bias}
           </span>
           <span
-            className={`min-w-[118px] rounded-md border px-3 py-1.5 text-center font-chivo text-[11px] font-semibold uppercase tracking-[0.08em] ${
+            className={`min-w-[102px] rounded-md border px-2.5 py-1.5 text-center font-chivo text-[10.5px] font-semibold uppercase tracking-[0.08em] ${
               riskTone[data.riskLevel] ?? riskTone.Medium
             }`}
           >
