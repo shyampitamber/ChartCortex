@@ -305,7 +305,7 @@ export default function ScanWorkbench() {
               ))}
             </div>
             <div className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted">
-              Live OANDA feed. Select an asset, then a timeframe.
+              Live Market Feed. Select an asset, then a timeframe.
             </div>
           </div>
         </aside>
@@ -401,7 +401,7 @@ export default function ScanWorkbench() {
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
               <span className="font-mono text-[10px] text-muted">
                 {series
-                  ? `${series.candles.length} candles · ${series.timeframe} · OANDA live`
+                  ? `${series.candles.length} candles / ${series.timeframe} / Live Market Feed`
                   : "loading"}
               </span>
               <button
@@ -468,7 +468,7 @@ export default function ScanWorkbench() {
                 </p>
                 <ol className="mt-5 space-y-3">
                   <EmptyStep n="01" title="Pick the asset" text="Choose the market and timeframe on the left." />
-                  <EmptyStep n="02" title="The chart loads live" text="OANDA candles stream into the chart." />
+                  <EmptyStep n="02" title="The chart loads live" text="Live market candles stream into the chart." />
                   <EmptyStep n="03" title="Analyse" text="SAM reads the chart, Muse Spark returns the plan." />
                 </ol>
                 <div className="mt-8 opacity-40">

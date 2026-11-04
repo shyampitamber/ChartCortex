@@ -60,7 +60,7 @@ export async function fetchCandles(
   const display = instrument.toUpperCase();
   const symbol = SYMBOLS[display];
   if (!symbol) {
-    throw new Error(`OANDA does not support ${display}`);
+    throw new Error(`Live Market Feed does not support ${display}`);
   }
 
   const tf = timeframe.toUpperCase();
@@ -94,7 +94,7 @@ export async function fetchCandles(
     } catch {
       /* keep raw */
     }
-    throw new Error(`OANDA ${response.status}: ${detail}`);
+    throw new Error(`Live Market Feed ${response.status}: ${detail}`);
   }
 
   const payload = JSON.parse(text) as {
@@ -125,7 +125,7 @@ export async function fetchCandles(
     );
 
   if (!candles.length) {
-    throw new Error("OANDA returned no candles");
+    throw new Error("Live Market Feed returned no candles");
   }
 
   const first = candles[0].close;

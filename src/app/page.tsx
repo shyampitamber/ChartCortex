@@ -8,23 +8,104 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const steps = [
   {
     n: "01",
-    model: "OANDA feed",
-    title: "Load",
-    text: "The asset and timeframe you pick stream into a live candlestick chart from the market data feed.",
+    model: "Live Market Feed",
+    title: "Pick",
+    tone: "teal",
+    icon: "feed",
+    text: "Choose the asset and the timeframe. The live feed builds the chart instantly, with no upload.",
   },
   {
     n: "02",
     model: "SAM 3.1",
     title: "Read",
-    text: "SAM 3.1 segments the live chart panel and its visible objects on every scan.",
+    tone: "violet",
+    icon: "scan",
+    text: "One click. SAM segments the chart panel, then the engine measures the candles, swing levels and trend from the live data.",
   },
   {
     n: "03",
     model: "Muse Spark",
     title: "Reason",
-    text: "Muse Spark reads the chart with the measured OHLC structure and returns one schema-constrained plan.",
+    tone: "pink",
+    icon: "spark",
+    text: "Muse reads the chart and the measured structure, then writes the entry, stop, three targets and the reasoning.",
   },
-];
+] as const;
+
+const stepTones = {
+  teal: {
+    line: "bg-teal",
+    iconBox: "border-teal/25 bg-teal/10 text-teal",
+    number: "text-teal",
+  },
+  violet: {
+    line: "bg-[#6E9AFF]",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    number: "text-[#6E9AFF]",
+  },
+  pink: {
+    line: "bg-pink",
+    iconBox: "border-pink/25 bg-pink/10 text-pink",
+    number: "text-pink",
+  },
+};
+
+function StepIcon({ name }: { name: "feed" | "scan" | "spark" }) {
+  if (name === "feed") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-[18px] w-[18px]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="M4 12h4l3-7 4 14 3-7h2" />
+      </svg>
+    );
+  }
+  if (name === "scan") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-[18px] w-[18px]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+        <path d="M7 12h10" />
+      </svg>
+    );
+  }
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-[18px] w-[18px]"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+      <path d="M20 3v4" />
+      <path d="M22 5h-4" />
+      <path d="M4 17v2" />
+      <path d="M5 18H3" />
+    </svg>
+  );
+}
 
 const outputs = [
   ["Bias and conviction", "One directional call, or a deliberate no-trade, with an honest confidence score."],
@@ -248,28 +329,48 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-5 py-16">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="max-w-xl text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
-                Three passes, one plan.
+                Three clicks. One plan.
               </h2>
               <p className="max-w-md text-sm leading-relaxed text-muted">
-                Every level is measured from the live OANDA feed and the chart on
-                screen.
+                Pick an asset, pick a timeframe, press analyse. Every level is
+                measured from the live market feed and the chart on screen.
               </p>
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {steps.map((step) => (
-                <div key={step.n} className="glass-panel p-5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-accent">{step.n}</span>
-                    <span className="rounded border border-line px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted">
+              {steps.map((step) => {
+                const tone = stepTones[step.tone];
+                return (
+                  <div
+                    key={step.n}
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F14] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
+                  >
+                    <div className={`absolute inset-x-0 top-0 h-[2px] ${tone.line}`} />
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${tone.iconBox}`}
+                        >
+                          <StepIcon name={step.icon} />
+                        </span>
+                        <h3 className="text-[17px] font-semibold tracking-[-0.01em]">
+                          {step.title}
+                        </h3>
+                      </div>
+                      <span
+                        className={`font-chivo text-[36px] font-black leading-none ${tone.number}`}
+                      >
+                        {step.n}
+                      </span>
+                    </div>
+                    <p className="mt-4 text-[13px] leading-relaxed text-muted">
+                      {step.text}
+                    </p>
+                    <div className="mt-4 border-t border-white/5 pt-3 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
                       {step.model}
-                    </span>
+                    </div>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold tracking-[-0.01em]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-muted">{step.text}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
