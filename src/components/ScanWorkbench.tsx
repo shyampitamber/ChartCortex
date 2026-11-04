@@ -229,9 +229,9 @@ export default function ScanWorkbench() {
         </div>
       </header>
 
-      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:grid-cols-[232px_minmax(0,1fr)_392px]">
-        <aside className="hidden lg:block">
-          <div className="sticky top-[72px] flex max-h-[calc(100vh-88px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-61px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
+        <aside className="hidden min-h-0 lg:block">
+          <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
             <div className="border-b border-line p-3">
               <div className="flex items-center justify-between">
                 <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
@@ -281,14 +281,28 @@ export default function ScanWorkbench() {
           </div>
         </aside>
 
-        <section className="flex min-w-0 flex-col gap-4">
-          <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+        <section className="flex min-h-0 min-w-0 flex-col gap-4">
+          <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="flex items-baseline gap-2">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="font-chivo text-[24px] font-bold uppercase tracking-[0.01em]">
                   {activeAsset.symbol}
                 </span>
                 <span className="text-[12px] text-muted">{activeAsset.name}</span>
+                {last && (
+                  <span className="flex items-baseline gap-1.5 font-mono">
+                    <span className="text-[18px] text-ink">
+                      {formatPrice(last.close, instrument)}
+                    </span>
+                    <span
+                      className={`text-[11px] ${
+                        (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
+                      }`}
+                    >
+                      {formatSigned(series?.changePct ?? 0)}
+                    </span>
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <span
@@ -328,7 +342,7 @@ export default function ScanWorkbench() {
               ))}
             </div>
 
-            <div className="relative mt-3 h-[440px] overflow-hidden rounded-xl border border-line bg-canvas">
+            <div className="relative mt-3 flex-1 min-h-0 overflow-hidden rounded-xl border border-line bg-canvas">
               {marketError ? (
                 <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
                   <span className="text-[13px] text-down">Live feed unavailable</span>
@@ -347,7 +361,6 @@ export default function ScanWorkbench() {
                   instrument={instrument}
                   timeframe={timeframe}
                   candles={series.candles}
-                  height={440}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-[12px] text-muted">
@@ -357,23 +370,11 @@ export default function ScanWorkbench() {
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-col">
-                <span className="font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
-                  Last price
-                </span>
-                <span className="flex items-baseline gap-2 font-mono">
-                  <span className="text-[18px] text-ink">
-                    {last ? formatPrice(last.close, instrument) : "..."}
-                  </span>
-                  <span
-                    className={`text-[11px] ${
-                      (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
-                    }`}
-                  >
-                    {series ? formatSigned(series.changePct) : ""}
-                  </span>
-                </span>
-              </div>
+              <span className="font-mono text-[10px] text-muted">
+                {series
+                  ? `${series.candles.length} candles · ${series.timeframe} · OANDA live`
+                  : "loading"}
+              </span>
               <button
                 type="button"
                 onClick={runAnalysis}
@@ -408,8 +409,8 @@ export default function ScanWorkbench() {
           </div>
         </section>
 
-        <section className="flex min-w-0 flex-col">
-          <div className="flex-1 rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+        <section className="flex min-h-0 min-w-0 flex-col">
+          <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
             <div className="flex items-center justify-between border-b border-line pb-3">
               <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
                 AI report
@@ -424,8 +425,9 @@ export default function ScanWorkbench() {
               </span>
             </div>
 
+            <div className="min-h-0 flex-1 overflow-y-auto pr-1">
             {!plan && (
-              <div className="flex h-full flex-col justify-center py-10">
+              <div className="pt-8">
                 <div className="font-chivo text-[18px] font-bold leading-tight">
                   The report writes itself here.
                 </div>
@@ -532,6 +534,7 @@ export default function ScanWorkbench() {
                 </p>
               </div>
             )}
+            </div>
           </div>
         </section>
       </main>

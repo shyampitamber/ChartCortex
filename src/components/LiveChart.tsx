@@ -79,7 +79,7 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
     const precision = precisionFor(instrument);
     const chart = createChart(el, {
       width: el.clientWidth,
-      height,
+      height: el.clientHeight || height,
       layout: {
         background: { type: ColorType.Solid, color: "#070B10" },
         textColor: "#8FA3A6",
@@ -139,7 +139,10 @@ const LiveChart = forwardRef<LiveChartHandle, Props>(function LiveChart(
     candleRef.current = series;
 
     const observer = new ResizeObserver(() => {
-      chart.applyOptions({ width: el.clientWidth });
+      chart.applyOptions({
+        width: el.clientWidth,
+        height: el.clientHeight || height,
+      });
     });
     observer.observe(el);
 
