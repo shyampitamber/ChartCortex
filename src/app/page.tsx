@@ -143,24 +143,24 @@ export default function Home() {
                       <ellipse
                         cx="140"
                         cy="75"
-                        rx="118"
-                        ry="42"
+                        rx="122"
+                        ry="28"
                         transform="rotate(-14 140 75)"
                         className="btn-orbit btn-orbit-a"
                       />
                       <ellipse
                         cx="140"
                         cy="75"
-                        rx="132"
-                        ry="52"
+                        rx="136"
+                        ry="34"
                         transform="rotate(12 140 75)"
                         className="btn-orbit btn-orbit-b"
                       />
                       <ellipse
                         cx="140"
                         cy="75"
-                        rx="100"
-                        ry="34"
+                        rx="102"
+                        ry="22"
                         transform="rotate(-3 140 75)"
                         className="btn-orbit btn-orbit-c"
                       />
