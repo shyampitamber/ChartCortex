@@ -209,17 +209,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative z-10 border-y border-white/10 bg-black py-14">
-          <div className="mx-auto max-w-4xl px-5">
-            <div className="glass-card relative overflow-hidden p-8 text-center sm:p-10">
-              <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(129,255,217,0.18),transparent_65%)] blur-2xl" />
-              <div className="pointer-events-none absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(243,85,208,0.16),transparent_65%)] blur-2xl" />
-              <p className="relative mx-auto max-w-2xl font-chivo text-[22px] font-bold leading-snug tracking-[-0.01em] text-ink sm:text-[26px]">
+        <section className="glass-section relative z-10 border-y border-white/10">
+          <div className="relative overflow-hidden px-5 py-14 sm:py-16">
+            <div className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(129,255,217,0.18),transparent_65%)] blur-3xl" />
+            <div className="pointer-events-none absolute -right-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(243,85,208,0.16),transparent_65%)] blur-3xl" />
+            <div className="relative mx-auto max-w-5xl text-center">
+              <p className="font-chivo text-[24px] font-bold leading-snug tracking-[-0.01em] text-ink sm:text-[30px]">
                 Select an asset and timeframe. The live chart is analysed and
                 returns the entry, stop, three targets and the reasoning, in under
                 a minute.
               </p>
-              <div className="relative mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13.5px] font-semibold text-ink/80 sm:text-[14.5px]">
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[14px] font-semibold text-ink/80 sm:text-[15px]">
                 {["Decision support only", "No execution", "No client funds"].map(
                   (item) => (
                     <span key={item} className="inline-flex items-center gap-2">

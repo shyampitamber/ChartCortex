@@ -1017,3 +1017,20 @@ html[data-theme="light"] .aurora-blob {
     transform: translateY(-6px);
   }
 }
+
+/* full-width glass band */
+.glass-section {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+    rgba(16, 23, 32, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+}
+html[data-theme="light"] .glass-section {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)),
+    rgba(255, 255, 255, 0.55);
+}
