@@ -400,19 +400,16 @@ export default function ScanWorkbench() {
 
         <section className="flex min-h-0 min-w-0 flex-col gap-4">
           <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
-            <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
               <div className="min-w-0">
-                <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-                  <span className="font-chivo text-[26px] font-bold uppercase leading-none tracking-[0.01em]">
+                <div className="flex items-center gap-2">
+                  <span className="font-chivo text-[22px] font-bold uppercase leading-none tracking-[0.01em]">
                     {activeAsset.symbol}
                   </span>
                   <span className="text-[12px] text-muted">{activeAsset.name}</span>
-                  <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9.5px] text-muted">
-                    {timeframe}
-                  </span>
                 </div>
-                <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <span className="font-mono text-[26px] leading-none text-ink">
+                <div className="mt-2 flex items-baseline gap-2.5">
+                  <span className="font-mono text-[30px] leading-none text-ink">
                     {last ? formatPrice(last.close, instrument) : "n/a"}
                   </span>
                   <span
@@ -424,37 +421,30 @@ export default function ScanWorkbench() {
                   >
                     {formatSigned(series?.changePct ?? 0)}
                   </span>
-                  <span className="font-mono text-[10px] text-muted">
-                    {updatedAt ?? (marketError ? "no feed" : "connecting")}
-                  </span>
                 </div>
               </div>
 
-              <div className="flex items-end gap-5">
-                <div className="hidden sm:block">
-                  <div className="flex items-center justify-between font-mono text-[9.5px] text-muted">
-                    <span>{rangeLow !== null ? formatPrice(rangeLow, instrument) : "n/a"}</span>
-                    <span className="px-2 font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted/70">
-                      range
-                    </span>
-                    <span>{rangeHigh !== null ? formatPrice(rangeHigh, instrument) : "n/a"}</span>
-                  </div>
-                  <div className="relative mt-1.5 h-1 w-[230px] rounded-full bg-surface-2">
-                    <span
-                      className="absolute inset-y-0 left-0 rounded-full bg-accent/40"
-                      style={{ width: `${rangePct}%` }}
-                    />
-                    <span
-                      className="absolute -top-[3px] h-2.5 w-[3px] rounded-full bg-accent shadow-[0_0_8px_rgba(129,255,217,0.8)]"
-                      style={{ left: `calc(${rangePct}% - 1.5px)` }}
-                    />
-                  </div>
-                  <div className="mt-1.5 flex items-center justify-end gap-1.5 font-mono text-[9.5px] text-muted">
-                    <span>{series ? series.candles.length : 0}</span>
-                    <span className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted/70">
-                      candles
-                    </span>
-                  </div>
+              <div className="hidden w-[300px] shrink-0 sm:block">
+                <div className="flex items-center justify-between font-mono text-[9.5px] text-muted">
+                  <span>{rangeLow !== null ? formatPrice(rangeLow, instrument) : "n/a"}</span>
+                  <span className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted/60">
+                    range
+                  </span>
+                  <span>{rangeHigh !== null ? formatPrice(rangeHigh, instrument) : "n/a"}</span>
+                </div>
+                <div className="relative mt-1.5 h-1.5 rounded-full bg-surface-2">
+                  <span
+                    className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent/25 to-accent/60"
+                    style={{ width: `${rangePct}%` }}
+                  />
+                  <span
+                    className="absolute -top-[3px] h-3 w-[3px] rounded-full bg-accent shadow-[0_0_8px_rgba(129,255,217,0.8)]"
+                    style={{ left: `calc(${rangePct}% - 1.5px)` }}
+                  />
+                </div>
+                <div className="mt-1.5 flex items-center justify-between font-mono text-[9px] text-muted/70">
+                  <span>{Math.round(rangePct)}% of range</span>
+                  <span>{updatedAt ?? (marketError ? "no feed" : "connecting")}</span>
                 </div>
               </div>
             </div>
@@ -464,7 +454,7 @@ export default function ScanWorkbench() {
               <span className="flex items-center gap-2 font-mono text-[10px] text-muted">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent/60" />
                 {series
-                  ? `${series.candles.length} candles / ${series.timeframe} / OANDA live feed`
+                  ? `${series.candles.length} candles / ${series.timeframe} / Live Market Feed`
                   : "loading"}
               </span>
               <button
@@ -519,28 +509,32 @@ export default function ScanWorkbench() {
               )}
             </div>
 
-            <div className="mt-3 flex items-stretch gap-2">
-              <div className="flex flex-1 gap-1.5">
-                {TIMEFRAMES.map((tf) => (
-                  <button
-                    key={tf}
-                    type="button"
-                    onClick={() => setTimeframe(tf)}
-                    className={`flex-1 rounded-lg py-2 font-mono text-[11.5px] transition-colors ${
-                      tf === timeframe
-                        ? "bg-teal text-[#04120F]"
-                        : "bg-surface-2 text-muted hover:text-ink"
-                    }`}
-                  >
-                    {tf}
-                  </button>
-                ))}
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="flex items-stretch rounded-xl border border-line bg-surface-2/70 p-1">
+                {TIMEFRAMES.map((tf) => {
+                  const active = tf === timeframe;
+                  return (
+                    <button
+                      key={tf}
+                      type="button"
+                      onClick={() => setTimeframe(tf)}
+                      aria-pressed={active}
+                      className={`flex-1 rounded-lg py-1.5 font-mono text-[11px] uppercase tracking-[0.06em] transition-all duration-200 ${
+                        active
+                          ? "bg-teal text-[#04120F] shadow-[0_0_18px_-6px_rgba(129,255,217,0.9)]"
+                          : "text-muted hover:bg-surface/70 hover:text-ink"
+                      }`}
+                    >
+                      {tf}
+                    </button>
+                  );
+                })}
               </div>
               <button
                 type="button"
                 onClick={runAnalysis}
                 disabled={!series || busy || Boolean(marketError)}
-                className="scan-btn btn btn-teal min-w-[180px] px-8 disabled:cursor-not-allowed disabled:opacity-60"
+                className="scan-btn btn btn-teal w-full disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Analyse"}
               </button>

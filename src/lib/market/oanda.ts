@@ -54,7 +54,7 @@ export async function fetchCandles(
 ): Promise<CandleSeries> {
   const apiKey = process.env.OANDA_API_KEY?.trim();
   if (!apiKey) {
-    throw new Error("OANDA_API_KEY is not configured");
+    throw new Error("Market feed is not configured");
   }
 
   const display = instrument.toUpperCase();

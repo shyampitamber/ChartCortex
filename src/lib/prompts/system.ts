@@ -96,7 +96,7 @@ export function buildSystemPrompt({
     : "  - none detected";
 
   const marketBlock = market
-    ? `Live market data from the OANDA feed:
+    ? `Live market data from the broker feed:
   - candles analysed: ${market.candleCount}
   - last close: ${market.lastClose}
   - visible range: ${market.rangeLow} to ${market.rangeHigh}
