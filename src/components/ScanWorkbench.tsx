@@ -112,6 +112,9 @@ export default function ScanWorkbench() {
   const [status, setStatus] = useState<"idle" | "analysing">("idle");
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [clock, setClock] = useState("");
+  const [pinned, setPinned] = useState<string[]>([]);
+
 
   const chartRef = useRef<LiveChartHandle>(null);
 
@@ -131,6 +134,39 @@ export default function ScanWorkbench() {
       ),
     })).filter((group) => group.items.length > 0);
   }, [query]);
+
+  useEffect(() => {
+    const tick = () => setClock(new Date().toISOString().slice(11, 19));
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("cc-pinned") ?? "[]");
+      if (Array.isArray(stored)) setPinned(stored.filter((s) => typeof s === "string"));
+    } catch {
+      /* ignore malformed storage */
+    }
+  }, []);
+
+  const togglePin = (symbol: string) => {
+    setPinned((current) => {
+      const next = current.includes(symbol)
+        ? current.filter((s) => s !== symbol)
+        : [...current, symbol];
+      try {
+        localStorage.setItem("cc-pinned", JSON.stringify(next));
+      } catch {
+        /* storage unavailable */
+      }
+      return next;
+    });
+  };
+
+  const pinnedAssets = ALL_ASSETS.filter((asset) => pinned.includes(asset.symbol));
+
 
   const loadSeries = useCallback(
     async (silent = false) => {
@@ -221,6 +257,34 @@ export default function ScanWorkbench() {
   const busy = status === "analysing";
   const last = series?.candles.length ? series.candles[series.candles.length - 1] : null;
   const live = Boolean(series) && !marketError;
+  const rangeHigh = series?.candles.length
+    ? Math.max(...series.candles.map((candle) => candle.high))
+    : null;
+  const rangeLow = series?.candles.length
+    ? Math.min(...series.candles.map((candle) => candle.low))
+    : null;
+  const rangePct =
+    rangeHigh !== null && rangeLow !== null && last && rangeHigh > rangeLow
+      ? Math.min(
+          100,
+          Math.max(0, ((last.close - rangeLow) / (rangeHigh - rangeLow)) * 100)
+        )
+      : 50;
+  const chartPlan = plan
+    ? {
+        entryLow: plan.entryZone.low,
+        entryHigh: plan.entryZone.high,
+        stop: plan.stopLoss,
+        targets: plan.takeProfits.map((tp) => tp.price),
+      }
+    : null;
+  const chartLevels = plan
+    ? [
+        { price: plan.keyLevels.support, type: "support" as const },
+        { price: plan.keyLevels.resistance, type: "resistance" as const },
+      ]
+    : [];
+
 
   return (
     <div className="relative min-h-screen">
@@ -231,18 +295,46 @@ export default function ScanWorkbench() {
       </div>
 
       <header className="sticky top-0 z-30 border-b border-line bg-canvas">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-2.5">
+          <div className="flex min-w-0 items-center gap-3">
             <Link href="/" aria-label="ChartCortex home">
-              <LogoLockup size={36} />
+              <LogoLockup size={34} />
             </Link>
             <span className="hidden h-4 w-px bg-line sm:block" />
             <span className="hidden font-chivo text-[10px] uppercase tracking-[0.18em] text-muted sm:block">
               Terminal
             </span>
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-chivo text-[9px] font-semibold uppercase tracking-[0.12em] ${
+                live
+                  ? "border-up/25 bg-up/[0.07] text-up"
+                  : "border-line bg-surface-2 text-muted"
+              }`}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  live ? "animate-pulse bg-up" : "bg-muted/50"
+                }`}
+              />
+              {live ? "Live feed" : marketError ? "Offline" : "Connecting"}
+            </span>
+            <span className="hidden items-baseline gap-2 font-mono text-[11px] text-muted md:flex">
+              <span className="text-ink/80">{activeAsset.symbol}</span>
+              {last && <span>{formatPrice(last.close, instrument)}</span>}
+              <span
+                className={`text-[10px] ${
+                  (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
+                }`}
+              >
+                {formatSigned(series?.changePct ?? 0)}
+              </span>
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="glass-chip hidden px-3 py-1 font-mono text-[10px] text-accent sm:block">
+            <span className="hidden font-mono text-[10.5px] text-muted sm:block">
+              {clock} UTC
+            </span>
+            <span className="glass-chip hidden px-2.5 py-1 font-mono text-[9.5px] text-accent lg:block">
               META MODELS
             </span>
             <ThemeToggle />
@@ -257,6 +349,7 @@ export default function ScanWorkbench() {
         </div>
         <div className="brand-rule" aria-hidden />
       </header>
+
 
       <main className="relative z-10 mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-68px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
         <aside className="hidden min-h-0 lg:block">
@@ -276,33 +369,57 @@ export default function ScanWorkbench() {
               />
             </div>
             <div className="flex-1 overflow-y-auto p-2">
-              {groups.map((group) => (
-                <div key={group.name} className="mb-3">
+              {pinnedAssets.length > 0 && !query.trim() && (
+                <div className="mb-3">
                   <div className="px-2 pb-1 font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
-                    {group.name}
+                    Pinned
                   </div>
-                  {group.items.map((item) => {
-                    const active = item.symbol === instrument;
-                    return (
-                      <button
-                        key={item.symbol}
-                        type="button"
-                        onClick={() => setInstrument(item.symbol)}
-                        className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left transition-colors ${
-                          active
-                            ? "bg-teal/[0.08] text-accent"
-                            : "text-ink hover:bg-surface-2"
-                        }`}
-                      >
-                        <span className="font-mono text-[11.5px]">{item.symbol}</span>
-                        <span className={`text-[10.5px] ${active ? "text-accent/70" : "text-muted"}`}>
-                          {item.name}
-                        </span>
-                      </button>
-                    );
-                  })}
+                  {pinnedAssets.map((item) => (
+                    <AssetRow
+                      key={`pin-${item.symbol}`}
+                      item={item}
+                      active={item.symbol === instrument}
+                      pinned
+                      onSelect={() => setInstrument(item.symbol)}
+                      onTogglePin={() => togglePin(item.symbol)}
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
+              {groups.map((group) => {
+                const items =
+                  query.trim() || pinnedAssets.length === 0
+                    ? group.items
+                    : group.items.filter((item) => !pinned.includes(item.symbol));
+                if (!items.length) return null;
+                return (
+                  <div key={group.name} className="mb-3">
+                    <div className="flex items-center justify-between px-2 pb-1">
+                      <span className="font-chivo text-[9px] uppercase tracking-[0.14em] text-muted">
+                        {group.name}
+                      </span>
+                      <span className="font-mono text-[9px] text-muted/60">
+                        {items.length}
+                      </span>
+                    </div>
+                    {items.map((item) => (
+                      <AssetRow
+                        key={item.symbol}
+                        item={item}
+                        active={item.symbol === instrument}
+                        pinned={pinned.includes(item.symbol)}
+                        onSelect={() => setInstrument(item.symbol)}
+                        onTogglePin={() => togglePin(item.symbol)}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
+              {!groups.length && (
+                <p className="px-2 py-6 text-center text-[11px] text-muted">
+                  No market matches.
+                </p>
+              )}
             </div>
             <div className="border-t border-line px-3 py-2 text-[10px] leading-relaxed text-muted">
               Live Market Feed. Select an asset, then a timeframe.
@@ -312,47 +429,65 @@ export default function ScanWorkbench() {
 
         <section className="flex min-h-0 min-w-0 flex-col gap-4">
           <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="font-chivo text-[24px] font-bold uppercase tracking-[0.01em]">
-                  {activeAsset.symbol}
-                </span>
-                <span className="text-[12px] text-muted">{activeAsset.name}</span>
-                {last && (
-                  <span className="flex items-baseline gap-1.5 font-mono">
-                    <span className="text-[18px] text-ink">
-                      {formatPrice(last.close, instrument)}
-                    </span>
-                    <span
-                      className={`text-[11px] ${
-                        (series?.changePct ?? 0) >= 0 ? "text-up" : "text-down"
-                      }`}
-                    >
-                      {formatSigned(series?.changePct ?? 0)}
-                    </span>
+            <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                  <span className="font-chivo text-[26px] font-bold uppercase leading-none tracking-[0.01em]">
+                    {activeAsset.symbol}
                   </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-chivo text-[9.5px] font-semibold uppercase tracking-[0.12em] ${
-                    live
-                      ? "border-up/25 bg-up/[0.07] text-up"
-                      : "border-line bg-surface-2 text-muted"
-                  }`}
-                >
+                  <span className="text-[12px] text-muted">{activeAsset.name}</span>
+                  <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9.5px] text-muted">
+                    {timeframe}
+                  </span>
+                </div>
+                <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="font-mono text-[26px] leading-none text-ink">
+                    {last ? formatPrice(last.close, instrument) : "n/a"}
+                  </span>
                   <span
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      live ? "animate-pulse bg-up" : "bg-muted/50"
+                    className={`rounded-md px-1.5 py-0.5 font-mono text-[11px] ${
+                      (series?.changePct ?? 0) >= 0
+                        ? "bg-up/10 text-up"
+                        : "bg-down/10 text-down"
                     }`}
-                  />
-                  {live ? "Live" : marketError ? "Offline" : "Connecting"}
-                </span>
-                <span className="font-mono text-[10px] text-muted">
-                  {updatedAt ?? (marketError ? "no feed" : "connecting")}
-                </span>
+                  >
+                    {formatSigned(series?.changePct ?? 0)}
+                  </span>
+                  <span className="font-mono text-[10px] text-muted">
+                    {updatedAt ?? (marketError ? "no feed" : "connecting")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-end gap-5">
+                <div className="hidden sm:block">
+                  <div className="flex items-center justify-between font-mono text-[9.5px] text-muted">
+                    <span>{rangeLow !== null ? formatPrice(rangeLow, instrument) : "n/a"}</span>
+                    <span className="px-2 font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted/70">
+                      range
+                    </span>
+                    <span>{rangeHigh !== null ? formatPrice(rangeHigh, instrument) : "n/a"}</span>
+                  </div>
+                  <div className="relative mt-1.5 h-1 w-[230px] rounded-full bg-surface-2">
+                    <span
+                      className="absolute inset-y-0 left-0 rounded-full bg-accent/40"
+                      style={{ width: `${rangePct}%` }}
+                    />
+                    <span
+                      className="absolute -top-[3px] h-2.5 w-[3px] rounded-full bg-accent shadow-[0_0_8px_rgba(129,255,217,0.8)]"
+                      style={{ left: `calc(${rangePct}% - 1.5px)` }}
+                    />
+                  </div>
+                  <div className="mt-1.5 flex items-center justify-end gap-1.5 font-mono text-[9.5px] text-muted">
+                    <span>{series ? series.candles.length : 0}</span>
+                    <span className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted/70">
+                      candles
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
+
 
             <div className="mt-3 flex flex-wrap items-center gap-1.5">
               {TIMEFRAMES.map((tf) => (
@@ -390,6 +525,9 @@ export default function ScanWorkbench() {
                   instrument={instrument}
                   timeframe={timeframe}
                   candles={series.candles}
+                  levels={chartLevels}
+                  plan={chartPlan}
+                  scanning={busy}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-[12px] text-muted">
@@ -399,16 +537,17 @@ export default function ScanWorkbench() {
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <span className="font-mono text-[10px] text-muted">
+              <span className="flex items-center gap-2 font-mono text-[10px] text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent/60" />
                 {series
-                  ? `${series.candles.length} candles / ${series.timeframe} / Live Market Feed`
+                  ? `${series.candles.length} candles / ${series.timeframe} / OANDA live feed`
                   : "loading"}
               </span>
               <button
                 type="button"
                 onClick={runAnalysis}
                 disabled={!series || busy || Boolean(marketError)}
-                className="rounded-xl bg-teal px-6 py-3 text-[13px] font-semibold text-[#04120F] transition-colors hover:bg-[#9CFFE5] disabled:cursor-not-allowed disabled:opacity-60"
+                className="scan-btn btn btn-teal min-w-[180px] px-8 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {busy ? `Analysing ${elapsed.toFixed(1)}s` : "Analyse"}
               </button>
@@ -423,13 +562,6 @@ export default function ScanWorkbench() {
               </div>
             )}
 
-            {result && (
-              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[9.5px] text-muted">
-                <span className="truncate">sam {result.requests.sam ?? "n/a"}</span>
-                <span className="truncate">muse {result.requests.muse ?? "n/a"}</span>
-              </div>
-            )}
-
             {error && (
               <div className="mt-3 rounded-lg border border-down/25 bg-down/[0.06] px-3 py-2 text-[12px] text-down">
                 {error}
@@ -439,7 +571,11 @@ export default function ScanWorkbench() {
         </section>
 
         <section className="flex min-h-0 min-w-0 flex-col">
-          <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
+          <div className="glass-card relative flex min-h-0 flex-1 flex-col overflow-hidden p-4 pl-5">
+            <span
+              className="absolute inset-y-4 left-0 w-[2px] rounded-full bg-gradient-to-b from-accent/80 via-violet-ink/40 to-pink/70"
+              aria-hidden
+            />
             <div className="flex items-center justify-between border-b border-line pb-3">
               <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
                 AI report
@@ -453,6 +589,7 @@ export default function ScanWorkbench() {
                 {busy ? "Analysing" : plan ? "Ready" : "Idle"}
               </span>
             </div>
+
 
             <div className="min-h-0 flex-1 overflow-y-auto pr-1">
             {!plan && busy && <ScanningState elapsed={elapsed} />}
@@ -492,13 +629,17 @@ export default function ScanWorkbench() {
               </div>
             )}
 
-                        {plan && result && (
+            {plan && result && (
               <div className="pt-3">
                 <ReportView
                   data={toReportData(plan, result.timings.totalMs)}
                   format={(value) => formatPrice(value, plan.instrument)}
                   idSuffix="terminal"
                   showHeader={false}
+                  receipt={{
+                    sam: result.requests.sam,
+                    muse: result.requests.muse,
+                  }}
                 />
               </div>
             )}
@@ -511,30 +652,66 @@ export default function ScanWorkbench() {
 }
 
 function ScanningState({ elapsed }: { elapsed: number }) {
-  const steps = [
-    "Segmenting the live chart",
-    "Measuring structure",
-    "Writing the plan",
+  const stages = [
+    { label: "Segmenting the chart", model: "SAM 3.1", at: 0 },
+    { label: "Measuring structure", model: "geometry", at: 5 },
+    { label: "Writing the plan", model: "Muse Spark", at: 11 },
   ];
+  const active = elapsed >= 11 ? 2 : elapsed >= 5 ? 1 : 0;
+
   return (
     <div className="pt-8">
-      <div className="font-chivo text-[18px] font-bold leading-tight">
-        Reading the live chart.
+      <div className="flex items-baseline justify-between gap-3">
+        <div className="font-chivo text-[18px] font-bold leading-tight">
+          Reading the live chart.
+        </div>
+        <span className="font-mono text-[11px] text-muted">{elapsed.toFixed(1)}s</span>
       </div>
       <p className="mt-2 text-[12px] leading-relaxed text-muted">
-        SAM 3.1 segments the chart, then Muse Spark writes the plan.
+        SAM 3.1 segments the chart, then Muse Spark writes the plan. A full run
+        usually lands between 15 and 30 seconds.
       </p>
+
       <div className="mt-6 space-y-3">
-        {steps.map((label, index) => (
-          <div key={label} className="flex items-center gap-3 text-[12px] text-muted">
-            <span
-              className="h-1.5 w-1.5 animate-pulse rounded-full bg-teal"
-              style={{ animationDelay: `${index * 0.35}s` }}
-            />
-            {label}
-          </div>
-        ))}
+        {stages.map((stage, index) => {
+          const done = index < active;
+          const current = index === active;
+          return (
+            <div key={stage.label} className="flex items-center gap-3">
+              <span
+                className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border font-mono text-[10px] ${
+                  done
+                    ? "border-accent/40 bg-accent/10 text-accent"
+                    : current
+                      ? "border-accent/60 bg-accent/10 text-accent"
+                      : "border-line bg-surface-2 text-muted"
+                }`}
+              >
+                {done ? "✓" : index + 1}
+              </span>
+              <span
+                className={`flex-1 text-[12px] ${
+                  done || current ? "text-ink" : "text-muted/70"
+                }`}
+              >
+                {stage.label}
+              </span>
+              <span
+                className={`font-mono text-[9px] uppercase tracking-[0.1em] ${
+                  current ? "text-accent" : "text-muted/60"
+                }`}
+              >
+                {stage.model}
+              </span>
+            </div>
+          );
+        })}
       </div>
+
+      <div className="mt-6 h-1 overflow-hidden rounded-full bg-surface-2">
+        <div className="scan-progress h-full w-1/3 rounded-full bg-gradient-to-r from-accent via-violet-ink to-pink" />
+      </div>
+
       <div className="mt-6 space-y-2">
         <div className="h-2 w-3/4 animate-pulse rounded bg-surface-2" />
         <div className="h-2 w-full animate-pulse rounded bg-surface-2" />
@@ -548,7 +725,6 @@ function ScanningState({ elapsed }: { elapsed: number }) {
           />
         ))}
       </div>
-      <div className="mt-4 font-mono text-[10px] text-muted">{elapsed.toFixed(1)}s</div>
     </div>
   );
 }
@@ -575,3 +751,62 @@ function EmptyStep({ n, title, text }: { n: string; title: string; text: string 
     </li>
   );
 }
+
+function AssetRow({
+  item,
+  active,
+  pinned,
+  onSelect,
+  onTogglePin,
+}: {
+  item: { symbol: string; name: string };
+  active: boolean;
+  pinned: boolean;
+  onSelect: () => void;
+  onTogglePin: () => void;
+}) {
+  return (
+    <div
+      className={`group/row relative flex items-center rounded-lg transition-colors ${
+        active ? "bg-teal/[0.08]" : "hover:bg-surface-2"
+      }`}
+    >
+      {active && (
+        <span
+          className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-accent"
+          aria-hidden
+        />
+      )}
+      <button
+        type="button"
+        onClick={onSelect}
+        className="flex flex-1 items-center justify-between gap-2 px-2 py-1.5 text-left"
+      >
+        <span
+          className={`font-mono text-[11.5px] ${active ? "text-accent" : "text-ink"}`}
+        >
+          {item.symbol}
+        </span>
+        <span
+          className={`text-[10.5px] ${active ? "text-accent/70" : "text-muted"}`}
+        >
+          {item.name}
+        </span>
+      </button>
+      <button
+        type="button"
+        onClick={onTogglePin}
+        aria-label={pinned ? `Unpin ${item.symbol}` : `Pin ${item.symbol}`}
+        aria-pressed={pinned}
+        className={`mr-1 grid h-5 w-5 place-items-center rounded text-[11px] transition-opacity ${
+          pinned
+            ? "text-accent opacity-100"
+            : "text-muted opacity-0 group-hover/row:opacity-100 focus-visible:opacity-100"
+        }`}
+      >
+        {pinned ? "★" : "☆"}
+      </button>
+    </div>
+  );
+}
+

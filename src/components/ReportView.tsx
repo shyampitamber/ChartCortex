@@ -20,6 +20,8 @@ export type ReportData = {
   metaTime?: string;
 };
 
+export type ReportReceipt = { sam?: string | null; muse?: string | null };
+
 const biasTone: Record<string, string> = {
   Bullish:
     "border-up/45 bg-up/20 text-up shadow-[0_0_22px_-8px_rgba(61,220,151,0.65)]",
@@ -40,17 +42,25 @@ export function ReportView({
   idSuffix = "a",
   showHeader = true,
   showDetails = true,
+  receipt,
 }: {
   data: ReportData;
   format: (value: number) => string;
   idSuffix?: string;
   showHeader?: boolean;
   showDetails?: boolean;
+  receipt?: ReportReceipt;
 }) {
   const gradientId = `confidenceGrad-${idSuffix}`;
   const radius = 26;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - data.confidence / 100);
+  const entryMid = (data.entryLow + data.entryHigh) / 2;
+  const risk = Math.abs(entryMid - data.stop);
+  const rMultiple = (price: number) =>
+    risk > 0 ? Math.abs(price - entryMid) / risk : 0;
+  const shortId = (value?: string | null) =>
+    value ? value.replace(/^.*_/, "").slice(0, 10) : "n/a";
 
   return (
     <div className="flex h-full flex-col">
@@ -148,6 +158,7 @@ export function ReportView({
               key={target.label}
               label={target.label}
               note={target.note}
+              meta={`${rMultiple(target.price).toFixed(1)}R`}
               value={format(target.price)}
               tone="target"
             />
@@ -203,9 +214,10 @@ export function ReportView({
         </div>
       </div>
 
-      <div className="mt-auto flex items-center justify-between border-t border-line pt-2 font-mono text-[8.5px] uppercase tracking-[0.1em] text-muted">
-        <span>Meta models</span>
-        <span>{data.metaTime ?? "12.4s"}</span>
+      <div className="mt-auto flex items-center justify-between gap-2 border-t border-line pt-2 font-mono text-[8px] uppercase tracking-[0.08em] text-muted">
+        <span className="truncate">sam {shortId(receipt?.sam)}</span>
+        <span className="truncate">muse {shortId(receipt?.muse)}</span>
+        <span className="shrink-0">{data.metaTime ?? "12.4s"}</span>
       </div>
     </div>
   );
@@ -215,11 +227,13 @@ function LadderRow({
   label,
   value,
   note,
+  meta,
   tone,
 }: {
   label: string;
   value: string;
   note?: string;
+  meta?: string;
   tone: "entry" | "stop" | "target";
 }) {
   const dot =
@@ -235,7 +249,14 @@ function LadderRow({
           <span className="ml-1.5 text-[10px] normal-case tracking-normal text-muted/60">{note}</span>
         ) : null}
       </span>
-      <span className={`shrink-0 font-mono text-[14px] ${valueTone}`}>{value}</span>
+      <span className="flex shrink-0 items-baseline gap-2">
+        {meta ? (
+          <span className="rounded border border-up/20 bg-up/[0.06] px-1 font-mono text-[9px] text-up/80">
+            {meta}
+          </span>
+        ) : null}
+        <span className={`font-mono text-[14px] ${valueTone}`}>{value}</span>
+      </span>
     </div>
   );
 }
