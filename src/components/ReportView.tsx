@@ -21,15 +21,17 @@ export type ReportData = {
 };
 
 const biasTone: Record<string, string> = {
-  Bullish: "border-up/30 bg-up/10 text-up",
-  Bearish: "border-down/30 bg-down/10 text-down",
+  Bullish:
+    "border-up/45 bg-up/20 text-up shadow-[0_0_22px_-8px_rgba(61,220,151,0.65)]",
+  Bearish:
+    "border-down/45 bg-down/20 text-down shadow-[0_0_22px_-8px_rgba(255,92,122,0.65)]",
   Neutral: "border-line bg-surface-2 text-muted",
 };
 
 const riskTone: Record<string, string> = {
-  Low: "border-up/30 bg-up/10 text-up",
-  Medium: "border-[#F5B544]/30 bg-[#F5B544]/10 text-[#F5B544]",
-  High: "border-down/30 bg-down/10 text-down",
+  Low: "border-up/40 bg-up/15 text-up",
+  Medium: "border-[#F5B544]/45 bg-[#F5B544]/15 text-[#F5B544]",
+  High: "border-down/45 bg-down/15 text-down",
 };
 
 export function ReportView({
@@ -72,14 +74,14 @@ export function ReportView({
         </div>
         <div className="flex flex-col items-end gap-1">
           <span
-            className={`rounded-md border px-2 py-0.5 font-chivo text-[9.5px] font-semibold uppercase tracking-[0.1em] ${
+            className={`min-w-[118px] rounded-md border px-3 py-1.5 text-center font-chivo text-[11px] font-bold uppercase tracking-[0.08em] ${
               biasTone[data.bias] ?? biasTone.Neutral
             }`}
           >
             {data.bias}
           </span>
           <span
-            className={`rounded-md border px-2 py-0.5 font-chivo text-[9px] font-semibold uppercase tracking-[0.1em] ${
+            className={`min-w-[118px] rounded-md border px-3 py-1.5 text-center font-chivo text-[11px] font-semibold uppercase tracking-[0.08em] ${
               riskTone[data.riskLevel] ?? riskTone.Medium
             }`}
           >
@@ -130,10 +132,10 @@ export function ReportView({
       </div>
 
       <div className="mt-4">
-        <div className="font-chivo text-[8.5px] uppercase tracking-[0.14em] text-muted">
+        <div className="font-chivo text-[10px] uppercase tracking-[0.14em] text-muted">
           Trade ladder
         </div>
-        <div className="relative mt-2 space-y-1.5 pl-4">
+        <div className="relative mt-2.5 space-y-2.5 pl-4">
           <span className="absolute bottom-2 left-[5px] top-2 w-px bg-line" aria-hidden />
           <LadderRow
             label="Entry zone"
@@ -226,14 +228,14 @@ function LadderRow({
     tone === "entry" ? "text-ink" : tone === "stop" ? "text-down" : "text-up";
   return (
     <div className="relative flex items-center justify-between gap-2">
-      <span className={`absolute -left-4 h-2 w-2 rounded-full ${dot}`} aria-hidden />
-      <span className="truncate font-chivo text-[9px] uppercase tracking-[0.1em] text-muted">
+      <span className={`absolute -left-4 h-2.5 w-2.5 rounded-full ${dot}`} aria-hidden />
+      <span className="min-w-0 truncate font-chivo text-[11px] uppercase tracking-[0.08em] text-muted">
         {label}
         {note ? (
-          <span className="ml-1 normal-case tracking-normal text-muted/70">{note}</span>
+          <span className="ml-1.5 text-[10px] normal-case tracking-normal text-muted/60">{note}</span>
         ) : null}
       </span>
-      <span className={`shrink-0 font-mono text-[11px] ${valueTone}`}>{value}</span>
+      <span className={`shrink-0 font-mono text-[14px] ${valueTone}`}>{value}</span>
     </div>
   );
 }
