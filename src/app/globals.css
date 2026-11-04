@@ -1076,3 +1076,58 @@ html[data-theme="light"] .glass-section {
     linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)),
     rgba(255, 255, 255, 0.55);
 }
+
+/* ---------- light theme contrast fixes ---------- */
+
+/* dark islands: surfaces that stay dark keep the dark text palette */
+.surface-dark {
+  --line: rgba(234, 242, 240, 0.1);
+  --text: #eaf2f0;
+  --muted: #8fa3a6;
+  --teal: #81ffd9;
+  --accent: #81ffd9;
+  --pink: #f355d0;
+  --violet-ink: #6e9aff;
+  --up: #4ade80;
+  --down: #fb7185;
+  color: var(--text);
+  color-scheme: dark;
+}
+
+/* the hero cards float over a light page, so they need a solid dark body */
+html[data-theme="light"] .hero-feed {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(13, 20, 28, 0.94);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+html[data-theme="light"] .hero-report {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(13, 20, 28, 0.95);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* translucent chips and cards need a real surface on light */
+.theme-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+html[data-theme="light"] .theme-chip {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(10, 20, 32, 0.12);
+  box-shadow: 0 12px 30px -26px rgba(10, 20, 32, 0.6);
+}
+.theme-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+html[data-theme="light"] .theme-card {
+  background: rgba(255, 255, 255, 0.66);
+  border-color: rgba(10, 20, 32, 0.1);
+  box-shadow: 0 20px 44px -34px rgba(10, 20, 32, 0.55);
+}
+
+html[data-theme="light"] .footer-link {
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+}

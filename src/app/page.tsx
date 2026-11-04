@@ -221,20 +221,20 @@ const outputs = [
 const outputTones = {
   violet: {
     bar: "bg-[#6E9AFF]",
-    icon: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
-    index: "text-[#6E9AFF]/60",
+    icon: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-violet-ink",
+    index: "text-violet-ink/70",
     dot: "bg-[#6E9AFF]",
   },
   teal: {
     bar: "bg-teal",
-    icon: "border-teal/25 bg-teal/10 text-teal",
-    index: "text-teal/60",
+    icon: "border-teal/25 bg-teal/10 text-accent",
+    index: "text-accent/70",
     dot: "bg-teal",
   },
   pink: {
     bar: "bg-pink",
     icon: "border-pink/25 bg-pink/10 text-pink",
-    index: "text-pink/60",
+    index: "text-pink/70",
     dot: "bg-pink",
   },
 };
@@ -246,7 +246,7 @@ const principles = [
     title: "Measured",
     icon: "measure",
     text: "Highs, lows and levels come from the live OHLC feed, so the model reads real numbers instead of guessing coordinates from pixels.",
-    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-violet-ink",
     glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
     glowDot: "bg-[#6E9AFF]",
   },
@@ -254,7 +254,7 @@ const principles = [
     title: "Constrained",
     icon: "lock",
     text: "The plan is returned against a strict JSON schema. A missing field fails the scan instead of reaching the screen half written.",
-    iconBox: "border-teal/25 bg-teal/10 text-teal",
+    iconBox: "border-teal/25 bg-teal/10 text-accent",
     glow: "bg-[radial-gradient(circle,rgba(129,255,217,0.3),transparent_65%)]",
     glowDot: "bg-teal",
   },
@@ -270,7 +270,7 @@ const principles = [
     title: "On demand",
     icon: "cursor",
     text: "No background monitoring and no watchlist polling. Analysis runs when you press Analyse, on the chart in front of you.",
-    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-violet-ink",
     glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
     glowDot: "bg-[#6E9AFF]",
   },
@@ -308,23 +308,23 @@ const metaModels = [
 
 const modelTones = {
   teal: {
-    iconBox: "border-teal/25 bg-teal/10 text-teal",
-    status: "border-teal/30 bg-teal/[0.08] text-teal",
-    id: "text-teal/70",
-    role: "text-teal",
+    iconBox: "border-teal/25 bg-teal/10 text-accent",
+    status: "border-teal/30 bg-teal/[0.08] text-accent",
+    id: "text-accent/80",
+    role: "text-accent",
     glow: "bg-[radial-gradient(circle,rgba(129,255,217,0.3),transparent_65%)]",
   },
   violet: {
-    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-[#6E9AFF]",
-    status: "border-[#6E9AFF]/30 bg-[#6E9AFF]/[0.08] text-[#6E9AFF]",
-    id: "text-[#6E9AFF]/70",
-    role: "text-[#6E9AFF]",
+    iconBox: "border-[#6E9AFF]/25 bg-[#6E9AFF]/10 text-violet-ink",
+    status: "border-[#6E9AFF]/30 bg-[#6E9AFF]/[0.08] text-violet-ink",
+    id: "text-violet-ink/80",
+    role: "text-violet-ink",
     glow: "bg-[radial-gradient(circle,rgba(110,154,255,0.35),transparent_65%)]",
   },
   pink: {
     iconBox: "border-pink/25 bg-pink/10 text-pink",
     status: "border-pink/30 bg-pink/[0.08] text-pink",
-    id: "text-pink/70",
+    id: "text-pink/80",
     role: "text-pink",
     glow: "bg-[radial-gradient(circle,rgba(243,85,208,0.3),transparent_65%)]",
   },
@@ -604,7 +604,7 @@ export default function Home() {
                     <span key={item} className="inline-flex items-center gap-2">
                       <svg
                         viewBox="0 0 24 24"
-                        className="h-4 w-4 text-teal"
+                        className="h-4 w-4 text-accent"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2.4"
@@ -640,7 +640,7 @@ export default function Home() {
                 return (
                   <div
                     key={step.n}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F14] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
+                    className="surface-dark group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F14] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
                   >
                     <div className={`absolute inset-x-0 top-0 h-[2px] ${tone.line}`} />
                     <div className="flex items-center justify-between gap-3">
@@ -692,7 +692,7 @@ export default function Home() {
           />
           <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[0.82fr_1.18fr] md:gap-14">
             <div className="md:sticky md:top-24 md:self-start">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+              <span className="theme-chip inline-flex items-center gap-2 rounded-full px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                 The output
               </span>
               <h2 className="mt-4 text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
@@ -735,7 +735,7 @@ export default function Home() {
                       >
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-white/10 text-[13px] leading-none text-muted transition-all duration-300 group-hover:rotate-45 group-hover:border-white/30 group-hover:text-ink group-focus-within:rotate-45">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line text-[13px] leading-none text-muted transition-all duration-300 group-hover:rotate-45 group-hover:border-white/30 group-hover:text-ink group-focus-within:rotate-45">
                         +
                       </span>
                     </div>
@@ -796,7 +796,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-5 py-16">
             <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
               <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+                <span className="theme-chip inline-flex items-center gap-2 rounded-full px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                   How it runs
                 </span>
                 <h2 className="mt-4 text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">
@@ -808,7 +808,7 @@ export default function Home() {
                   and the plan returns as a validated object. There is no other model
                   provider in the path.
                 </p>
-                <div className="mt-6 inline-flex items-center gap-2.5 rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-[11px] text-muted">
+                <div className="mt-6 inline-flex items-center gap-2.5 rounded-lg border border-white/10 bg-black/60 px-3 py-2 font-mono text-[11px] text-[#eaf2f0]/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-teal animate-pulse" />
                   POST api.meta.ai/v1/responses
                 </div>
@@ -850,7 +850,7 @@ export default function Home() {
                 return (
                   <article
                     key={model.id}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+                    className="group relative flex h-full flex-col overflow-hidden theme-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
                   >
                     <span
                       className={`pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 ${tone.glow}`}
@@ -898,7 +898,7 @@ export default function Home() {
             aria-hidden
           />
           <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+            <span className="theme-chip inline-flex items-center gap-2 rounded-full px-3 py-1 font-chivo text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
               Open the terminal
             </span>
             <h2 className="mt-5 text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[38px]">

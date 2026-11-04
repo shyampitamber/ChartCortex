@@ -155,7 +155,7 @@ function FeedCard({
 }) {
   return (
     <div
-      className={`hero-feed ${compact ? "hero-feed-compact" : "hero-float"}`}
+      className={`surface-dark hero-feed ${compact ? "hero-feed-compact" : "hero-float"}`}
       style={
         compact
           ? undefined
@@ -286,7 +286,7 @@ export function HeroStage() {
           <FeedCard key={feed.label} feed={feed} />
         ))}
 
-        <div className="hero-report"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="desk" showDetails={false} /></div>
+        <div className="hero-report surface-dark"><ReportView data={HERO_REPORT} format={heroFormat} idSuffix="desk" showDetails={false} /></div>
       </div>
 
       <div className="lg:hidden">
