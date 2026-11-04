@@ -200,9 +200,13 @@ export default function ScanWorkbench() {
 
   return (
     <div className="relative min-h-screen">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_15%_-10%,rgba(16,91,255,0.14),transparent_55%),radial-gradient(ellipse_at_85%_-20%,rgba(243,85,208,0.12),transparent_55%)]" />
+      <div className="aurora" aria-hidden>
+        <div className="aurora-blob aurora-blob-a" />
+        <div className="aurora-blob aurora-blob-b" />
+        <div className="aurora-blob aurora-blob-c" />
+      </div>
 
-      <header className="glass-bar sticky top-0 z-30 border-b border-line">
+      <header className="sticky top-0 z-30 border-b border-line bg-canvas">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <Link href="/" aria-label="ChartCortex home">
@@ -214,14 +218,14 @@ export default function ScanWorkbench() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden rounded-full border border-teal/25 bg-teal/[0.06] px-3 py-1 font-mono text-[10px] text-accent sm:block">
+            <span className="glass-chip hidden px-3 py-1 font-mono text-[10px] text-accent sm:block">
               META MODELS
             </span>
             <ThemeToggle />
             <button
               type="button"
               onClick={refresh}
-              className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] text-muted transition-colors hover:border-accent/40 hover:text-ink"
+              className="glass-chip px-3 py-1.5 text-[12px] text-muted transition-colors hover:text-ink"
             >
               Refresh
             </button>
@@ -229,9 +233,9 @@ export default function ScanWorkbench() {
         </div>
       </header>
 
-      <main className="relative mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-68px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
+      <main className="relative z-10 mx-auto grid max-w-[1600px] gap-4 px-4 py-4 lg:h-[calc(100vh-68px)] lg:grid-cols-[220px_minmax(0,1fr)_400px]">
         <aside className="hidden min-h-0 lg:block">
-          <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+          <div className="glass-card flex h-full flex-col overflow-hidden">
             <div className="border-b border-line p-3">
               <div className="flex items-center justify-between">
                 <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
@@ -243,7 +247,7 @@ export default function ScanWorkbench() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search market"
-                className="mt-2 w-full rounded-lg border border-line bg-surface-2 px-2.5 py-1.5 text-[12px] text-ink outline-none placeholder:text-muted focus:border-accent/40"
+                className="mt-2 w-full rounded-lg border border-line bg-canvas/50 px-2.5 py-1.5 text-[12px] text-ink outline-none backdrop-blur placeholder:text-muted focus:border-accent/40"
               />
             </div>
             <div className="flex-1 overflow-y-auto p-2">
@@ -282,7 +286,7 @@ export default function ScanWorkbench() {
         </aside>
 
         <section className="flex min-h-0 min-w-0 flex-col gap-4">
-          <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+          <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="font-chivo text-[24px] font-bold uppercase tracking-[0.01em]">
@@ -410,7 +414,7 @@ export default function ScanWorkbench() {
         </section>
 
         <section className="flex min-h-0 min-w-0 flex-col">
-          <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(22,18,31,0.04),0_12px_32px_rgba(22,18,31,0.05)]">
+          <div className="glass-card flex min-h-0 flex-1 flex-col p-4">
             <div className="flex items-center justify-between border-b border-line pb-3">
               <span className="font-chivo text-[10px] uppercase tracking-[0.16em] text-muted">
                 AI report

@@ -31,7 +31,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`grid h-8 w-8 place-items-center rounded-lg border border-line bg-surface text-muted transition-colors hover:border-accent/40 hover:text-ink ${className}`}
+      className={`icon-btn ${className}`}
     >
       {isDark ? (
         <svg

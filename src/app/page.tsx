@@ -36,8 +36,13 @@ const outputs = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-canvas">
-      <header className="glass-bar sticky top-0 z-30 border-b border-line">
+    <div className="relative min-h-screen bg-canvas">
+      <div className="aurora" aria-hidden>
+        <div className="aurora-blob aurora-blob-a" />
+        <div className="aurora-blob aurora-blob-b" />
+        <div className="aurora-blob aurora-blob-c" />
+      </div>
+      <header className="sticky top-0 z-30 border-b border-line bg-canvas">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <Link href="/" aria-label="ChartCortex home">
             <LogoLockup size={40} />
@@ -63,13 +68,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main>
+      <main className="relative z-10">
         <section className="relative overflow-hidden">
-          <div className="hero-aurora">
-            <div className="hero-blob hero-blob-a" />
-            <div className="hero-blob hero-blob-b" />
-          </div>
-
           <div className="relative mx-auto max-w-6xl px-5 pb-4 pt-10 text-center sm:pt-12">
             <span className="glass-pill text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-teal" />
@@ -87,40 +87,38 @@ export default function Home() {
                 Get a Trade Plan
               </h2>
             </div>
-
-            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-relaxed text-muted">
-              Select an asset and timeframe. The live chart is analysed and returns
-              the entry, stop, three targets and the reasoning, in under a minute.
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted">
-              {["Decision support only", "No execution", "No client funds"].map(
-                (item) => (
-                  <span key={item} className="inline-flex items-center gap-1.5">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-3 w-3 text-accent"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden
-                    >
-                      <path d="m5 13 4 4L19 7" />
-                    </svg>
-                    {item}
-                  </span>
-                )
-              )}
-            </div>
           </div>
 
           <div className="relative mx-auto w-full max-w-[1320px] px-2 pb-8">
             <HeroStage />
-            <p className="mt-2 text-center text-[11px] text-muted">
-              Market feeds in. One institutional report out.
-            </p>
+            <div className="mt-8 text-center">
+              <p className="mx-auto max-w-xl text-[14.5px] leading-relaxed text-muted">
+                Select an asset and timeframe. The live chart is analysed and
+                returns the entry, stop, three targets and the reasoning, in under
+                a minute.
+              </p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] text-muted">
+                {["Decision support only", "No execution", "No client funds"].map(
+                  (item) => (
+                    <span key={item} className="inline-flex items-center gap-1.5">
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-3 w-3 text-accent"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                      {item}
+                    </span>
+                  )
+                )}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -137,7 +135,7 @@ export default function Home() {
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {steps.map((step) => (
-                <div key={step.n} className="rounded-xl border border-line bg-surface p-5">
+                <div key={step.n} className="glass-panel p-5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] text-accent">{step.n}</span>
                     <span className="rounded border border-line px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-muted">
@@ -177,12 +175,14 @@ export default function Home() {
               </dl>
             </div>
             <div className="relative">
-              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_50%_40%,rgba(85,47,246,0.2),transparent_65%)] blur-2xl" />
-              <img
-                src="/screenshot.png"
-                alt="ChartCortex workbench showing a segmented chart and a trade plan"
-                className="relative w-full rounded-xl border border-line"
-              />
+              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_50%_40%,rgba(16,91,255,0.22),transparent_65%)] blur-2xl" />
+              <div className="glass-card relative p-2">
+                <img
+                  src="/screenshot.png"
+                  alt="ChartCortex workbench showing a live chart and a trade plan"
+                  className="relative w-full rounded-[16px]"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -212,7 +212,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-xl border border-line bg-surface p-5">
+                <div className="glass-panel p-5">
                   <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
                     Measured
                   </div>
@@ -221,7 +221,7 @@ export default function Home() {
                     data, not from a language model guessing coordinates.
                   </p>
                 </div>
-                <div className="rounded-xl border border-line bg-surface p-5">
+                <div className="glass-panel p-5">
                   <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
                     Constrained
                   </div>
@@ -230,7 +230,7 @@ export default function Home() {
                     receives a complete, valid object.
                   </p>
                 </div>
-                <div className="rounded-xl border border-line bg-surface p-5">
+                <div className="glass-panel p-5">
                   <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
                     Honest
                   </div>
@@ -239,7 +239,7 @@ export default function Home() {
                     says so instead of inventing prices.
                   </p>
                 </div>
-                <div className="rounded-xl border border-line bg-surface p-5">
+                <div className="glass-panel p-5">
                   <div className="text-[10px] uppercase tracking-[0.16em] text-muted">
                     On demand
                   </div>
@@ -271,7 +271,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-line">
+      <footer className="relative z-10 border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
           <LogoLockup size={30} />
           <p className="max-w-xl text-[11px] leading-relaxed text-muted">
