@@ -19,7 +19,7 @@ const legalLinks = [
 ];
 
 const supportLinks = [
-  { label: "Contact", href: "mailto:hello@ascendforex.com" },
+  { label: "Contact", href: "/contact" },
   { label: "Meta Model API", href: "https://dev.meta.ai", external: true },
 ];
 
@@ -35,8 +35,8 @@ const socials = [
     path: "M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.55V9h3.57v11.45Z",
   },
   {
-    label: "Email",
-    href: "mailto:hello@ascendforex.com",
+    label: "Contact",
+    href: "/contact",
     path: "",
   },
 ];
@@ -49,46 +49,60 @@ export function SiteFooter() {
         <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="text-center sm:text-left">
             <LogoLockup size={38} />
-            <p className="mt-2 text-sm text-muted">
-              Live chart intelligence. Decision support, not execution.
-            </p>
           </div>
           <nav aria-label="Social media" className="flex items-center gap-2">
-            {socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target={social.href.startsWith("mailto:") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="icon-btn"
-              >
-                {social.path ? (
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4"
-                    fill="currentColor"
-                    aria-hidden
+            {socials.map((social) => {
+              const icon = social.path ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill="currentColor"
+                  aria-hidden
+                >
+                  <path d={social.path} />
+                </svg>
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+              );
+
+              if (social.href.startsWith("/")) {
+                return (
+                  <Link
+                    key={social.label}
+                    href={social.href}
+                    aria-label={social.label}
+                    className="icon-btn"
                   >
-                    <path d={social.path} />
-                  </svg>
-                ) : (
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <rect x="3" y="5" width="18" height="14" rx="2" />
-                    <path d="m3 7 9 6 9-6" />
-                  </svg>
-                )}
-              </a>
-            ))}
+                    {icon}
+                  </Link>
+                );
+              }
+
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="icon-btn"
+                >
+                  {icon}
+                </a>
+              );
+            })}
           </nav>
         </div>
 
@@ -138,14 +152,20 @@ export function SiteFooter() {
             <ul className="mt-3 space-y-2">
               {supportLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target={link.external ? "_blank" : undefined}
-                    rel={link.external ? "noreferrer" : undefined}
-                    className="footer-link"
-                  >
-                    {link.label}
-                  </a>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="footer-link"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link href={link.href} className="footer-link">
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

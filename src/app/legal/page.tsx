@@ -52,8 +52,14 @@ export default function LegalPage() {
             the instrument you select are sent to the Meta Model API. We do not
             sell personal data. We keep only the minimum needed to operate the
             service and to diagnose failures. No account is required to analyse
-            a chart. For requests about your data, contact
-            hello@ascendforex.com.
+            a chart. For requests about your data, use the{" "}
+            <Link
+              href="/contact"
+              className="underline decoration-white/20 underline-offset-4 hover:decoration-white/60"
+            >
+              contact form
+            </Link>
+            .
           </p>
         </section>
 
@@ -70,7 +76,14 @@ export default function LegalPage() {
         </section>
 
         <p className="mt-8 text-xs leading-relaxed text-muted">
-          Questions: hello@ascendforex.com
+          Questions? Use the{" "}
+          <Link
+            href="/contact"
+            className="underline decoration-white/20 underline-offset-4 hover:decoration-white/60"
+          >
+            contact form
+          </Link>
+          .
         </p>
       </main>
 

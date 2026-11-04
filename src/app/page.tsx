@@ -918,7 +918,7 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-6 font-chivo text-[10px] font-bold uppercase tracking-[0.18em] text-muted/70">
-              Free to try. Decision support only.
+              Decision support only. No execution, no client funds.
             </p>
           </div>
         </section>
